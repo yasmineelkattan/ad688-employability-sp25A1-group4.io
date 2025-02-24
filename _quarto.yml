@@ -8,10 +8,14 @@ website:
     right:
       - href: index.qmd
         text: "Home"
-      - href: about.qmd
-        text: "About"
+      - href: team_analysis.qmd
+        text: "Job Market after AI"
   repo-url: "https://github.com/yasmineelkattan/ad688-employability-sp25A1-group4.io"
 
-format:
+format: 
   html:
     theme: default
+    embed-resources: true
+
+bibliography: references.bib
+csl: "./csl/econometrica.csl"
