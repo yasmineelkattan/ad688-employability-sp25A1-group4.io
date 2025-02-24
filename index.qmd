@@ -20,8 +20,8 @@ Artificial Intelligence (Al) is rapidly transforming industries, reshaping job r
 
 ## Research Rationale
 
-Recent studies indicate that AI is transforming the job market by automating roles in manufacturing, customer service, and administrative work, leading to job displacement. At the same time, it is driving demand for skilled professionals in AI development, cybersecurity, and data analysis, creating new career opportunities(@perrault2024artificial). As AI continues to evolve, workers will need to adapt by developing new skills, making AI-focused education and training increasingly essential.
-Although AI will displace certain tasks in manufacturing and administrative work it will also lead to the evolution of existing jobs. This has been something that has happened in the past with the evolution of technology and although it led to job displacement it also led to revolutionary strides in the efficiency of work. This in turn leads to economic and job growth which the masses should welcome and not turn away from (@george2024aifuture). Further not all jobs are replaceable, but they would greatly benefit from shifting to include some level of AI including supply chain, medicine, and manufacturing. With the correct training the transition to include AI will be critical to the shift the world will see as a result.
+Recent studies indicate that AI is transforming the job market by automating roles in manufacturing, customer service, and administrative work, leading to job displacement. At the same time, it is driving demand for skilled professionals in AI development, cybersecurity, and data analysis, creating new career opportunities[@perrault2024artificial]. As AI continues to evolve, workers will need to adapt by developing new skills, making AI-focused education and training increasingly essential.
+Although AI will displace certain tasks in manufacturing and administrative work it will also lead to the evolution of existing jobs. This has been something that has happened in the past with the evolution of technology and although it led to job displacement it also led to revolutionary strides in the efficiency of work. This in turn leads to economic and job growth which the masses should welcome and not turn away from [@george2024aifuture]. Further not all jobs are replaceable, but they would greatly benefit from shifting to include some level of AI including supply chain, medicine, and manufacturing. With the correct training the transition to include AI will be critical to the shift the world will see as a result.
 This research aims to explore how AI is reshaping employment, balancing job losses with new job creation. The findings will provide valuable insights for businesses, policymakers, and workers, helping them navigate Al-driven changes and prepare for the future workforce. 
 
 ## Brief Literature Review
@@ -55,7 +55,7 @@ Here, we focus on full-time in-office non-internship roles.
 
 ```{python}
 # remove duplicated rows
-# df = df.drop_duplicates(subset='ID')
+df = df.drop_duplicates(subset='ID')
 
 # convert date columns to datetime format
 df['LAST_UPDATED_DATE'] = pd.to_datetime(df['LAST_UPDATED_DATE'])
