@@ -22,6 +22,7 @@ Artificial Intelligence (Al) is rapidly transforming industries, reshaping job r
 
 Recent studies indicate that AI is transforming the job market by automating roles in manufacturing, customer service, and administrative work, leading to job displacement. At the same time, it is driving demand for skilled professionals in AI development, cybersecurity, and data analysis, creating new career opportunities[@perrault2024artificial]. As AI continues to evolve, workers will need to adapt by developing new skills, making AI-focused education and training increasingly essential.
 Although AI will displace certain tasks in manufacturing and administrative work it will also lead to the evolution of existing jobs. This has been something that has happened in the past with the evolution of technology and although it led to job displacement it also led to revolutionary strides in the efficiency of work. This in turn leads to economic and job growth which the masses should welcome and not turn away from [@george2024aifuture]. Further not all jobs are replaceable, but they would greatly benefit from shifting to include some level of AI including supply chain, medicine, and manufacturing. With the correct training the transition to include AI will be critical to the shift the world will see as a result.
+To navigate AI-driven employment changes, workers must develop new skills to stay competitive.  Reskilling and upskilling initiatives will be essential in equipping individuals with AI-related competencies, enabling them to transition into emerging roles in AI development, data analysis, and automation oversight.  Moreover, rather than fully replacing human labor, AI is expected to enhance productivity through human-AI collaboration, where AI automates repetitive tasks while humans focus on complex problem-solving and strategic decision-making [@idrisi2024ai].  Policymakers and businesses must take proactive steps to support this transition by investing in education, workforce training, and adaptive employment policies that foster a more AI-integrated economy.
 This research aims to explore how AI is reshaping employment, balancing job losses with new job creation. The findings will provide valuable insights for businesses, policymakers, and workers, helping them navigate Al-driven changes and prepare for the future workforce. 
 
 ## Brief Literature Review
@@ -31,6 +32,8 @@ Existing research highlights the growing divide between AI-driven careers and tr
 @perrault2024artificial In 2023, AI-related job postings accounted for 1.6% of all listings in the United States from 2.8% in 2022, This decline is linked to fewer openings from top Al firms and aCOwn.reduced emphasis on tech roles within these companies.
 
 @george2024aifuture The world has had multiple market evolutions including the Industrial Revolution which led to shifts in the machinery used and decreased the need for as many employees working in the fields. The number of employees working in agriculture decreased from 70% of the developed world in the mid-19th cenutry to 2-3% today. This led to an increase in people working in manufacturing to maintain the technology used in agriculture. The world would likely see a similar outcome once AI starts to present in more industries.
+
+@idrisi2024ai Recent studies using Lotka-Volterra equations identify two equilibrium points in AI-driven job displacement: E₁ (0,0), where jobs vanish, and E₂ (s/β, r/α), where AI and employment coexist.  Research suggests that when AI growth exceeds job creation by 20-30%, workforce instability increases, highlighting the need for policy interventions like reskilling programs to maintain balance.
 
 
 ## Trends and Insights From The Lightcast Dataset
@@ -197,4 +200,5 @@ px.bar(job_titles, x='Job_Title', y='Count',
 ```
 
 ## References
+
 
