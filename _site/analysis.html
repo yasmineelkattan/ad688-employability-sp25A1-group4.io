@@ -20,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
 width: 0.8em;
 margin: 0 0.8em 0.2em -1em;  vertical-align: middle;
 }
-
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-{ counter-reset: source-line 0; }
-pre.numberSource code > span
-{ position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-{ content: counter(source-line);
-position: relative; left: -1em; text-align: right; vertical-align: baseline;
-border: none; display: inline-block;
--webkit-touch-callout: none; -webkit-user-select: none;
--khtml-user-select: none; -moz-user-select: none;
--ms-user-select: none; user-select: none;
-padding: 0 4px; width: 4em;
-}
-pre.numberSource { margin-left: 3em; padding-left: 4px; }
-div.sourceCode
-{ }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -1704,7 +1670,7 @@ async function fuseSearch(query, fuse, fuseOptions) {
   return results;
 }
 </script>
-<meta name="quarto:offset" content="../">
+<meta name="quarto:offset" content="./">
 <script>const sectionChanged = new CustomEvent("quarto-sectionChanged", {
   detail: {},
   bubbles: true,
@@ -4758,7 +4724,7 @@ vertical-align: -.125em;
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Group 4: AI vs. Non-AI Jobs</span>
     </a>
   </div>
@@ -4769,11 +4735,11 @@ vertical-align: -.125em;
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../index.html"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../team_analysis.html"> 
+    <a class="nav-link" href="./team_analysis.html"> 
 <span class="menu-text">Job Market after AI</span></a>
   </li>  
 </ul>
@@ -4833,22 +4799,7 @@ vertical-align: -.125em;
 
 <section id="data-collection-cleaning" class="level2">
 <h2 class="anchored" data-anchor-id="data-collection-cleaning">Data Collection &amp; Cleaning</h2>
-<div id="185f6599-192e-40b5-8646-fe92cf11a65a" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="ce75484d-dc1e-4e6a-9fe5-d4f1b825af5b" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">&#39;&#39;&#39;</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">Download the Dataset:</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">gdown 1VNBTxArDMN2o9fJBDImaON6YUAyJGOU6</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">unzip lightcast_job_postings.zip</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">&#39;&#39;&#39;</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">&#39;lightcast_job_postings.csv&#39;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="9a7366f0-b860-4bfa-b4cf-fd87546619c5" class="cell" data-scrolled="true" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="9a7366f0-b860-4bfa-b4cf-fd87546619c5" class="cell" data-scrolled="true" data-execution_count="11">
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
 RangeIndex: 72476 entries, 0 to 72475
@@ -4857,9 +4808,8 @@ dtypes: bool(2), float64(11), int64(27), object(91)
 memory usage: 71.5+ MB</code></pre>
 </div>
 </div>
-<div id="ee0fec8f-f0e4-465f-85c4-16682377724e" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df.dtypes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="21">
+<div id="ee0fec8f-f0e4-465f-85c4-16682377724e" class="cell" data-execution_count="12">
+<div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>ID                        object
 LAST_UPDATED_DATE         object
 LAST_UPDATED_TIMESTAMP    object
@@ -4874,9 +4824,8 @@ NAICS_2022_6_NAME         object
 Length: 131, dtype: object</code></pre>
 </div>
 </div>
-<div id="efaf9ad5-12ec-46e1-89b4-b2d4fafa8b92" class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="22">
+<div id="efaf9ad5-12ec-46e1-89b4-b2d4fafa8b92" class="cell" data-execution_count="13">
+<div class="cell-output cell-output-display" data-execution_count="13">
 <div>
 
 
@@ -5035,47 +4984,8 @@ Length: 131, dtype: object</code></pre>
 </div>
 </div>
 </div>
-<div id="4bc1ae90-6991-4d43-bafd-634903ff04b3" class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># remove duplicated rows</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop_duplicates(subset<span class="op">=</span><span class="st">&#39;ID&#39;</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># convert date columns to datetime format</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>df[<span class="st">&#39;LAST_UPDATED_DATE&#39;</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">&#39;LAST_UPDATED_DATE&#39;</span>])</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>df[<span class="st">&#39;LAST_UPDATED_TIMESTAMP&#39;</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">&#39;LAST_UPDATED_TIMESTAMP&#39;</span>])</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>df[<span class="st">&#39;POSTED&#39;</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">&#39;POSTED&#39;</span>])</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>df[<span class="st">&#39;EXPIRED&#39;</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">&#39;EXPIRED&#39;</span>])</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># remove internship</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">&#39;IS_INTERNSHIP&#39;</span>] <span class="op">==</span> <span class="va">False</span>]</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># remove non-full time jobs</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">&#39;EMPLOYMENT_TYPE_NAME&#39;</span>] <span class="op">==</span> <span class="st">&#39;Full-time (&gt; 32 hours)&#39;</span>]</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co"># remove remote/hybrid jobs, we want to focus on in-person jobs</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">&#39;REMOTE_TYPE_NAME&#39;</span>] <span class="op">==</span> <span class="st">&#39;[None]&#39;</span>]</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co"># salary</span></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>df[<span class="st">&#39;SALARY&#39;</span>] <span class="op">=</span> df[<span class="st">&#39;SALARY&#39;</span>].fillna((df[<span class="st">&#39;SALARY_FROM&#39;</span>] <span class="op">+</span> df[<span class="st">&#39;SALARY_TO&#39;</span>]) <span class="op">/</span> <span class="dv">2</span>)  <span class="co"># mean if lower/upper bound avaiable</span></span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>df[<span class="st">&#39;SALARY&#39;</span>] <span class="op">=</span> df[<span class="st">&#39;SALARY&#39;</span>].fillna(df[<span class="st">&#39;SALARY_FROM&#39;</span>])  <span class="co"># loewr bound if no upper bound presented</span></span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>df[<span class="st">&#39;SALARY&#39;</span>] <span class="op">=</span> df[<span class="st">&#39;SALARY&#39;</span>].fillna(df[<span class="st">&#39;SALARY_TO&#39;</span>])  <span class="co"># upper bound if no lower bound presented</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="7ac652d8-ffdc-4fc3-b34e-b00b4da83c55" class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># identifying ai/non-ai jobs by keyword searching</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>keywords <span class="op">=</span> [<span class="st">&#39;AI&#39;</span>, <span class="st">&#39;Artificial Intelligence&#39;</span>, <span class="st">&#39;Machine Learning&#39;</span>, <span class="st">&#39;Deep Learning&#39;</span>,</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;Data Science&#39;</span>, <span class="st">&#39;Data Analysis&#39;</span>, <span class="st">&#39;Data Analyst&#39;</span>, <span class="st">&#39;Data Analytics&#39;</span>,</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;LLM&#39;</span>, <span class="st">&#39;Language Model&#39;</span>, <span class="st">&#39;NLP&#39;</span>, <span class="st">&#39;Natural Language Processing&#39;</span>,</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;Computer Vision&#39;</span>]</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>match <span class="op">=</span> <span class="kw">lambda</span> col: df[col].<span class="bu">str</span>.contains(<span class="st">&#39;|&#39;</span>.join(keywords), case<span class="op">=</span><span class="va">False</span>, na<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>df[<span class="st">&#39;AI_JOB&#39;</span>] <span class="op">=</span> match(<span class="st">&#39;TITLE_NAME&#39;</span>) <span class="op">\</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>             <span class="op">|</span> match(<span class="st">&#39;SKILLS_NAME&#39;</span>) <span class="op">\</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>             <span class="op">|</span> match(<span class="st">&#39;SPECIALIZED_SKILLS_NAME&#39;</span>) <span class="op">\</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>             <span class="op">|</span> match(<span class="st">&#39;LIGHTCAST_SECTORS_NAME&#39;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="a647877c-42b7-4503-bfe3-a30c3682a8c6" class="cell" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">&#39;AI_JOB&#39;</span>].value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="25">
+<div id="a647877c-42b7-4503-bfe3-a30c3682a8c6" class="cell" data-execution_count="16">
+<div class="cell-output cell-output-display" data-execution_count="16">
 <pre><code>AI_JOB
 True     32622
 False    20272
@@ -5087,48 +4997,25 @@ Name: count, dtype: int64</code></pre>
 <h2 class="anchored" data-anchor-id="data-analysis-visualization">Data Analysis &amp; Visualization</h2>
 <section id="q1-ai-vs.-non-ai-job-security-industry-trends" class="level3">
 <h3 class="anchored" data-anchor-id="q1-ai-vs.-non-ai-job-security-industry-trends">Q1: AI vs. Non-AI Job Security &amp; Industry Trends</h3>
-<div id="db1fb353-0716-448f-9c36-e0ef7a0afea3" class="cell" data-execution_count="26">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>df_grouped <span class="op">=</span> df.groupby([<span class="st">&#39;AI_JOB&#39;</span>, <span class="st">&#39;NAICS2_NAME&#39;</span>]).size().reset_index(name<span class="op">=</span><span class="st">&#39;Job_Count&#39;</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>grouped_bar <span class="op">=</span> px.bar(df_grouped, x<span class="op">=</span><span class="st">&#39;NAICS2_NAME&#39;</span>, y<span class="op">=</span><span class="st">&#39;Job_Count&#39;</span>, color<span class="op">=</span><span class="st">&#39;AI_JOB&#39;</span>,</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>       title<span class="op">=</span><span class="st">&quot;AI vs. Non-AI Job Distribution Across Industries&quot;</span>,</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>       labels<span class="op">=</span>{<span class="st">&#39;NAICS2_NAME&#39;</span>: <span class="st">&#39;Industry&#39;</span>, <span class="st">&#39;Job_Count&#39;</span>: <span class="st">&#39;Number of Jobs&#39;</span>},</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>       barmode<span class="op">=</span><span class="st">&#39;group&#39;</span>)</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>grouped_bar.write_html(<span class="st">&quot;../figures/grouped_bar.html&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="db1fb353-0716-448f-9c36-e0ef7a0afea3" class="cell" data-execution_count="17">
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
 </div>
 </section>
 <section id="q2-ai-driven-job-growth-vs.-job-displacement" class="level3">
 <h3 class="anchored" data-anchor-id="q2-ai-driven-job-growth-vs.-job-displacement">Q2: AI-driven Job Growth vs. Job Displacement</h3>
-<div id="d2c05413-8c19-4687-b9f5-8f1974673b98" class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df_grouped <span class="op">=</span> df.groupby([<span class="st">&#39;POSTED&#39;</span>, <span class="st">&#39;AI_JOB&#39;</span>]).size().reset_index(name<span class="op">=</span><span class="st">&#39;Job_Count&#39;</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>px.line(df_grouped, x<span class="op">=</span><span class="st">&#39;POSTED&#39;</span>, y<span class="op">=</span><span class="st">&#39;Job_Count&#39;</span>, color<span class="op">=</span><span class="st">&#39;AI_JOB&#39;</span>,</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">&quot;AI vs. Non-AI Job Posted Over Time&quot;</span>,</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>        labels<span class="op">=</span>{<span class="st">&#39;POSTED_MONTH&#39;</span>: <span class="st">&#39;Month&#39;</span>, <span class="st">&#39;Job_Count&#39;</span>: <span class="st">&#39;Number of Job Postings&#39;</span>},</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>        markers<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="d2c05413-8c19-4687-b9f5-8f1974673b98" class="cell" data-execution_count="18">
 <div class="cell-output cell-output-display">
 <pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
 </div>
 </div>
-<div id="a688ff1c-1b4a-4a0f-9215-bc4786c3db85" class="cell" data-execution_count="28">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df_grouped <span class="op">=</span> df.groupby([<span class="st">&#39;AI_JOB&#39;</span>, <span class="st">&#39;MIN_YEARS_EXPERIENCE&#39;</span>]).size().reset_index(name<span class="op">=</span><span class="st">&#39;Job_Count&#39;</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>px.bar(df_grouped, x<span class="op">=</span><span class="st">&#39;MIN_YEARS_EXPERIENCE&#39;</span>, y<span class="op">=</span><span class="st">&#39;Job_Count&#39;</span>, color<span class="op">=</span><span class="st">&#39;AI_JOB&#39;</span>,</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>       title<span class="op">=</span><span class="st">&quot;AI vs. Non-AI Jobs by Minimum Years of Experience&quot;</span>,</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>       labels<span class="op">=</span>{<span class="st">&#39;MIN_YEARS_EXPERIENCE&#39;</span>: <span class="st">&#39;Min Years of Experience&#39;</span>, <span class="st">&#39;Job_Count&#39;</span>: <span class="st">&#39;Number of Jobs&#39;</span>},</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>       barmode<span class="op">=</span><span class="st">&#39;group&#39;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="a688ff1c-1b4a-4a0f-9215-bc4786c3db85" class="cell" data-execution_count="19">
 <div class="cell-output cell-output-display">
 <pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
 </div>
 </div>
-<div id="1c8afdcf-9e15-419b-bbab-7120d82e8478" class="cell" data-execution_count="29">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>df_grouped <span class="op">=</span> df[df[<span class="st">&#39;SALARY&#39;</span>].notna()].groupby([<span class="st">&#39;AI_JOB&#39;</span>, <span class="st">&#39;MIN_YEARS_EXPERIENCE&#39;</span>])[<span class="st">&#39;SALARY&#39;</span>].mean().reset_index()</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>px.bar(df_grouped, x<span class="op">=</span>[<span class="st">&#39;AI_JOB&#39;</span>, <span class="st">&#39;MIN_YEARS_EXPERIENCE&#39;</span>], y<span class="op">=</span><span class="st">&#39;SALARY&#39;</span>,</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>       title<span class="op">=</span><span class="st">&quot;Average Salary: AI vs. Non-AI Jobs&quot;</span>,</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>       labels<span class="op">=</span>{<span class="st">&#39;AI_JOB&#39;</span>: <span class="st">&#39;Job Type&#39;</span>, <span class="st">&#39;SALARY&#39;</span>: <span class="st">&#39;Average Salary&#39;</span>},</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>       color<span class="op">=</span><span class="st">&#39;AI_JOB&#39;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="1c8afdcf-9e15-419b-bbab-7120d82e8478" class="cell" data-execution_count="20">
 <div class="cell-output cell-output-display">
 <pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
 </div>
@@ -5136,27 +5023,7 @@ Name: count, dtype: int64</code></pre>
 </section>
 <section id="q3-ai-careers-vs.-traditional-roles" class="level3">
 <h3 class="anchored" data-anchor-id="q3-ai-careers-vs.-traditional-roles">Q3: AI Careers vs. Traditional Roles</h3>
-<div id="869ef0de-9c1f-4274-8623-e9d2d310153f" class="cell" data-execution_count="30">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ast</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">&#39;SKILLS&#39;</span>] <span class="op">=</span> df[<span class="st">&#39;SKILLS_NAME&#39;</span>].<span class="bu">apply</span>(ast.literal_eval)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>ai_skills <span class="op">=</span> df[df[<span class="st">&#39;AI_JOB&#39;</span>]][<span class="st">&#39;SKILLS&#39;</span>].explode().value_counts().head(<span class="dv">20</span>).reset_index()</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>ai_skills.columns <span class="op">=</span> [<span class="st">&#39;Skill&#39;</span>, <span class="st">&#39;Count&#39;</span>]</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.bar(ai_skills, x<span class="op">=</span><span class="st">&#39;Skill&#39;</span>, y<span class="op">=</span><span class="st">&#39;Count&#39;</span>,</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>             title<span class="op">=</span><span class="st">&quot;Top AI Job Skills&quot;</span>,</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>             labels<span class="op">=</span>{<span class="st">&#39;Skill&#39;</span>: <span class="st">&#39;Skill Name&#39;</span>, <span class="st">&#39;Count&#39;</span>: <span class="st">&#39;Frequency&#39;</span>},</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>             color<span class="op">=</span><span class="st">&#39;Skill&#39;</span>)</span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>fig.show()</span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>traditional_skills <span class="op">=</span> df[<span class="op">~</span>df[<span class="st">&#39;AI_JOB&#39;</span>]][<span class="st">&#39;SKILLS&#39;</span>].explode().value_counts().head(<span class="dv">20</span>).reset_index()</span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>traditional_skills.columns <span class="op">=</span> [<span class="st">&#39;Skill&#39;</span>, <span class="st">&#39;Count&#39;</span>]</span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.bar(traditional_skills, x<span class="op">=</span><span class="st">&#39;Skill&#39;</span>, y<span class="op">=</span><span class="st">&#39;Count&#39;</span>,</span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>             title<span class="op">=</span><span class="st">&quot;Top Traditional Job Skills&quot;</span>,</span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>             labels<span class="op">=</span>{<span class="st">&#39;Skill&#39;</span>: <span class="st">&#39;Skill Name&#39;</span>, <span class="st">&#39;Count&#39;</span>: <span class="st">&#39;Frequency&#39;</span>},</span>
-<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>             color<span class="op">=</span><span class="st">&#39;Skill&#39;</span>)</span>
-<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="869ef0de-9c1f-4274-8623-e9d2d310153f" class="cell" data-execution_count="21">
 <div class="cell-output cell-output-display">
 <pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
 </div>
@@ -5167,21 +5034,12 @@ Name: count, dtype: int64</code></pre>
 </section>
 <section id="q4-emerging-ai-job" class="level3">
 <h3 class="anchored" data-anchor-id="q4-emerging-ai-job">Q4: Emerging AI Job</h3>
-<div id="6a1b30c8-65fa-4664-becb-d2124e5a72c8" class="cell" data-execution_count="31">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>job_title_counts <span class="op">=</span> df[df[<span class="st">&#39;AI_JOB&#39;</span>]][<span class="st">&#39;TITLE_NAME&#39;</span>].value_counts().head(<span class="dv">20</span>).reset_index()</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>job_title_counts.columns <span class="op">=</span> [<span class="st">&#39;Job_Title&#39;</span>, <span class="st">&#39;Count&#39;</span>]</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.bar(top_ai_job_titles, x<span class="op">=</span><span class="st">&#39;Job_Title&#39;</span>, y<span class="op">=</span><span class="st">&#39;Count&#39;</span>,</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>             title<span class="op">=</span><span class="st">&quot;Top Emerging AI Job Titles&quot;</span>,</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>             labels<span class="op">=</span>{<span class="st">&#39;Job_Title&#39;</span>: <span class="st">&#39;Job Title&#39;</span>, <span class="st">&#39;Count&#39;</span>: <span class="st">&#39;Frequency&#39;</span>},</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>             color<span class="op">=</span><span class="st">&#39;Job_Title&#39;</span>)</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="6a1b30c8-65fa-4664-becb-d2124e5a72c8" class="cell" data-execution_count="22">
 <div class="cell-output cell-output-error">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[31]</span><span class="ansi-green-fg">, line 4</span>
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[22]</span><span class="ansi-green-fg">, line 4</span>
 <span class="ansi-green-fg">      1</span> job_title_counts = df[df[<span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">AI_JOB</span><span class="ansi-yellow-fg">&#39;</span>]][<span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">TITLE_NAME</span><span class="ansi-yellow-fg">&#39;</span>].value_counts().head(<span class="ansi-green-fg">20</span>).reset_index()
 <span class="ansi-green-fg">      2</span> job_title_counts.columns = [<span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">Job_Title</span><span class="ansi-yellow-fg">&#39;</span>, <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">Count</span><span class="ansi-yellow-fg">&#39;</span>]
 <span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">4</span> fig = px.bar(<span class="ansi-yellow-bg">top_ai_job_titles</span>, x=<span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">Job_Title</span><span class="ansi-yellow-fg">&#39;</span>, y=<span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">Count</span><span class="ansi-yellow-fg">&#39;</span>,

@@ -10,7 +10,10 @@ format:
     css: styles.css
     html-math-method: katex
     embed-resources: false
+    code-fold: true
 jupyter: python3
+execute:
+   eval: false
 
 ---
 
@@ -104,6 +107,7 @@ df['AI_JOB'] = match('TITLE_NAME') \
 We first compare the number of AI and Non-AI jobs across all industries.
 
 ```{python}
+
 df_grouped = df.groupby(['AI_JOB', 'NAICS2_NAME']).size().reset_index(name='Job_Count')
 
 px.bar(df_grouped, x='NAICS2_NAME', y='Job_Count', color='AI_JOB',
@@ -112,6 +116,10 @@ px.bar(df_grouped, x='NAICS2_NAME', y='Job_Count', color='AI_JOB',
        barmode='group')
 ```
 
+```{=html}
+<iframe src="./figures/grouped_bar.html" width="900" height="750"></iframe>
+
+```
 As we can see, there are almost always more AI jobs than non-AI jobs.
 
 ### Trend 2: AI-driven Job Growth vs. Job Displacement
