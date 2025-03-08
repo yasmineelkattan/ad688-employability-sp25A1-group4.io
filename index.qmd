@@ -117,7 +117,7 @@ px.bar(df_grouped, x='NAICS2_NAME', y='Job_Count', color='AI_JOB',
 ```
 
 ```{=html}
-<iframe src="./figures/grouped_bar.html" width="900" height="750"></iframe>
+<iframe src="./figures/grouped_bar.html" width="750" height="600"></iframe>
 
 ```
 As we can see, there are almost always more AI jobs than non-AI jobs.
@@ -137,7 +137,7 @@ fig.write_html("figures/2_chart.html")
 ```
 
 ```{=html}
-<iframe src="figures/2_chart.html" width="900" height="750"></iframe>
+<iframe src="figures/2_chart.html" width="750" height="600"></iframe>
 
 ```
 Overall, there are more newly posted AI jobs than non-AI jobs.
@@ -153,7 +153,7 @@ fig.write_html("figures/3_chart.html")
 ```
 
 ```{=html}
-<iframe src="figures/3_chart.html" width="900" height="750"></iframe>
+<iframe src="figures/3_chart.html" width="750" height="600"></iframe>
 
 ```
 
@@ -168,7 +168,7 @@ fig.write_html("figures/4_chart.html")
 ```
 
 ```{=html}
-<iframe src="figures/4_chart.html" width="900" height="750"></iframe>
+<iframe src="figures/4_chart.html" width="750" height="600"></iframe>
 
 ```
 
@@ -196,7 +196,7 @@ fig.write_html("figures/5_chart.html")
 ```
 
 ```{=html}
-<iframe src="figures/5_chart.html" width="900" height="750"></iframe>
+<iframe src="figures/5_chart.html" width="750" height="600"></iframe>
 
 ```
 ```{python}
@@ -212,7 +212,7 @@ fig.write_html("figures/6_chart.html")
 ```
 
 ```{=html}
-<iframe src="figures/6_chart.html" width="900" height="750"></iframe>
+<iframe src="figures/6_chart.html" width="750" height="600"></iframe>
 ```
 As we can see, data sciene skills e.g. (SQL, data analysis, and programming) are favorable in AI related jobs.
 In the contrary, traditional jobs value candidates with strong communication and management skills.
@@ -236,7 +236,7 @@ fig.write_html("figures/7_chart.html")
 ```
 
 ```{=html}
-<iframe src="figures/7_chart.html" width="900" height="750"></iframe>
+<iframe src="figures/7_chart.html" width="750" height="600"></iframe>
 ```
 ## References
 

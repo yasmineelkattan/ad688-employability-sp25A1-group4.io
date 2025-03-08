@@ -14,7 +14,7 @@ website:
 
 format: 
   html:
-    theme: solar
+    theme: journal
     embed-resources: true
 
 bibliography: references.bib
