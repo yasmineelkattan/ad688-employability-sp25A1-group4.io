@@ -90,10 +90,10 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-8ea72dc5fed832574809a9c94082fbbb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-79108a0fc1995748cbd19a5b0e3e3e7c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-97e8118aa17df01863e4d4c59f1f926f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -234,7 +234,7 @@ div.csl-indent {
 </section>
 <section id="trends-and-insights-from-the-lightcast-dataset" class="level2">
 <h2 class="anchored" data-anchor-id="trends-and-insights-from-the-lightcast-dataset">Trends and Insights From The Lightcast Dataset</h2>
-<div id="d07b24e5" class="cell" data-execution_count="1">
+<div id="8ec8be08" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -245,14 +245,14 @@ div.csl-indent {
 <section id="data-collection-cleaning" class="level3">
 <h3 class="anchored" data-anchor-id="data-collection-cleaning">Data Collection &amp; Cleaning</h3>
 <p>Download a sample of the lightcast dataset from google drive. Load the CSV file into a pandas dataframe.</p>
-<div id="9f8d20d1" class="cell" data-execution_count="2">
+<div id="b290e296" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'data/lightcast_job_postings.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Then, we carry out some data cleaning steps to remove unrelated items and properly deal with replace missing data. Here, we focus on full-time in-office non-internship roles.</p>
-<div id="0a182a5a" class="cell" data-execution_count="3">
+<div id="08d6942c" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># remove duplicated rows</span></span>
@@ -283,7 +283,7 @@ div.csl-indent {
 <section id="identifying-ai-and-non-ai-jobs" class="level3">
 <h3 class="anchored" data-anchor-id="identifying-ai-and-non-ai-jobs">Identifying AI and Non-AI Jobs</h3>
 <p>We identify AI/non-AI jobs by keyword searching.</p>
-<div id="cd8d7085" class="cell" data-execution_count="4">
+<div id="865051ed" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>keywords <span class="op">=</span> [<span class="st">'AI'</span>, <span class="st">'Artificial Intelligence'</span>, <span class="st">'Machine Learning'</span>, <span class="st">'Deep Learning'</span>,</span>
@@ -303,7 +303,7 @@ div.csl-indent {
 <section id="trend-1-ai-vs.-non-ai-job-across-industries" class="level3">
 <h3 class="anchored" data-anchor-id="trend-1-ai-vs.-non-ai-job-across-industries">Trend 1: AI vs.&nbsp;Non-AI Job Across Industries</h3>
 <p>We first compare the number of AI and Non-AI jobs across all industries.</p>
-<div id="c426041e" class="cell" data-execution_count="5">
+<div id="fa7bed97" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df_grouped <span class="op">=</span> df.groupby([<span class="st">'AI_JOB'</span>, <span class="st">'NAICS2_NAME'</span>]).size().reset_index(name<span class="op">=</span><span class="st">'Job_Count'</span>)</span>
@@ -321,7 +321,7 @@ div.csl-indent {
 <section id="trend-2-ai-driven-job-growth-vs.-job-displacement" class="level3">
 <h3 class="anchored" data-anchor-id="trend-2-ai-driven-job-growth-vs.-job-displacement">Trend 2: AI-driven Job Growth vs.&nbsp;Job Displacement</h3>
 <p>Now we turn out eyes to job growth and job displacement.</p>
-<div id="ca50dccc" class="cell" data-execution_count="6">
+<div id="c404247b" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df_grouped <span class="op">=</span> df.groupby([<span class="st">'POSTED'</span>, <span class="st">'AI_JOB'</span>]).size().reset_index(name<span class="op">=</span><span class="st">'Job_Count'</span>)</span>
@@ -335,7 +335,7 @@ div.csl-indent {
 <iframe src="figures/2_chart.html" width="900" height="750"></iframe>
 
 <p>Overall, there are more newly posted AI jobs than non-AI jobs.</p>
-<div id="8814d73e" class="cell" data-execution_count="7">
+<div id="ac3cb37a" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df_grouped <span class="op">=</span> df.groupby([<span class="st">'AI_JOB'</span>, <span class="st">'MIN_YEARS_EXPERIENCE'</span>]).size().reset_index(name<span class="op">=</span><span class="st">'Job_Count'</span>)</span>
@@ -349,7 +349,7 @@ div.csl-indent {
 </div>
 <iframe src="figures/3_chart.html" width="900" height="750"></iframe>
 
-<div id="bc34f82f" class="cell" data-execution_count="8">
+<div id="bcbaeaab" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df_grouped <span class="op">=</span> df[df[<span class="st">'SALARY'</span>].notna()].groupby([<span class="st">'AI_JOB'</span>, <span class="st">'MIN_YEARS_EXPERIENCE'</span>])[<span class="st">'SALARY'</span>].mean().reset_index()</span>
@@ -368,7 +368,7 @@ div.csl-indent {
 <section id="trend-3-skill-in-ai-roles-vs.-traditional-roles" class="level3">
 <h3 class="anchored" data-anchor-id="trend-3-skill-in-ai-roles-vs.-traditional-roles">Trend 3: Skill in AI Roles vs.&nbsp;Traditional Roles</h3>
 <p>As we have seen, nearly every industry now requires a significant number of AI roles. One might interest in what are the valuable skills workers should develop to land in an AI job?</p>
-<div id="24fef677" class="cell" data-execution_count="9">
+<div id="80fca997" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ast</span>
@@ -386,7 +386,7 @@ div.csl-indent {
 </div>
 <iframe src="figures/5_chart.html" width="900" height="750"></iframe>
 
-<div id="8420d504" class="cell" data-execution_count="10">
+<div id="f49f0143" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>traditional_skills <span class="op">=</span> df[<span class="op">~</span>df[<span class="st">'AI_JOB'</span>]][<span class="st">'SKILLS'</span>].explode().value_counts().head(<span class="dv">20</span>).reset_index()</span>
@@ -407,7 +407,7 @@ div.csl-indent {
 <h3 class="anchored" data-anchor-id="trend-4-emerging-ai-job">Trend 4: Emerging AI Job</h3>
 <p>While many traditional jobs are in the process of adopting AI-related technologies. There are many AI jobs emerging.</p>
 <p>We note that <strong>Data Analyst</strong> is the fastest growing AI job.</p>
-<div id="e213b09c" class="cell" data-execution_count="11">
+<div id="e7bc054d" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>job_titles <span class="op">=</span> df[df[<span class="st">'AI_JOB'</span>]][<span class="st">'TITLE_NAME'</span>].value_counts().head(<span class="dv">20</span>).reset_index()</span>
