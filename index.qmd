@@ -42,47 +42,78 @@ Existing research highlights the growing divide between AI-driven careers and tr
 ## Trends and Insights From The Lightcast Dataset
 
 ```{python}
+import ast
 import matplotlib.pyplot as plt
 import plotly.express as px
 import pandas as pd
+import missingno as msno
 ```
 
 ### Data Collection & Cleaning
 
 Download a sample of the lightcast dataset from google drive. Load the CSV file into a pandas dataframe.
+To improve the quality of our dataset, we removed irrelevant and redundant columns based on the following reasons:
 
+- **Irrelevant columns**:  
+  Columns like `ID`, `URL`, `DUPLICATES`, and `LAST_UPDATED_TIMESTAMP` do not provide meaningful insights for our analysis.
 
+- **Multiple versions of NAICS/SOC codes**:  
+  The dataset contained multiple versions of industry and occupation codes (e.g., `NAICS_2022_2`, `NAICS_2022_3`, ..., `SOC_2021_2`, `SOC_2021_3`).  
+  We kept only the most recent version:  
+  - `NAICS_2022_6` (for industry classification)  
+  - `SOC_2021_4` (for occupation classification)  
+  
 ```{python}
-df = pd.read_csv('data/lightcast_job_postings.csv')
+# Keeping only the latest NAICS_2022_6 and SOC_2021_4 columns
+
+naics_columns = [col for col in df.columns if "NAICS" in col and col != "NAICS_2022_6"]
+soc_columns = [col for col in df.columns if "SOC" in col and col != "SOC_2021_4"]
+columns_to_drop = naics_columns + soc_columns
+columns_to_drop = [col for col in columns_to_drop if col in df.columns]
+
+df.drop(columns=columns_to_drop, inplace=True)
+
+naics_columns_remaining = [col for col in df.columns if "NAICS" in col]
+soc_columns_remaining = [col for col in df.columns if "SOC" in col]
+
+print(" Remaining NAICS columns:", naics_columns_remaining)
+print("Remaining SOC columns:", soc_columns_remaining)
 ```
 
-Then, we carry out some data cleaning steps to remove unrelated items and properly deal with replace missing data.
+- **How does this improve analysis?**  
+  - Reduces data redundancy, making the dataset cleaner and easier to interpret.
+  - Ensures that we use consistent classification standards across our analysis.
+  - Eliminates unnecessary noise, improving model performance and visualization clarity.
+
+By removing these columns, we streamlined the dataset for accurate insights while maintaining all necessary classification data.
+
+- **Missing Data**  
+This step helps in identifying and removing highly incomplete features to improve data quality and analysis reliability. We visualize it using heat map.
+```{python}
+df = pd.read_csv('./data/lightcast_job_postings.csv')
+msno.heatmap(df)
+plt.title("Missing Values Heatmap")
+
+# Drop columns with >50% missing values
+df.dropna(thresh=len(df) * 0.5, axis=1, inplace=True)
+
+plt.savefig("figures/heatmap.png")
+plt.show()
+```
+
+```{=html}
+<img src="./figures/heatmap.png" width="750" height="600">
+
+
+```
+Using cleaned datas to conduct analysis.
+```{python}
+df = pd.read_csv("data/cleaned_data.csv")
+df.head()
+```
+
+
 Here, we focus on full-time in-office non-internship roles.
-
-```{python}
-# remove duplicated rows
-df = df.drop_duplicates(subset='ID')
-
-# convert date columns to datetime format
-df['LAST_UPDATED_DATE'] = pd.to_datetime(df['LAST_UPDATED_DATE'])
-df['LAST_UPDATED_TIMESTAMP'] = pd.to_datetime(df['LAST_UPDATED_TIMESTAMP'])
-df['POSTED'] = pd.to_datetime(df['POSTED'])
-df['EXPIRED'] = pd.to_datetime(df['EXPIRED'])
-
-# remove internship
-df = df[df['IS_INTERNSHIP'] == False]
-
-# remove non-full time jobs
-df = df[df['EMPLOYMENT_TYPE_NAME'] == 'Full-time (> 32 hours)']
-
-# remove remote/hybrid jobs, we want to focus on in-person jobs
-df = df[df['REMOTE_TYPE_NAME'] == '[None]']
-
-# missing salary data
-df['SALARY'] = df['SALARY'].fillna((df['SALARY_FROM'] + df['SALARY_TO']) / 2)  # mean if lower/upper bound avaiable
-df['SALARY'] = df['SALARY'].fillna(df['SALARY_FROM'])  # loewr bound if no upper bound presented
-df['SALARY'] = df['SALARY'].fillna(df['SALARY_TO'])  # upper bound if no lower bound presented
-```
 
 ### Identifying AI and Non-AI Jobs
 
