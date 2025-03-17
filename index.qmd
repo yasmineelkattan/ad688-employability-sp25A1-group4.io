@@ -101,11 +101,9 @@ plt.savefig("figures/heatmap.png")
 plt.show()
 ```
 
-```{=html}
-<img src="./figures/heatmap.png" width="750" height="600">
+![Missing Value Heatmap](./figures/heatmap.png){width="80%", fig-align="center"}
 
 
-```
 Using cleaned datas to conduct analysis.
 ```{python}
 df = pd.read_csv("data/cleaned_data.csv")
