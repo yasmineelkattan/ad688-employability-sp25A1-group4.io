@@ -42,6 +42,13 @@
     "text": "Brief Literature Review\nExisting research highlights the growing divide between AI-driven careers and traditional industries.\nPerrault and Clark ((2024)) In 2023, AI-related job postings accounted for 1.6% of all listings in the United States from 2.8% in 2022, This decline is linked to fewer openings from top Al firms and aCOwn.reduced emphasis on tech roles within these companies.\nGeorge ((2024)) The world has had multiple market evolutions including the Industrial Revolution which led to shifts in the machinery used and decreased the need for as many employees working in the fields. The number of employees working in agriculture decreased from 70% of the developed world in the mid-19th cenutry to 2-3% today. This led to an increase in people working in manufacturing to maintain the technology used in agriculture. The world would likely see a similar outcome once AI starts to present in more industries.\nIdrisi, Geteye, and Shanmugasundaram ((2024)) Recent studies using Lotka-Volterra equations identify two equilibrium points in AI-driven job displacement: E₁ (0,0), where jobs vanish, and E₂ (s/β, r/α), where AI and employment coexist. Research suggests that when AI growth exceeds job creation by 20-30%, workforce instability increases, highlighting the need for policy interventions like reskilling programs to maintain balance."
   },
   {
+    "objectID": "eda.html",
+    "href": "eda.html",
+    "title": "EDA Requirement",
+    "section": "",
+    "text": "import pandas as pd\nskills_data = { “Name”: [“Alice”, “Bob”, “Charlie”, “David”], “Python”: [5, 3, 4, 2], “SQL”: [4, 2, 5, 3], “Machine Learning”: [3, 1, 4, 2], “Cloud Computing”: [2, 2, 3, 1] }\ndf_skills = pd.DataFrame(skills_data) df_skills.set_index(“Name”, inplace=True) df_skills"
+  },
+  {
     "objectID": "analysis.html",
     "href": "analysis.html",
     "title": "AI vs. non-AI jobs",
