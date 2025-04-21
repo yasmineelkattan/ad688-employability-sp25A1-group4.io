@@ -17,17 +17,52 @@ execute:
 
 ---
 
-
+```{python}
 import pandas as pd
 
 skills_data = {
-    "Name": ["Alice", "Bob", "Charlie", "David"],
-    "Python": [5, 3, 4, 2],
-    "SQL": [4, 2, 5, 3],
-    "Machine Learning": [3, 1, 4, 2],
-    "Cloud Computing": [2, 2, 3, 1]
+    "Name": ["Yasmine", "Wenjie", "Jinyi", "Yanyang"],
+    "Python": [3, 3, , ],
+    "SQL": [4, 3, , ],
+    "Machine Learning": [3, 3, , ],
+    "Cloud Computing": [4, 3, , ]
 }
 
 df_skills = pd.DataFrame(skills_data)
 df_skills.set_index("Name", inplace=True)
 df_skills
+
+```
+
+
+```{python}
+
+
+
+```
+
+
+
+
+
+
+```{python}
+
+
+
+
+
+```
+
+
+
+
+
+```{python}
+
+
+
+
+
+
+```
