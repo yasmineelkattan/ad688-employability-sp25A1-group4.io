@@ -8,8 +8,6 @@ website:
     right:
       - href: index.qmd
         text: "Home"
-      - href: introduction.qmd
-        text: "Introduction"
       - href: team_analysis.qmd
         text: "Job Market after AI"
       - href: eda.qmd/ipynb
