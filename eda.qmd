@@ -22,10 +22,10 @@ import pandas as pd
 
 skills_data = {
     "Name": ["Yasmine", "Wenjie", "Jinyi", "Yanyang"],
-    "Python": [3, 3, , ],
-    "SQL": [4, 3, , ],
-    "Machine Learning": [3, 3, , ],
-    "Cloud Computing": [4, 3, , ]
+    "Python": [3, 3, 3, 4],
+    "SQL": [4, 3, 3, 3],
+    "Machine Learning": [3, 2, 3, 4],
+    "Cloud Computing": [4, 3, 3, 3]
 }
 
 df_skills = pd.DataFrame(skills_data)
