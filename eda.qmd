@@ -1,0 +1,33 @@
+---
+title: "EDA Requirement"
+author: "Team 4"
+date: today
+format: 
+  html:
+    bibliography: references.bib
+    csl: csl/econometrica.csl
+    toc: true
+    css: styles.css
+    html-math-method: katex
+    embed-resources: false
+    code-fold: true
+jupyter: python3
+execute:
+   eval: false
+
+---
+
+
+import pandas as pd
+
+skills_data = {
+    "Name": ["Alice", "Bob", "Charlie", "David"],
+    "Python": [5, 3, 4, 2],
+    "SQL": [4, 2, 5, 3],
+    "Machine Learning": [3, 1, 4, 2],
+    "Cloud Computing": [2, 2, 3, 1]
+}
+
+df_skills = pd.DataFrame(skills_data)
+df_skills.set_index("Name", inplace=True)
+df_skills
