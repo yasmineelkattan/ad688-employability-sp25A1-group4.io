@@ -2,7 +2,7 @@
 title: "Final Report"
 author: "Team 4"
 date: today
-format: pptx
+format: revealjs
     execute:
         echo: false
 ---
