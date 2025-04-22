@@ -18,6 +18,9 @@ execute:
 ---
 
 ```{python}
+import plotly.io as pio
+pio.templates.default = "plotly_white"
+
 import pandas as pd
 
 skills_data = {
