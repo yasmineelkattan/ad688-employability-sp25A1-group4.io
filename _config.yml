@@ -1,0 +1,15 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "Group 4: Research on AI vs. Non-AI Careers"
+  navbar:
+    right:
+      - href: about.qmd
+        text: "About"
+  repo-url: "https://github.com/yasmineelkattan/ad688-employability-sp25A1-group4.io"
+
+format:
+  html:
+    theme: default
