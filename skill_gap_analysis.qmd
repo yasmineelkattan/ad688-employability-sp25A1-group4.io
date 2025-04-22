@@ -13,7 +13,7 @@ format:
     code-fold: true
 jupyter: python3
 execute:
-   eval: false
+   eval: true
 
 ---
 ```{python}
