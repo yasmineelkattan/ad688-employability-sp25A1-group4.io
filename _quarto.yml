@@ -10,7 +10,7 @@ website:
         text: "Home"
       - href: team_analysis.qmd
         text: "Job Market after AI"
-      - href: eda.qmd/ipynb
+      - href: eda.qmd
         text: "Exploratory Data Analysis"
       - href: skill_gap_analysis.qmd
         text: "Skill Gap Analysis"
