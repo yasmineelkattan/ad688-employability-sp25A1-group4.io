@@ -42,6 +42,13 @@
     "text": "Data Analysis & Visualization\n\nQ1: AI vs. Non-AI Job Security & Industry Trends\n\n\nUnable to display output for mime type(s): application/vnd.plotly.v1+json\n\n\n\n\nQ2: AI-driven Job Growth vs. Job Displacement\n\n\nUnable to display output for mime type(s): application/vnd.plotly.v1+json\n\n\n\n\nUnable to display output for mime type(s): application/vnd.plotly.v1+json\n\n\n\n\nUnable to display output for mime type(s): application/vnd.plotly.v1+json\n\n\n\n\nQ3: AI Careers vs. Traditional Roles\n\n\nUnable to display output for mime type(s): application/vnd.plotly.v1+json\n\n\nUnable to display output for mime type(s): application/vnd.plotly.v1+json\n\n\n\n\nQ4: Emerging AI Job\n\n\nUnable to display output for mime type(s): application/vnd.plotly.v1+json"
   },
   {
+    "objectID": "eda.html",
+    "href": "eda.html",
+    "title": "EDA Requirement",
+    "section": "",
+    "text": "Code\nimport plotly.io as pio\npio.templates.default = \"plotly_white\"\n\nimport pandas as pd\n\nskills_data = {\n    \"Name\": [\"Yasmine\", \"Wenjie\", \"Jinyi\", \"Yanyang\"],\n    \"Python\": [3, 3, 3, 4],\n    \"SQL\": [4, 3, 3, 3],\n    \"Machine Learning\": [3, 2, 3, 4],\n    \"Cloud Computing\": [4, 3, 3, 3]\n}\n\ndf_skills = pd.DataFrame(skills_data)\ndf_skills.set_index(\"Name\", inplace=True)\ndf_skills\n\n\n\n\nCode\nimport seaborn as sns\nimport matplotlib.pyplot as plt\n\nplt.figure(figsize=(8, 6))\nsns.heatmap(df_skills, annot=True, cmap=\"coolwarm\", linewidths=0.5)\nplt.title(\"Team Skill Levels Heatmap\")\nplt.show()\n\n\n3.1.2 Compare team skills to industry requirements Extract most in-demand skills from IT job postings. Identify gaps between team skill levels and job expectations.\n\n\nCode\nfrom collections import Counter\n\n# Assuming job_descriptions is a list of text from job postings\ntop_skills = [\"Python\", \"SQL\", \"Machine Learning\", \"Cloud Computing\", \"Docker\", \"AWS\"]\njob_skill_counts = Counter(top_skills)\n\n# Compare with team skill levels\nfor skill in top_skills:\n    if skill not in df_skills.columns:\n        df_skills[skill] = 0  # Assume no knowledge in missing skills\n\ndf_skills\n\n\nPropose an improvement plan Which skills should each member prioritize learning? What courses or resources can help? How can the team collaborate to bridge skill gaps?"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Research Introduction: AI vs. Non-AI Careers",
@@ -68,13 +75,6 @@
     "title": "Research Introduction: AI vs. Non-AI Careers",
     "section": "Brief Literature Review",
     "text": "Brief Literature Review\nExisting research highlights the growing divide between AI-driven careers and traditional industries.\nPerrault and Clark ((2024)) In 2023, AI-related job postings accounted for 1.6% of all listings in the United States from 2.8% in 2022, This decline is linked to fewer openings from top Al firms and aCOwn.reduced emphasis on tech roles within these companies.\nGeorge ((2024)) The world has had multiple market evolutions including the Industrial Revolution which led to shifts in the machinery used and decreased the need for as many employees working in the fields. The number of employees working in agriculture decreased from 70% of the developed world in the mid-19th cenutry to 2-3% today. This led to an increase in people working in manufacturing to maintain the technology used in agriculture. The world would likely see a similar outcome once AI starts to present in more industries.\nIdrisi, Geteye, and Shanmugasundaram ((2024)) Recent studies using Lotka-Volterra equations identify two equilibrium points in AI-driven job displacement: E₁ (0,0), where jobs vanish, and E₂ (s/β, r/α), where AI and employment coexist. Research suggests that when AI growth exceeds job creation by 20-30%, workforce instability increases, highlighting the need for policy interventions like reskilling programs to maintain balance."
-  },
-  {
-    "objectID": "eda.html",
-    "href": "eda.html",
-    "title": "EDA Requirement",
-    "section": "",
-    "text": "Code\nimport plotly.io as pio\npio.templates.default = \"plotly_white\"\n\nimport pandas as pd\n\nskills_data = {\n    \"Name\": [\"Yasmine\", \"Wenjie\", \"Jinyi\", \"Yanyang\"],\n    \"Python\": [3, 3, 3, 4],\n    \"SQL\": [4, 3, 3, 3],\n    \"Machine Learning\": [3, 2, 3, 4],\n    \"Cloud Computing\": [4, 3, 3, 3]\n}\n\ndf_skills = pd.DataFrame(skills_data)\ndf_skills.set_index(\"Name\", inplace=True)\ndf_skills\n\n\n\n\nCode\nimport seaborn as sns\nimport matplotlib.pyplot as plt\n\nplt.figure(figsize=(8, 6))\nsns.heatmap(df_skills, annot=True, cmap=\"coolwarm\", linewidths=0.5)\nplt.title(\"Team Skill Levels Heatmap\")\nplt.show()\n\n\n3.1.2 Compare team skills to industry requirements Extract most in-demand skills from IT job postings. Identify gaps between team skill levels and job expectations.\n\n\nCode\nfrom collections import Counter\n\n# Assuming job_descriptions is a list of text from job postings\ntop_skills = [\"Python\", \"SQL\", \"Machine Learning\", \"Cloud Computing\", \"Docker\", \"AWS\"]\njob_skill_counts = Counter(top_skills)\n\n# Compare with team skill levels\nfor skill in top_skills:\n    if skill not in df_skills.columns:\n        df_skills[skill] = 0  # Assume no knowledge in missing skills\n\ndf_skills\n\n\nPropose an improvement plan Which skills should each member prioritize learning? What courses or resources can help? How can the team collaborate to bridge skill gaps?"
   },
   {
     "objectID": "skill_gap_analysis.html",
