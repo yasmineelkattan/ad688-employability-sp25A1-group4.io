@@ -1,0 +1,62 @@
+---
+title: "Skill Gap Analysis"
+author: "Team 4"
+date: today
+format: 
+  html:
+    bibliography: references.bib
+    csl: csl/econometrica.csl
+    toc: true
+    css: styles.css
+    html-math-method: katex
+    embed-resources: false
+    code-fold: true
+jupyter: python3
+execute:
+   eval: false
+
+---
+```{python}
+import pandas as pd
+
+skills_data = {
+    "Name": ["Yasmine", "Wenjie", "Jinyi", "Yanyang"],
+    "Python": [3, 3, 3, 4],
+    "SQL": [4, 3, 3, 3],
+    "Machine Learning": [3, 2, 3, 4],
+    "Cloud Computing": [4, 3, 3, 3]
+}
+
+df_skills = pd.DataFrame(skills_data)
+df_skills.set_index("Name", inplace=True)
+df_skills
+```
+
+```{python}
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(8, 6))
+sns.heatmap(df_skills, annot=True, cmap="coolwarm", linewidths=0.5)
+plt.title("Team Skill Levels Heatmap")
+plt.show()
+```
+
+```{python}
+from collections import Counter
+
+# Assuming job_descriptions is a list of text from job postings
+top_skills = ["Python", "SQL", "Machine Learning", "Cloud Computing", "Docker", "AWS"]
+job_skill_counts = Counter(top_skills)
+
+# Compare with team skill levels
+for skill in top_skills:
+    if skill not in df_skills.columns:
+        df_skills[skill] = 0  # Assume no knowledge in missing skills
+
+df_skills
+```
+
+Each team member has specific skill gaps they should prioritize based on current proficiency levels and industry demand. Yasmine and Jinyi are encouraged to focus on developing foundational knowledge in Docker and AWS, as both are in high demand and currently missing from their skill sets. Wenjie should prioritize improving Machine Learning proficiency, while also beginning to explore Docker and AWS to stay competitive. Yanyang has strong technical skills but can benefit from learning cloud infrastructure tools like Docker and AWS to complement their strengths in Python and Machine Learning.
+
+To support learning, we recommend the following resources: “Docker for Beginners” on the official Docker site, Udemy’s Docker Mastery course, and the free AWS Cloud Practitioner learning path available on AWS Skill Builder. For Machine Learning, courses like Andrew Ng’s Coursera series and interactive tutorials on Kaggle are highly effective. To build these skills collaboratively, the team will host weekly knowledge-sharing sessions, work on small cloud deployment projects together, and maintain a shared folder of tutorials and notes. Peer review will also be encouraged to reinforce understanding and support each other’s growth.
