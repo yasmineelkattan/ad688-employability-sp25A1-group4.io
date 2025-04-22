@@ -12,11 +12,11 @@ website:
         text: "Job Market after AI"
       - href: eda.qmd/ipynb
         text: "Exploratory Data Analysis"
-      - href: skill_gap_analysis.qmd/ipynb
+      - href: skill_gap_analysis.qmd
         text: "Skill Gap Analysis"
-      - href: ml_methods.qmd/ipynb
+      - href: ml_methods.qmd
         text: "ML Methods"
-      - href: nlp_methods.qmd/ipynb
+      - href: nlp_methods.qmd
         text: "NLP Methods"
 
   repo-url: "https://github.com/yasmineelkattan/ad688-employability-sp25A1-group4.io"
