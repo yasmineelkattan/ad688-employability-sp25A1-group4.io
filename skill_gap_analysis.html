@@ -199,7 +199,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="f64a6e22" class="cell" data-execution_count="1">
+<div id="52d34aa6" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.io <span class="im">as</span> pio</span>
@@ -208,15 +208,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>skills_data <span class="op">=</span> {</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Name"</span>: [<span class="st">"Yasmine"</span>, <span class="st">"Wenjie"</span>, <span class="st">"Jinyi"</span>, <span class="st">"Yanyang"</span>],</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Python"</span>: [<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">4</span>],</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SQL"</span>: [<span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>],</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Machine Learning"</span>: [<span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>],</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Cloud Computing"</span>: [<span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>]</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>df_skills <span class="op">=</span> pd.DataFrame(skills_data)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>df_skills.set_index(<span class="st">"Name"</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>df_skills</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Python"</span>: [<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>],</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SQL"</span>: [<span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">3</span>],</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Machine Learning"</span>: [<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">4</span>],</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Cloud Computing"</span>: [<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">3</span>],</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"AWS"</span>: [<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">4</span>]</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>df_skills <span class="op">=</span> pd.DataFrame(skills_data)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>df_skills.set_index(<span class="st">"Name"</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>df_skills</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <div>
@@ -230,9 +231,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <th data-quarto-table-cell-role="th">SQL</th>
 <th data-quarto-table-cell-role="th">Machine Learning</th>
 <th data-quarto-table-cell-role="th">Cloud Computing</th>
+<th data-quarto-table-cell-role="th">AWS</th>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">Name</th>
+<th data-quarto-table-cell-role="th"></th>
 <th data-quarto-table-cell-role="th"></th>
 <th data-quarto-table-cell-role="th"></th>
 <th data-quarto-table-cell-role="th"></th>
@@ -246,20 +249,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>4</td>
 <td>3</td>
 <td>4</td>
+<td>4</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Wenjie</td>
+<td>4</td>
 <td>3</td>
 <td>3</td>
-<td>2</td>
-<td>3</td>
+<td>4</td>
+<td>4</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Jinyi</td>
+<td>4</td>
+<td>4</td>
 <td>3</td>
 <td>3</td>
-<td>3</td>
-<td>3</td>
+<td>4</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Yanyang</td>
@@ -267,6 +273,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>3</td>
 <td>4</td>
 <td>3</td>
+<td>4</td>
 </tr>
 </tbody>
 </table>
@@ -274,7 +281,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="e2e43eca" class="cell" data-execution_count="2">
+<div id="4639f864" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
@@ -288,12 +295,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="skill_gap_analysis_files/figure-html/cell-3-output-1.png" width="627" height="505" class="figure-img"></p>
+<p><img src="skill_gap_analysis_files/figure-html/cell-3-output-1.png" width="619" height="609" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="86437632" class="cell" data-execution_count="3">
+<div id="294d0043" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
@@ -321,8 +328,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <th data-quarto-table-cell-role="th">SQL</th>
 <th data-quarto-table-cell-role="th">Machine Learning</th>
 <th data-quarto-table-cell-role="th">Cloud Computing</th>
-<th data-quarto-table-cell-role="th">Docker</th>
 <th data-quarto-table-cell-role="th">AWS</th>
+<th data-quarto-table-cell-role="th">Docker</th>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">Name</th>
@@ -341,25 +348,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>4</td>
 <td>3</td>
 <td>4</td>
-<td>0</td>
+<td>4</td>
 <td>0</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Wenjie</td>
+<td>4</td>
 <td>3</td>
 <td>3</td>
-<td>2</td>
-<td>3</td>
-<td>0</td>
+<td>4</td>
+<td>4</td>
 <td>0</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Jinyi</td>
+<td>4</td>
+<td>4</td>
 <td>3</td>
 <td>3</td>
-<td>3</td>
-<td>3</td>
-<td>0</td>
+<td>4</td>
 <td>0</td>
 </tr>
 <tr class="even">
@@ -368,7 +375,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>3</td>
 <td>4</td>
 <td>3</td>
-<td>0</td>
+<td>4</td>
 <td>0</td>
 </tr>
 </tbody>
