@@ -3,7 +3,9 @@ title: "Final Report"
 author: "Team 4"
 date: today
 format: docx
+    execute:
+        echo: false
 ---
 
 
-{{<include 1.Introduction-to-Ensemble-Learning.qmd >}}
+{{<include "1.Introduction-to-Ensemble-Learning.qmd" >}}
