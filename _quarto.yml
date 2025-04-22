@@ -3,9 +3,11 @@ project:
   output-dir: _site
 
 website:
-  title: "My Quarto Site"
+  title: "Group 4: AI vs. Non-AI Jobs"
   navbar:
     right:
+      - href: index.qmd
+        text: "Home"
       - href: about.qmd
         text: "About"
   repo-url: "https://github.com/yasmineelkattan/ad688-employability-sp25A1-group4.io"

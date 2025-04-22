@@ -9,7 +9,7 @@ format:
     toc: true
     css: styles.css
     html-math-method: katex
-    embed-resources: true
+    embed-resources: false
 jupyter: python3
 
 ---
