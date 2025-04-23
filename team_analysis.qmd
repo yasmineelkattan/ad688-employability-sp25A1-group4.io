@@ -11,11 +11,11 @@ format:
     html-math-method: katex
     embed-resources: false
     code-fold: true
-jupyter: python3
 execute:
    eval: false
 
 ---
+
 ## Trends and Insights From The Lightcast Dataset
 
 ```{python}

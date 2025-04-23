@@ -3,19 +3,18 @@ title: "Skill Gap Analysis"
 author: "Team 4"
 date: today
 format: 
-  html:
-    bibliography: references.bib
-    csl: csl/econometrica.csl
-    toc: true
-    css: styles.css
-    html-math-method: katex
-    embed-resources: false
-    code-fold: true
-jupyter: python3
+    html:
+        bibliography: references.bib
+        csl: csl/econometrica.csl
+        toc: true
+        css: styles.css
+        html-math-method: katex
+        embed-resources: false
+        code-fold: true
 execute:
-   eval: true
-
+    echo: false
 ---
+
 ```{python}
 import plotly.io as pio
 pio.templates.default = "plotly_white"
