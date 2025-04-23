@@ -17,60 +17,17 @@ execute:
 
 ---
 
-```{python}
-import plotly.io as pio
-pio.templates.default = "plotly_white"
-
-import pandas as pd
-
-skills_data = {
-    "Name": ["Yasmine", "Wenjie", "Jinyi", "Yanyang"],
-    "Python": [3, 3, 3, 4],
-    "SQL": [4, 3, 3, 3],
-    "Machine Learning": [3, 2, 3, 4],
-    "Cloud Computing": [4, 3, 3, 3]
-}
-
-df_skills = pd.DataFrame(skills_data)
-df_skills.set_index("Name", inplace=True)
-df_skills
-```
 
 
-```{python}
-import seaborn as sns
-import matplotlib.pyplot as plt
+2 Exploratory Data Analysis & Visualization
+📢 Objective: Enhance EDA with improved visualizations and deeper insights.
 
-plt.figure(figsize=(8, 6))
-sns.heatmap(df_skills, annot=True, cmap="coolwarm", linewidths=0.5)
-plt.title("Team Skill Levels Heatmap")
-plt.show()
-```
+2.1 Important Reminders:
+This is an enhancement – you are improving EDA, not starting from scratch.
+Focus on job postings, salary trends, and geographic variations.
+✅ Commit and push EDA updates:
 
-3.1.2 Compare team skills to industry requirements
-Extract most in-demand skills from IT job postings.
-Identify gaps between team skill levels and job expectations.
+git add eda.qmd
+git commit -m "Enhanced EDA with new visualizations"
+git push origin main
 
-
-
-
-```{python}
-from collections import Counter
-
-# Assuming job_descriptions is a list of text from job postings
-top_skills = ["Python", "SQL", "Machine Learning", "Cloud Computing", "Docker", "AWS"]
-job_skill_counts = Counter(top_skills)
-
-# Compare with team skill levels
-for skill in top_skills:
-    if skill not in df_skills.columns:
-        df_skills[skill] = 0  # Assume no knowledge in missing skills
-
-df_skills
-```
-
-
-Propose an improvement plan
-Which skills should each member prioritize learning?
-What courses or resources can help?
-How can the team collaborate to bridge skill gaps?
