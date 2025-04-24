@@ -1,10 +1,9 @@
 ---
-title: "EDA Requirement"
+title: "Exploratory Data Analysis & Visualization"
 author: "Team 4"
 date: today
 format: 
   html:
-    bibliography: references.bib
     csl: csl/econometrica.csl
     toc: true
     css: styles.css
@@ -13,21 +12,566 @@ format:
     code-fold: true
 jupyter: python3
 execute:
-   eval: false
+   eval: true
+   echo: true
 
 ---
 
+## Step 1: Load the Dataset into Spark
+
+```{python}
+#| scrolled: true
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import col, when, udf, max
+from pyspark.sql.types import BooleanType, StringType
+from ast import literal_eval
+
+import pandas as pd
+import numpy as np
+
+import plotly.express as px
+import plotly.io as pio
+pio.renderers.default = "notebook"
 
 
-2 Exploratory Data Analysis & Visualization
-📢 Objective: Enhance EDA with improved visualizations and deeper insights.
+# Initialize Spark Session
+spark = SparkSession.builder.appName("LightcastData").getOrCreate()
+spark.conf.set("spark.sql.repl.eagerEval.enabled", True)
+spark.conf.set("spark.sql.repl.eagerEval.maxNumRows", 20)
+spark.conf.set("spark.sql.legacy.timeParserPolicy", "LEGACY")
 
-2.1 Important Reminders:
-This is an enhancement – you are improving EDA, not starting from scratch.
-Focus on job postings, salary trends, and geographic variations.
-✅ Commit and push EDA updates:
+# Load Data
+df = spark.read.option("header", "true").option("inferSchema", "true").option("multiLine","true").option("escape", "\"").csv("data/lightcast_job_postings.csv")
+# Show Schema and Sample Data
+df.printSchema()
+```
 
-git add eda.qmd
-git commit -m "Enhanced EDA with new visualizations"
-git push origin main
+## Step 2: Create Relational Tables in Spark SQL
+
+- job_postings: ID (Primary Key), TITLE_CLEAN, COMPANY_ID (FK to companies), INDUSTRY_ID (FK to industries), EMPLOYMENT_TYPE_NAME, REMOTE_TYPE_NAME, BODY, MIN_YEARS_EXPERIENCE, MAX_YEARS_EXPERIENCE, SALARY, SALARY_FROM, SALARY_TO, LOCATION_ID (FK to locations), POSTED, EXPIRED, DURATION
+- companies: COMPANY_ID (Primary Key), COMPANY, COMPANY_NAME, COMPANY_RAW, COMPANY_IS_STAFFING
+- industries: INDUSTRY_ID (Primary Key), NAICS_2022_5, NAICS_2022_5_NAME, SOC_5, SOC_5_NAME, LOT_SPECIALIZED_OCCUPATION_NAME, LOT_OCCUPATION_GROUP
+- locations: LOCATION_ID (Primary Key),LOCATION, CITY_NAME, STATE_NAME, COUNTY_NAME, MSA, MSA_NAME
+
+The `job_postings` table depend on the `companies`, `industries`, and `locations` tables. We will create relational tables form them first.
+
+```{python}
+# for creating auto increment primary key ID
+from pyspark.sql.functions import monotonically_increasing_id as auto_id
+```
+
+```{python}
+loc_cols = ["LOCATION", "CITY_NAME", "STATE_NAME", "COUNTY_NAME", "MSA", "MSA_NAME"]
+table_loc = df.select(*loc_cols)\
+              .dropDuplicates()\
+              .withColumn("LOCATION_ID", auto_id()) # assign a primary key column automatiaclly
+table_loc.printSchema()
+table_loc.createOrReplaceTempView("locations")
+table_loc.limit(10)
+```
+
+```{python}
+ind_cols = ["NAICS_2022_5", "NAICS_2022_5_NAME", "SOC_5", "SOC_5_NAME", "LOT_SPECIALIZED_OCCUPATION_NAME", "LOT_OCCUPATION_GROUP"]
+table_ind = df.select(*ind_cols)\
+              .dropDuplicates()\
+              .withColumn("INDUSTRY_ID", auto_id()) # assign a primary key column automatiaclly
+table_ind.printSchema()
+table_ind.createOrReplaceTempView("industries")
+table_ind.limit(10)
+```
+
+```{python}
+com_cols = ["COMPANY", "COMPANY_NAME", "COMPANY_RAW", "COMPANY_IS_STAFFING"]
+table_com = df.select(com_cols)\
+              .dropDuplicates()\
+              .withColumn("COMPANY_ID", auto_id()) # assign a primary key column automatiaclly
+table_com.printSchema()
+table_com.createOrReplaceTempView("companies")
+table_com.limit(10)
+```
+
+```{python}
+# find the COMPANY_ID, INDUSTRY_ID, and LOCATION_ID for each job
+# append a ID column
+job_cols = [
+    "TITLE_CLEAN",
+    "COMPANY_ID",
+    "INDUSTRY_ID",
+    "EMPLOYMENT_TYPE_NAME",
+    "REMOTE_TYPE_NAME",
+    "BODY",
+    "MIN_YEARS_EXPERIENCE",
+    "MAX_YEARS_EXPERIENCE",
+    "SALARY",
+    "SALARY_FROM",
+    "SALARY_TO",
+    "LOCATION_ID",
+    "POSTED",
+    "EXPIRED",
+    "DURATION",
+]
+
+table_job = df.join(table_com, com_cols, "left")\
+              .join(table_ind, ind_cols, "left")\
+              .join(table_loc, loc_cols, "left")\
+              .withColumn("ID", auto_id())\
+              .select(*job_cols)
+table_job.printSchema()
+table_job.createOrReplaceTempView("job_postings")
+table_job.limit(10)
+```
+
+## Step 3: Run SQL Queries in Spark
+
+For each question:
+
+1. Write the SQL statement.
+2. Display the query results.
+3. Briefly explain your insights.
+
+Requirements:
+
+- aggregations on specific industries and locations
+- execute the queries using Spark SQL
+- display the results in tabular format first, followed by visualizations using plotly
+
+### Query 1: Industry-Specific Salary Trends Grouped by Job Title
+
+```{python}
+#| scrolled: true
+df.select("NAICS_2022_5_NAME", "NAICS_2022_6_NAME", "NAICS_2022_5", "NAICS_2022_6")\
+  .filter(df.NAICS_2022_6 == 518210)\
+  .distinct()
+```
+
+```{python}
+q1df = spark.sql('''
+SELECT NAICS_2022_5_NAME AS industry_name,
+       LOT_SPECIALIZED_OCCUPATION_NAME AS specialized_occupation,
+       PERCENTILE_APPROX(SALARY, 0.5) AS median_salary
+FROM   job_postings
+JOIN   industries ON industries.INDUSTRY_ID = job_postings.INDUSTRY_ID
+WHERE  NAICS_2022_5 = 51821
+       AND SALARY IS NOT NULL
+       AND SALARY > 0
+GROUP BY NAICS_2022_5_NAME, LOT_SPECIALIZED_OCCUPATION_NAME
+ORDER BY median_salary DESC
+''')
+q1df
+```
+
+```{python}
+px.bar(
+    q1df.toPandas(),
+    x="specialized_occupation",
+    y="median_salary",
+    color="industry_name",
+    text_auto=True,
+    title="Median Salary Trends in the Technology Sector by Specialized Occupation",
+    labels = {
+        "specialized_occupation": "Specialized Occupation",
+        "industry_name": "Industry",
+        "median_salary": "Median Salary ($)",
+    }
+)
+```
+
+1. Enterprise Architect is the specialized occupataion of highest median salary in the technology sector
+2. Most specialized occupations in the technology sector have a median salary more than 100k
+
+### Query 2: Top 5 Companies with the Most Remote Jobs in California
+
+```{python}
+q2df = spark.sql('''
+SELECT COUNT(*) AS REMOTE_JOBS,
+       COMPANY_NAME 
+FROM   job_postings
+JOIN   companies ON job_postings.COMPANY_ID = companies.COMPANY_ID
+JOIN   locations ON job_postings.LOCATION_ID = locations.LOCATION_ID
+WHERE  REMOTE_TYPE_NAME = 'Remote'
+       AND STATE_NAME = 'California'
+GROUP BY COMPANY_NAME
+ORDER BY REMOTE_JOBS DESC
+LIMIT 5
+''')
+q2df
+```
+
+```{python}
+px.bar(
+    q2df.toPandas(),
+    x="COMPANY_NAME",
+    y="REMOTE_JOBS",
+    text_auto=True,
+    title="Top 5 Companies Offering Remote Jobs In California",
+    labels = {
+        "COMPANY_NAME": "Company Name",
+        "REMOTE_JOBS": "Number of Remote Jobs",
+    }
+)
+```
+
+1. Kaiser Permante, University of California, The Judge Group are the companies offering the most remote jobs in CA
+2. Many remote jobs in CA do not specify the hiring company 
+
+### Query 3: Monthly Job Posting Trends in California
+
+```{python}
+# the date format is actually MM/dd/yyyy
+spark.sql('''
+SELECT DISTINCT(POSTED)
+FROM job_postings
+GROUP BY POSTED
+LIMIT 10
+''')
+```
+
+```{python}
+q3df = spark.sql('''
+SELECT   YEAR(TO_DATE(POSTED, 'MM/dd/yyyy')) AS YEAR,
+         MONTH(TO_DATE(POSTED, 'MM/dd/yyyy')) AS MONTH,
+         COUNT(*) AS JOB_COUNT
+FROM job_postings
+JOIN locations on job_postings.LOCATION_ID = locations.LOCATION_ID
+WHERE STATE_NAME = 'California'
+      AND TO_DATE(POSTED, 'MM/dd/yyyy') IS NOT NULL
+GROUP BY YEAR, MONTH
+ORDER BY YEAR DESC, MONTH DESC
+''')
+q3df
+```
+
+```{python}
+px.line(
+    q3df.toPandas(),
+    x="MONTH",
+    y="JOB_COUNT",
+    color="YEAR",
+    title="Month Job Posting Trends in CA",
+    labels = {
+        "MONTH": "Month",
+        "JOB_COUNT": "Number of Job Postings",
+        "YEAR": "Year"
+    }
+)
+```
+
+1. most of the jobs are posted in May and September 
+2. little jobs are posted in July
+
+### Query 4: Salary Comparisons Across Major US Cities
+
+```{python}
+q4df = spark.sql('''
+SELECT CITY,
+       ROUND(AVG(SALARY), 2) AS AVERAGE_SALARY,
+       COUNT(*) AS JOB_COUNTS
+FROM job_postings
+JOIN locations ON job_postings.LOCATION_ID = locations.LOCATION_ID
+JOIN (VALUES
+            ('Boston', 14460),
+            ('Washington DC', 47900),
+            ('New York', 35620),
+            ('San Francisco', 41860),
+            ('Seattle', 42660),
+            ('Los Angeles', 31080),
+            ('Dallas', 19100),
+            ('Houston', 26420),
+            ('Austin', 12420),
+            ('Nashville', 34980),
+            ('Kansas City', 28140),
+            ('Denver', 19740))
+     AS MSA_MAP(CITY, CODE)
+     ON CODE = MSA
+WHERE SALARY IS NOT NULL
+      AND SALARY > 0
+      AND MSA IN (14460, 47900, 35620, 41860, 42660, 
+                  31080, 19100, 26420, 12420, 
+                  34980, 28140, 19740)
+GROUP BY CITY
+ORDER BY AVERAGE_SALARY DESC
+''')
+q4df
+```
+
+```{python}
+px.bar(
+    q4df.toPandas(),
+    x = "CITY",
+    y = "AVERAGE_SALARY",
+    text_auto = True,
+    title = "Average Salary Comparison Across Major US Metro Areas",
+    labels = {
+        "CITY": "Metro Area",
+        "AVERAGE_SALARY": "Average Salary ($)",
+    }
+)
+```
+
+1. Workers in San Francisco are paid with the highest salaries, at an average level of more than 137k
+2. The average paying levels across major US Metra Areas do not vary alot
+
+## Enhacned Exploratory Data Analysis & Visualization
+
+In this part, we focus on exploring and visualizing trends and patterns in 
+- job postings
+- salary trends
+- geographic variations
+
+```{python}
+state_name_dict = {
+    'Alabama': 'AL', 'Alaska': 'AK', 'Arizona': 'AZ', 'Arkansas': 'AR',
+    'California': 'CA', 'Colorado': 'CO', 'Connecticut': 'CT', 'Delaware': 'DE',
+    'Florida': 'FL', 'Georgia': 'GA', 'Hawaii': 'HI', 'Idaho': 'ID',
+    'Illinois': 'IL', 'Indiana': 'IN', 'Iowa': 'IA', 'Kansas': 'KS',
+    'Kentucky': 'KY', 'Louisiana': 'LA', 'Maine': 'ME', 'Maryland': 'MD',
+    'Massachusetts': 'MA', 'Michigan': 'MI', 'Minnesota': 'MN', 'Mississippi': 'MS',
+    'Missouri': 'MO', 'Montana': 'MT', 'Nebraska': 'NE', 'Nevada': 'NV',
+    'New Hampshire': 'NH', 'New Jersey': 'NJ', 'New Mexico': 'NM', 'New York': 'NY',
+    'North Carolina': 'NC', 'North Dakota': 'ND', 'Ohio': 'OH', 'Oklahoma': 'OK',
+    'Oregon': 'OR', 'Pennsylvania': 'PA', 'Rhode Island': 'RI', 'South Carolina': 'SC',
+    'South Dakota': 'SD', 'Tennessee': 'TN', 'Texas': 'TX', 'Utah': 'UT',
+    'Vermont': 'VT', 'Virginia': 'VA', 'Washington': 'WA', 'West Virginia': 'WV',
+    'Wisconsin': 'WI', 'Wyoming': 'WY'
+}
+```
+
+```{python}
+jobs_states_df = spark.sql('''
+WITH monthly_counts AS (
+  SELECT 
+    DATE_FORMAT(TO_DATE(POSTED, 'MM/dd/yyyy'), 'yyyy-MM') AS month,
+    l.STATE_NAME,
+    COUNT(*) AS job_posting_count
+  FROM job_postings j
+  JOIN locations l ON j.LOCATION_ID = l.LOCATION_ID
+  GROUP BY DATE_FORMAT(TO_DATE(POSTED, 'MM/dd/yyyy'), 'yyyy-MM'), l.STATE_NAME
+),
+ranked_states AS (
+  SELECT *,
+         ROW_NUMBER() OVER (PARTITION BY month ORDER BY job_posting_count DESC) AS rank
+  FROM monthly_counts
+)
+SELECT month, STATE_NAME, job_posting_count
+FROM ranked_states
+WHERE rank <= 5
+ORDER BY month, rank
+''').toPandas()
+
+jobs_states_df.head()
+```
+
+```{python}
+fig = px.bar(
+    jobs_states_df,
+    x='month',
+    y='job_posting_count',
+    color='STATE_NAME',
+    barmode='group',
+    title='Top 5 States by Job Postings Each Month',
+    labels={'job_posting_count': 'Job Postings', 'month': 'Month', 'STATE_NAME': 'State'}
+)
+fig.update_layout(
+    xaxis_title='Month',
+    yaxis_title='Number of Job Postings',
+    legend_title='State',
+    xaxis_tickangle=-45
+)
+fig.show()
+```
+
+As we can see, Texas and California are consistently the states where most jobs are posted.  
+To have better employment opportunity, we recommend job seekers to move to these states.
+
+```{python}
+salaries_states_df = spark.sql('''
+WITH monthly_avg_salaries AS (
+  SELECT 
+    DATE_FORMAT(TO_DATE(POSTED, 'MM/dd/yyyy'), 'yyyy-MM') AS month,
+    l.STATE_NAME,
+    AVG(SALARY) AS avg_salary
+  FROM job_postings j
+  JOIN locations l ON j.LOCATION_ID = l.LOCATION_ID
+  WHERE SALARY IS NOT NULL
+  GROUP BY DATE_FORMAT(TO_DATE(POSTED, 'MM/dd/yyyy'), 'yyyy-MM'), l.STATE_NAME
+),
+ranked_states AS (
+  SELECT *,
+         ROW_NUMBER() OVER (PARTITION BY month ORDER BY avg_salary DESC) AS rank
+  FROM monthly_avg_salaries
+)
+SELECT month, STATE_NAME, avg_salary
+FROM ranked_states
+WHERE rank <= 5
+ORDER BY month, rank;
+''').toPandas()
+salaries_states_df.head()
+```
+
+```{python}
+# Assumes your DataFrame has: 'month', 'STATE_NAME', 'avg_salary'
+fig = px.bar(
+    salaries_states_df,
+    x='month',
+    y='avg_salary',
+    color='STATE_NAME',
+    barmode='group',
+    title='Top 5 States with Highest Average Salaries Each Month',
+    labels={'avg_salary': 'Average Salary', 'month': 'Month', 'STATE_NAME': 'State'}
+)
+fig.update_layout(
+    xaxis_title='Month',
+    yaxis_title='Average Salary',
+    legend_title='State',
+    xaxis_tickangle=-45
+)
+fig.show()
+```
+
+Although Texas, California, Illinois, and New York have the highest number of job postings, they do not generally offers the highest salaries.  
+Louisiana, Nebraska, Vermont, Montana, and Wyoming are the states where works are paied with the highest salary on average.
+
+```{python}
+job_postings_trends = spark.sql('''
+SELECT 
+  DATE_FORMAT(TO_DATE(POSTED, 'MM/dd/yyyy'), 'yyyy-MM') AS month,
+  l.STATE_NAME,
+  COUNT(*) AS job_posting_count
+FROM job_postings j
+JOIN locations l ON j.LOCATION_ID = l.LOCATION_ID
+GROUP BY DATE_FORMAT(TO_DATE(POSTED, 'MM/dd/yyyy'), 'yyyy-MM'), l.STATE_NAME
+ORDER BY month, l.STATE_NAME;
+''').toPandas()
+
+job_postings_trends.head()
+```
+
+```{python}
+fig = px.line(
+    job_postings_trends,
+    x='month',
+    y='job_posting_count',
+    color='STATE_NAME',
+    title='Monthly Job Posting Trends by State',
+    labels={'job_posting_count': 'Job Postings', 'month': 'Month', 'STATE_NAME': 'State'}
+)
+
+fig.update_layout(
+    xaxis_title='Month',
+    yaxis_title='Number of Job Postings',
+    legend_title='State',
+    xaxis_tickangle=-45
+)
+fig.show()
+```
+
+```{python}
+salary_distribution_df = spark.sql('''
+SELECT 
+  l.STATE_NAME,
+  AVG(SALARY) AS avg_salary
+FROM job_postings j
+JOIN locations l ON j.LOCATION_ID = l.LOCATION_ID
+WHERE SALARY IS NOT NULL
+GROUP BY l.STATE_NAME
+ORDER BY avg_salary DESC;
+''').toPandas()
+```
+
+```{python}
+salary_distribution_df
+```
+
+```{python}
+salary_distribution_df['STATE_NAME'].map(state_name_dict)
+```
+
+```{python}
+salary_distribution_df['STATE_NAME'] = salary_distribution_df['STATE_NAME'].map(state_name_dict)
+```
+
+```{python}
+salary_distribution_df
+```
+
+```{python}
+fig = px.choropleth(
+    salary_distribution_df,
+    locations='STATE_NAME',
+    locationmode='USA-states',
+    color='avg_salary',
+    scope='usa',
+    title='Average Salary by State'
+)
+fig.show()
+```
+
+```{python}
+salary_distribution_df['STATE_NAME'] = salary_distribution_df['STATE_NAME'].map(state_name_dict)
+```
+
+```{python}
+salary_trends_df = spark.sql('''
+SELECT 
+  DATE_FORMAT(TO_DATE(POSTED, 'MM/dd/yyyy'), 'yyyy-MM') AS month,
+  l.STATE_NAME,
+  AVG(SALARY) AS avg_salary
+FROM job_postings j
+JOIN locations l ON j.LOCATION_ID = l.LOCATION_ID
+WHERE SALARY IS NOT NULL
+GROUP BY DATE_FORMAT(TO_DATE(POSTED, 'MM/dd/yyyy'), 'yyyy-MM'), l.STATE_NAME
+ORDER BY month, l.STATE_NAME;
+''').toPandas()
+
+salary_trends_df.head()
+```
+
+```{python}
+fig = px.line(
+    salary_trends_df,
+    x='month',
+    y='avg_salary',
+    color='STATE_NAME',
+    title='Monthly Average Salary Trends by State',
+    labels={'avg_salary': 'Average Salary', 'month': 'Month', 'STATE_NAME': 'State'}
+)
+
+fig.update_layout(
+    xaxis_title='Month',
+    yaxis_title='Average Salary',
+    legend_title='State',
+    xaxis_tickangle=-45
+)
+
+fig.show()
+```
+
+```{python}
+job_postings_distribution = spark.sql('''
+SELECT 
+  l.STATE_NAME,
+  COUNT(*) AS job_posting_count
+FROM job_postings j
+JOIN locations l ON j.LOCATION_ID = l.LOCATION_ID
+GROUP BY l.STATE_NAME
+ORDER BY job_posting_count DESC;
+''').toPandas()
+```
+
+```{python}
+job_postings_distribution['STATE_NAME'] = job_postings_distribution['STATE_NAME'].map(state_name_dict)
+```
+
+```{python}
+fig = px.choropleth(
+    job_postings_distribution,
+    locations='STATE_NAME',
+    locationmode='USA-states',
+    color='job_posting_count',
+    scope='usa',
+    color_continuous_scale='Blues',
+    title='Job Postings by State'
+)
+fig.show()
+```
 
