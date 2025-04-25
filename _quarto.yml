@@ -27,6 +27,7 @@ format:
     embed-resources: true
     toc: true
 execute:
+  freeze: auto
   echo: true
   eval: true
   code-fold: true

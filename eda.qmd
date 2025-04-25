@@ -43,7 +43,7 @@ spark.conf.set("spark.sql.legacy.timeParserPolicy", "LEGACY")
 # Load Data
 df = spark.read.option("header", "true").option("inferSchema", "true").option("multiLine","true").option("escape", "\"").csv("data/lightcast_job_postings.csv")
 # Show Schema and Sample Data
-df.printSchema()
+# df.printSchema()
 ```
 
 ## Step 2: Create Relational Tables in Spark SQL
@@ -357,8 +357,6 @@ FROM ranked_states
 WHERE rank <= 5
 ORDER BY month, rank
 ''').toPandas()
-
-jobs_states_df.head()
 ```
 
 ```{python}
@@ -405,7 +403,6 @@ FROM ranked_states
 WHERE rank <= 5
 ORDER BY month, rank;
 ''').toPandas()
-salaries_states_df.head()
 ```
 
 ```{python}
@@ -443,7 +440,6 @@ GROUP BY DATE_FORMAT(TO_DATE(POSTED, 'MM/dd/yyyy'), 'yyyy-MM'), l.STATE_NAME
 ORDER BY month, l.STATE_NAME;
 ''').toPandas()
 
-job_postings_trends.head()
 ```
 
 ```{python}
@@ -476,22 +472,7 @@ WHERE SALARY IS NOT NULL
 GROUP BY l.STATE_NAME
 ORDER BY avg_salary DESC;
 ''').toPandas()
-```
-
-```{python}
-salary_distribution_df
-```
-
-```{python}
-salary_distribution_df['STATE_NAME'].map(state_name_dict)
-```
-
-```{python}
 salary_distribution_df['STATE_NAME'] = salary_distribution_df['STATE_NAME'].map(state_name_dict)
-```
-
-```{python}
-salary_distribution_df
 ```
 
 ```{python}
@@ -506,9 +487,6 @@ fig = px.choropleth(
 fig.show()
 ```
 
-```{python}
-salary_distribution_df['STATE_NAME'] = salary_distribution_df['STATE_NAME'].map(state_name_dict)
-```
 
 ```{python}
 salary_trends_df = spark.sql('''
@@ -522,8 +500,6 @@ WHERE SALARY IS NOT NULL
 GROUP BY DATE_FORMAT(TO_DATE(POSTED, 'MM/dd/yyyy'), 'yyyy-MM'), l.STATE_NAME
 ORDER BY month, l.STATE_NAME;
 ''').toPandas()
-
-salary_trends_df.head()
 ```
 
 ```{python}
@@ -556,9 +532,6 @@ JOIN locations l ON j.LOCATION_ID = l.LOCATION_ID
 GROUP BY l.STATE_NAME
 ORDER BY job_posting_count DESC;
 ''').toPandas()
-```
-
-```{python}
 job_postings_distribution['STATE_NAME'] = job_postings_distribution['STATE_NAME'].map(state_name_dict)
 ```
 
