@@ -17,17 +17,6 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
-      - name: Set up Java
-        uses: actions/setup-java@v4
-        with:
-          java-version: '21'
-          distribution: temurin
-      - name: Set up Spark
-        uses: vemonet/setup-spark@v1
-        with:
-          spark-version: '3.5.3'
-          # hadoop-version: '3'
-
       - name: Install Python and Dependencies
         uses: actions/setup-python@v5
         with:
@@ -40,5 +29,6 @@ jobs:
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
+          freeze: auto
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
