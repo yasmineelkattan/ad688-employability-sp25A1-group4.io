@@ -1,39 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://yasmineelkattan.github.io/ad688-employability-sp25A1-group4.io/index.html</loc>
-    <lastmod>2025-04-29T16:44:14.470Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yasmineelkattan.github.io/ad688-employability-sp25A1-group4.io/skill_gap_analysis.html</loc>
-    <lastmod>2025-04-29T16:44:14.472Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yasmineelkattan.github.io/ad688-employability-sp25A1-group4.io/eda.html</loc>
-    <lastmod>2025-04-29T16:44:14.437Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yasmineelkattan.github.io/ad688-employability-sp25A1-group4.io/team_analysis.html</loc>
-    <lastmod>2025-04-29T16:44:14.472Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yasmineelkattan.github.io/ad688-employability-sp25A1-group4.io/data/analysis.html</loc>
-    <lastmod>2025-04-29T16:44:14.437Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yasmineelkattan.github.io/ad688-employability-sp25A1-group4.io/analysis.html</loc>
-    <lastmod>2025-04-29T16:44:14.437Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yasmineelkattan.github.io/ad688-employability-sp25A1-group4.io/finalpresentation.html</loc>
-    <lastmod>2025-04-29T16:44:14.470Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yasmineelkattan.github.io/ad688-employability-sp25A1-group4.io/nlp_methods.html</loc>
-    <lastmod>2025-04-29T16:44:14.472Z</lastmod>
+    <loc>https://yasmineelkattan.github.io/ad688-employability-sp25A1-group4.io/nlp.html</loc>
+    <lastmod>2025-05-01T09:32:34.929Z</lastmod>
   </url>
   <url>
     <loc>https://yasmineelkattan.github.io/ad688-employability-sp25A1-group4.io/ml_methods.html</loc>
-    <lastmod>2025-04-29T16:44:14.472Z</lastmod>
+    <lastmod>2025-05-01T09:32:34.926Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yasmineelkattan.github.io/ad688-employability-sp25A1-group4.io/nlp_methods.html</loc>
+    <lastmod>2025-05-01T09:32:34.929Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yasmineelkattan.github.io/ad688-employability-sp25A1-group4.io/finalpresentation.html</loc>
+    <lastmod>2025-05-01T09:32:34.924Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yasmineelkattan.github.io/ad688-employability-sp25A1-group4.io/analysis.html</loc>
+    <lastmod>2025-05-01T09:32:34.891Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yasmineelkattan.github.io/ad688-employability-sp25A1-group4.io/data/analysis.html</loc>
+    <lastmod>2025-05-01T09:32:34.891Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yasmineelkattan.github.io/ad688-employability-sp25A1-group4.io/team_analysis.html</loc>
+    <lastmod>2025-05-01T09:32:34.929Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yasmineelkattan.github.io/ad688-employability-sp25A1-group4.io/eda.html</loc>
+    <lastmod>2025-05-01T09:32:34.892Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yasmineelkattan.github.io/ad688-employability-sp25A1-group4.io/skill_gap_analysis.html</loc>
+    <lastmod>2025-05-01T09:32:34.929Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yasmineelkattan.github.io/ad688-employability-sp25A1-group4.io/index.html</loc>
+    <lastmod>2025-05-01T09:32:34.924Z</lastmod>
   </url>
 </urlset>
