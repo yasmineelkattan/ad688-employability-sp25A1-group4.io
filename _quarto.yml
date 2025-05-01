@@ -16,7 +16,7 @@ website:
         text: "Skill Gap Analysis"
       - href: ml_methods.qmd
         text: "ML Methods"
-      - href: nlp_methods.qmd
+      - href: nlp.ipynb
         text: "NLP Methods"
 
   repo-url: "https://github.com/yasmineelkattan/ad688-employability-sp25A1-group4.io"

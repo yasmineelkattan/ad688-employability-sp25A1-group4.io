@@ -1,0 +1,12 @@
+{
+  "hash": "2ae2487fe74b253234de3c12625c9137",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: Extracting insights from job descriptions -- NLP Methods\nauthor: Team 4\ndate: today\nformat:\n  html:\n    csl: csl/econometrica.csl\n    toc: true\n    css: styles.css\n    html-math-method: katex\n    embed-resources: false\n    code-fold: true\nexecute:\n  eval: true\n  echo: true\n---\n\n## Load the Dataset into Spark\n\n::: {#66af78fb .cell execution_count=1}\n``` {.python .cell-code}\nfrom pyspark.sql import SparkSession\nfrom pyspark.sql.functions import col, when, udf, max\nfrom pyspark.sql.types import BooleanType, StringType\nfrom ast import literal_eval\n\nimport pandas as pd\nimport numpy as np\n\nimport plotly.express as px\nimport plotly.io as pio\npio.renderers.default = \"notebook\"\n\n\n# Initialize Spark Session\nspark = SparkSession.builder.appName(\"LightcastData\").getOrCreate()\nspark.conf.set(\"spark.sql.repl.eagerEval.enabled\", True)\nspark.conf.set(\"spark.sql.repl.eagerEval.maxNumRows\", 20)\nspark.conf.set(\"spark.sql.legacy.timeParserPolicy\", \"LEGACY\")\n\n# Load Data\ndf = spark.read.option(\"header\", \"true\").option(\"inferSchema\", \"true\").option(\"multiLine\",\"true\").option(\"escape\", \"\\\"\").csv(\"data/lightcast_job_postings.csv\")\n# Show Schema and Sample Data\n# df.printSchema()\n```\n\n::: {.cell-output .cell-output-stderr}\n```\nSetting default log level to \"WARN\".\nTo adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).\n25/04/30 05:31:53 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable\n\r[Stage 1:>                                                          (0 + 1) / 1]\r\r                                                                                \r\n```\n:::\n:::\n\n\n",
+    "supporting": [
+      "nlp_methods_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}
