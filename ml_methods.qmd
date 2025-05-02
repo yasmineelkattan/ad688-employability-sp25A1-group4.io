@@ -1,0 +1,257 @@
+---
+title: "Extracting insights from job descriptions -- ML Methods"
+author: "Team 4"
+date: today
+format: 
+  html:
+    csl: csl/econometrica.csl
+    toc: true
+    css: styles.css
+    html-math-method: katex
+    embed-resources: false
+    code-fold: true
+jupyter: python3
+execute:
+   eval: true
+   echo: true
+---
+
+```{python}
+from pyspark.sql import SparkSession
+import pandas as pd
+import plotly.express as px
+import plotly.io as pio
+import numpy as np
+
+np.random.seed(42)
+
+pio.renderers.default = "notebook"
+
+# Initialize Spark Session
+spark = SparkSession.builder.appName("LightcastData").getOrCreate()
+
+# Load Data
+df = spark.read.option("header", "true").option("inferSchema", "true").option("multiLine","true").option("escape", "\"").csv("./data/lightcast_job_postings.csv")
+
+# Show Schema and Sample Data
+print("---This is Diagnostic check, No need to print it in the final doc---")
+
+df.printSchema() # comment this line when rendering the submission
+df.show(5)
+```
+
+```{python}
+from pyspark.sql.functions import col, pow
+from pyspark.ml.feature import StringIndexer, OneHotEncoder, VectorAssembler
+from pyspark.ml import Pipeline
+
+continuous_cols = ["MIN_YEARS_EXPERIENCE", "MAX_YEARS_EXPERIENCE", "SALARY_FROM"]
+categorical_cols = ["EMPLOYMENT_TYPE_NAME", "STATE_NAME"]
+
+df = df.dropna(subset=continuous_cols + categorical_cols + ["SALARY"])
+
+indexers = [StringIndexer(inputCol=col, outputCol=col + "_Index") for col in categorical_cols]
+encoders = [OneHotEncoder(inputCol=col + "_Index", outputCol=col + "_OHE") for col in categorical_cols]
+
+assembler = VectorAssembler(
+    inputCols=continuous_cols + [col + "_OHE" for col in categorical_cols],
+    outputCol="features"
+)
+
+pipeline = Pipeline(stages=indexers + encoders + [assembler])
+data = pipeline.fit(df).transform(df)
+
+data = data.withColumn("MIN_YEARS_EXPERIENCE_SQ", pow(col("MIN_YEARS_EXPERIENCE"), 2))
+
+assembler_poly = VectorAssembler(
+    inputCols=continuous_cols + ["MIN_YEARS_EXPERIENCE_SQ"] + [col + "_OHE" for col in categorical_cols],
+    outputCol="features_poly"
+)
+data = assembler_poly.transform(data)
+
+data.select("SALARY", "features", "features_poly").show(5, truncate=False)
+```
+```{python}
+train_data, test_data = data.randomSplit([0.8, 0.2], seed=42)
+
+print((train_data.count(), len(train_data.columns)))
+print((test_data.count(), len(test_data.columns)))
+```
+
+#KMeans
+```{python}
+from pyspark.ml.clustering import KMeans
+from pyspark.ml.feature import VectorAssembler, StandardScaler
+from pyspark.ml import Pipeline
+
+cluster_features = ["MIN_YEARS_EXPERIENCE", "MAX_YEARS_EXPERIENCE", "SALARY_FROM"]
+df_cluster = df.dropna(subset=cluster_features)
+vec_assembler = VectorAssembler(inputCols=cluster_features, outputCol="raw_features")
+
+scaler = StandardScaler(inputCol="raw_features", outputCol="features", withMean=True, withStd=True)
+kmeans = KMeans(featuresCol="features", predictionCol="cluster", k=4, seed=42)
+pipeline = Pipeline(stages=[vec_assembler, scaler, kmeans])
+model = pipeline.fit(df_cluster)
+clustered = model.transform(df_cluster)
+clustered.select("MIN_YEARS_EXPERIENCE", "MAX_YEARS_EXPERIENCE", "SALARY_FROM", "cluster").show(10)
+```
+
+
+#linear regression
+```{python}
+from pyspark.ml.regression import GeneralizedLinearRegression
+from pyspark.sql import Row
+from pyspark.ml.evaluation import RegressionEvaluator
+
+glr = GeneralizedLinearRegression(
+    featuresCol="features",       
+    labelCol="SALARY",
+    family="gaussian",
+    link="identity",
+    maxIter=10,
+    regParam=0.3
+)
+
+glr_model = glr.fit(train_data)
+summary = glr_model.summary
+
+
+feature_names = summary._call_java("featureNames")
+
+features = ["Intercept"] + feature_names
+coefs = [float(glr_model.intercept)] + [float(x) for x in glr_model.coefficients]
+se = [float(summary.coefficientStandardErrors[0])] + [float(x) for x in summary.coefficientStandardErrors[1:]]
+tvals = [float(summary.tValues[0])] + [float(x) for x in summary.tValues[1:]]
+pvals = [float(summary.pValues[0])] + [float(x) for x in summary.pValues[1:]]
+
+
+print("---This is Diagnostic check, No need to print it in the final doc---")
+print("Length of features:", len(features))
+print("Length of coefs:", len(coefs))
+print("Length of se:", len(se))
+print("Length of tvals:", len(tvals))
+print("Length of pvals:", len(pvals))
+
+rows = [
+    Row(
+        Feature=str(f),
+        Coef=float(c),
+        StdErr=float(s),
+        tValue=float(t),
+        pValue=float(p)
+    ) for f, c, s, t, p in zip(features, coefs, se, tvals, pvals)
+]
+
+result_df = spark.createDataFrame(rows)
+result_df.show(truncate=False)
+
+predictions = glr_model.transform(test_data)
+
+evaluator_r2 = RegressionEvaluator(labelCol="SALARY", predictionCol="prediction", metricName="r2")
+evaluator_rmse = RegressionEvaluator(labelCol="SALARY", predictionCol="prediction", metricName="rmse")
+evaluator_mae = RegressionEvaluator(labelCol="SALARY", predictionCol="prediction", metricName="mae")
+
+r2 = evaluator_r2.evaluate(predictions)
+rmse = evaluator_rmse.evaluate(predictions)
+mae = evaluator_mae.evaluate(predictions)
+
+print(f"R²: {r2:.4f}")
+print(f"RMSE: {rmse:.2f}")
+print(f"MAE: {mae:.2f}")
+```
+
+#Polymnomial Regression
+```{python}
+
+from pyspark.ml.regression import GeneralizedLinearRegression
+from pyspark.sql import Row
+from pyspark.ml.evaluation import RegressionEvaluator
+
+
+poly_lr = GeneralizedLinearRegression(
+    featuresCol="features_poly",
+    labelCol="SALARY",
+    family="gaussian",
+    link="identity",
+    maxIter=10,
+    regParam=0.3
+)
+
+poly_model = poly_lr.fit(train_data)
+poly_preds = poly_model.transform(test_data)
+summary = poly_model.summary
+
+
+feature_names = summary._call_java("featureNames")
+
+poly_features = ["Intercept"] + feature_names
+poly_coefs = [float(poly_model.intercept)] + [float(x) for x in poly_model.coefficients]
+poly_se = [float(summary.coefficientStandardErrors[0])] + [float(x) for x in summary.coefficientStandardErrors[1:]]
+poly_tvals = [float(summary.tValues[0])] + [float(x) for x in summary.tValues[1:]]
+poly_pvals = [float(summary.pValues[0])] + [float(x) for x in summary.pValues[1:]]
+
+
+print("---This is Diagnostic check, No need to print it in the final doc---")
+print("Length of features:", len(poly_features))
+print("Length of coefs:", len(poly_coefs))
+print("Length of se:", len(poly_se))
+print("Length of tvals:", len(poly_tvals))
+print("Length of pvals:", len(poly_pvals))
+
+
+rows = [
+    Row(
+        Feature=str(f),
+        Coef=float(c),
+        StdErr=float(s),
+        tValue=float(t),
+        pValue=float(p)
+    ) for f, c, s, t, p in zip(poly_features, poly_coefs, poly_se, poly_tvals, poly_pvals)
+]
+
+poly_result_df = spark.createDataFrame(rows)
+poly_result_df.show(truncate=False)
+
+
+evaluator_r2 = RegressionEvaluator(labelCol="SALARY", predictionCol="prediction", metricName="r2")
+evaluator_rmse = RegressionEvaluator(labelCol="SALARY", predictionCol="prediction", metricName="rmse")
+evaluator_mae = RegressionEvaluator(labelCol="SALARY", predictionCol="prediction", metricName="mae")
+
+r2 = evaluator_r2.evaluate(poly_preds)
+rmse = evaluator_rmse.evaluate(poly_preds)
+mae = evaluator_mae.evaluate(poly_preds)
+
+print(f"Polynomial Model - R²: {r2:.4f}")
+print(f"Polynomial Model - RMSE: {rmse:.2f}")
+print(f"Polynomial Model - MAE: {mae:.2f}")
+```
+
+#Random Forest Regressor
+```{python}
+from pyspark.ml.regression import RandomForestRegressor
+from pyspark.ml.evaluation import RegressionEvaluator
+
+rf = RandomForestRegressor(
+    featuresCol="features",         
+    numTrees=200,                  
+    maxDepth=6,                     
+    seed=42
+)
+
+rf_model = rf.fit(train_data.select("SALARY", "features"))
+
+rf_preds = rf_model.transform(test_data)
+
+evaluator_r2 = RegressionEvaluator(labelCol="SALARY", predictionCol="prediction", metricName="r2")
+evaluator_rmse = RegressionEvaluator(labelCol="SALARY", predictionCol="prediction", metricName="rmse")
+evaluator_mae = RegressionEvaluator(labelCol="SALARY", predictionCol="prediction", metricName="mae")
+
+r2 = evaluator_r2.evaluate(rf_preds)
+rmse = evaluator_rmse.evaluate(rf_preds)
+mae = evaluator_mae.evaluate(rf_preds)
+
+print(f"Random Forest Model - R²: {r2:.4f}")
+print(f"Random Forest Model - RMSE: {rmse:.2f}")
+print(f"Random Forest Model - MAE: {mae:.2f}")
+```
+
