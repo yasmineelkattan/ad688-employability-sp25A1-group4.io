@@ -440,4 +440,42 @@ print(classification_report(y_test, y_pred_rf))
 print(f"Accuracy: {accuracy_score(y_test, y_pred_rf):.4f}")
 ```
 
-We used both Logistic Regression and Random Forest to classify job postings by industry sector (NAICS2) based on experience, salary, employment type, and state. Logistic Regression performed poorly, with an accuracy of 31%, and failed to predict several classes entirely, likely due to its linear nature and the imbalanced class distribution. In contrast, the Random Forest model achieved 53.5% accuracy and showed much stronger balance across categories, particularly for common sectors like 42 (Wholesale Trade), 52 (Finance), and 54 (Professional Services). While neither model is perfect, Random Forest clearly captures more of the underlying complexity in the data, making it more suitable for this type of multi-class classification task.
+```{python}
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Random Forest feature importances
+rf_features = rf_pipeline.named_steps["preprocess"].get_feature_names_out()
+rf_importances = rf_pipeline.named_steps["model"].feature_importances_
+
+# Top 15
+rf_top_idx = np.argsort(rf_importances)[-15:]
+plt.figure(figsize=(8, 6))
+plt.barh(np.array(rf_features)[rf_top_idx], rf_importances[rf_top_idx])
+plt.title("Top 15 Important Features - Random Forest")
+plt.xlabel("Feature Importance")
+plt.grid(True, axis="x", linestyle="--", alpha=0.5)
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+# Logistic Regression coefficients
+logit_features = logit_pipeline.named_steps["preprocess"].get_feature_names_out()
+logit_coefs = logit_pipeline.named_steps["model"].coef_
+
+# Mean absolute value across classes
+logit_importance = np.mean(np.abs(logit_coefs), axis=0)
+
+# Top 15
+logit_top_idx = np.argsort(logit_importance)[-15:]
+plt.figure(figsize=(8, 6))
+plt.barh(np.array(logit_features)[logit_top_idx], logit_importance[logit_top_idx])
+plt.title("Top 15 Feature Coefficients - Logistic Regression")
+plt.xlabel("Average |Coefficient| Across Classes")
+plt.grid(True, axis="x", linestyle="--", alpha=0.5)
+plt.tight_layout()
+plt.show()
+```
+
+The Random Forest classifier outperformed Logistic Regression in classifying job postings by NAICS2 industry code, achieving 53.5% accuracy compared to Logistic Regression’s 31%. The Random Forest model identified salary-related numeric features like SALARY_FROM, MAX_YEARS_EXPERIENCE, and MIN_YEARS_EXPERIENCE as the most influential, while Logistic Regression emphasized categorical features such as state-level job locations. The poor performance of Logistic Regression is likely due to its linear nature and inability to capture complex patterns, especially in a multi-class problem with subtle feature interactions. In contrast, Random Forest leveraged both numeric and categorical features more effectively, making it the better choice for this classification task.
