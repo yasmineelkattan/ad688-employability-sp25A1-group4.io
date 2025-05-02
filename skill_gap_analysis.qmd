@@ -59,21 +59,5 @@ plt.show()
 
 ```
 
-```{python}
-from collections import Counter
 
-# Assuming job_descriptions is a list of text from job postings
-top_skills = ["Python", "SQL", "Machine Learning", "Cloud Computing", "Docker", "AWS"]
-job_skill_counts = Counter(top_skills)
-
-# Compare with team skill levels
-for skill in top_skills:
-    if skill not in df_skills.columns:
-        df_skills[skill] = 0  # Assume no knowledge in missing skills
-
-df_skills
-```
-
-As a team, we have solid skills in Python, SQL, machine learning, cloud computing, and AWS. However, none of us have experience with Docker, which is a clear gap we need to address. Docker is commonly used for deploying and managing applications, so learning it will benefit the entire team. We plan to start with the official Docker “Get Started” guide. Each member can take responsibility for one part—such as building images, running containers, or using Docker Compose—and then share what they learned with the group. This way, we can learn together and build confidence.
-
-In addition to Docker, each of us has one or two areas to improve. Yasmine can focus on strengthening her machine learning skills with courses like “Intro to Machine Learning” on Coursera. Wenjie will spend more time practicing SQL, using platforms like Mode Analytics. Jinyi and Yanyang can deepen their cloud computing knowledge by exploring AWS or GCP tutorials. To support each other, we will hold weekly meetings to share our progress and work on a small group project that includes Docker and cloud deployment. This hands-on approach will help us grow both individually and as a team.
+Each team member has a few areas to work on. Yasmine should focus on improving her Python and Machine Learning skills. Wenjie could spend more time strengthening SQL and Machine Learning. Jinyi would benefit from improving Machine Learning and Cloud Computing. Yanyang should work on building stronger SQL and Cloud Computing skills. To help with this, courses like "Python for Everybody" and "Machine Learning" on Coursera, " AWS cloud courses” would be useful. working on small group projects
