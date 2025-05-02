@@ -15,7 +15,6 @@ execute:
    eval: true
    echo: true
 ---
-
 ```{python}
 import pandas as pd
 import numpy as np
@@ -58,30 +57,47 @@ print("Train shape:", X_train.shape)
 print("Test shape:", X_test.shape)
 ```
 
-
-# KMeans
+# K-means ONET
 ```{python}
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 
+# Load dataset
 df = pd.read_csv("./data/lightcast_job_postings.csv")
 
+# Select features for clustering
 cluster_features = ["MIN_YEARS_EXPERIENCE", "MAX_YEARS_EXPERIENCE", "SALARY_FROM"]
 df_cluster = df.dropna(subset=cluster_features).copy()
 
+# Standardize the clustering features
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(df_cluster[cluster_features])
 
+# Apply KMeans
 kmeans = KMeans(n_clusters=4, random_state=42, n_init=10)
 df_cluster["cluster"] = kmeans.fit_predict(X_scaled)
 
-print(df_cluster[cluster_features + ["cluster"]].head(10))
+# Reference label comparison (e.g., ONET / SOC / NAICS)
+reference_col = "ONET"  # Replace with "SOC" or "NAICS" if needed
+
+if reference_col in df_cluster.columns:
+    cluster_reference_summary = (
+        df_cluster.groupby(["cluster", reference_col])
+        .size()
+        .reset_index(name="count")
+        .sort_values(["cluster", "count"], ascending=[True, False])
+    )
+    print(f"\nTop {reference_col} codes by cluster:")
+    print(cluster_reference_summary)
+else:
+    print(f"⚠️ Column '{reference_col}' not found in the dataset.")
 ```
+
 ```{python}
-import matplotlib.pyplot as plt
 import seaborn as sns
+import matplotlib.pyplot as plt
 
 sns.scatterplot(
     data=df_cluster,
@@ -90,16 +106,64 @@ sns.scatterplot(
     hue="cluster",
     palette="tab10"
 )
-plt.title("Cluster Assignment by KMeans")
+plt.title("KMeans Clustering (colored by cluster)")
+plt.xlabel("Min Years Experience")
+plt.ylabel("Salary From")
 plt.show()
 ```
 
+We used KMeans clustering to group job postings based on minimum experience, maximum experience, and starting salary. These features help reveal natural divisions in job types without using predefined labels. After scaling the variables, the model identified four clusters. Although the ONET code 15-2051.01 appeared frequently across all clusters, the differences in experience and salary levels showed clear patterns in how jobs are structured. For job seekers, this analysis helps clarify where their profile fits in the market and what kinds of roles align with their experience and salary expectations.
+
 # linear regression
 ```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 
+# Load data
+df = pd.read_csv("./data/lightcast_job_postings.csv")
+
+# Select features
+continuous_cols = ["MIN_YEARS_EXPERIENCE", "MAX_YEARS_EXPERIENCE", "SALARY_FROM"]
+categorical_cols = ["EMPLOYMENT_TYPE_NAME", "STATE_NAME"]
+target_col = "SALARY"
+
+# Clean data
+df = df.dropna(subset=continuous_cols + categorical_cols + [target_col])
+df["MIN_YEARS_EXPERIENCE_SQ"] = df["MIN_YEARS_EXPERIENCE"] ** 2
+
+# Define X and y
+X = df[continuous_cols + ["MIN_YEARS_EXPERIENCE_SQ"] + categorical_cols]
+y = df[target_col]
+
+# Preprocessing
+preprocessor = ColumnTransformer(transformers=[
+    ("cat", OneHotEncoder(handle_unknown="ignore"), categorical_cols),
+    ("num", "passthrough", continuous_cols + ["MIN_YEARS_EXPERIENCE_SQ"])
+])
+
+# Pipeline with Linear Regression
+pipeline = Pipeline(steps=[
+    ("preprocess", preprocessor),
+    ("model", LinearRegression())
+])
+
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train model
+pipeline.fit(X_train, y_train)
+
+# Predict
 y_pred = pipeline.predict(X_test)
 
+# Evaluation
 r2 = r2_score(y_test, y_pred)
 mse = mean_squared_error(y_test, y_pred)
 rmse = np.sqrt(mse)
@@ -110,10 +174,8 @@ print(f"R²:   {r2:.4f}")
 print(f"RMSE: {rmse:.2f}")
 print(f"MAE:  {mae:.2f}")
 
-```
-```{python}
+# Coefficients
 model = pipeline.named_steps["model"]
-
 ohe = pipeline.named_steps["preprocess"].named_transformers_["cat"]
 cat_feature_names = ohe.get_feature_names_out(["EMPLOYMENT_TYPE_NAME", "STATE_NAME"])
 all_features = list(cat_feature_names) + ["MIN_YEARS_EXPERIENCE", "MAX_YEARS_EXPERIENCE", "SALARY_FROM", "MIN_YEARS_EXPERIENCE_SQ"]
@@ -121,15 +183,13 @@ all_features = list(cat_feature_names) + ["MIN_YEARS_EXPERIENCE", "MAX_YEARS_EXP
 coef_df = pd.DataFrame({
     "Feature": all_features,
     "Coefficient": model.coef_
-}).sort_values(by="Coefficient", key=abs, ascending=False)
+}).sort_values(by="Coefficient", key=lambda x: abs(x), ascending=False)
 
-coef_df.head(10)
-```
+print("\nTop 10 Influential Features:")
+print(coef_df.head(10))
 
-```{python}
-import matplotlib.pyplot as plt
-
-plt.figure(figsize=(6,6))
+# Actual vs Predicted Plot
+plt.figure(figsize=(6, 6))
 plt.scatter(y_test, y_pred, alpha=0.5)
 plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], "r--")
 plt.xlabel("Actual Salary")
@@ -138,113 +198,246 @@ plt.title("Actual vs Predicted Salary")
 plt.grid(True)
 plt.tight_layout()
 plt.show()
+
 ```
+
+We used a linear regression model to predict job salary based on both numeric features (minimum and maximum experience, salary floor) and categorical features like employment type and state. After fitting the model, we found an R² of 0.8869, indicating strong predictive power. The most influential variables included years of experience and full-time employment type, both of which had a clear impact on predicted salary. The plot of actual vs. predicted salaries shows the model closely tracks real values, especially in the mid-range, with some underestimation at the highest salaries. This model helps job seekers understand which factors most affect salary and offers a data-backed view of how their profile may translate into pay.
 
 # Polynomial Regression
 ```{python}
 import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import OneHotEncoder, PolynomialFeatures, StandardScaler
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 
+# Load dataset
 df = pd.read_csv("./data/lightcast_job_postings.csv")
 
+# Define columns
 categorical_cols = ["EMPLOYMENT_TYPE_NAME", "STATE_NAME"]
 numeric_cols = ["MIN_YEARS_EXPERIENCE", "MAX_YEARS_EXPERIENCE", "SALARY_FROM"]
 target_col = "SALARY"
 
-df["MIN_YEARS_EXPERIENCE_SQ"] = df["MIN_YEARS_EXPERIENCE"] ** 2
-numeric_cols += ["MIN_YEARS_EXPERIENCE_SQ"]
-
+# Drop missing values
 df = df.dropna(subset=numeric_cols + categorical_cols + [target_col])
 
+# Set features and target
 X = df[numeric_cols + categorical_cols]
 y = df[target_col]
 
+# Preprocessing pipeline
 preprocessor = ColumnTransformer([
     ("cat", OneHotEncoder(drop="first", handle_unknown="ignore"), categorical_cols),
-    ("num", "passthrough", numeric_cols)
+    ("num", Pipeline([
+        ("poly", PolynomialFeatures(degree=2, include_bias=False)),  # 2nd-degree polynomial
+        ("scale", StandardScaler())
+    ]), numeric_cols)
 ])
 
+# Build model pipeline
 pipeline = Pipeline([
     ("preprocess", preprocessor),
     ("model", LinearRegression())
 ])
 
+# Train/test split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
+# Fit model
 pipeline.fit(X_train, y_train)
 
+# Predict
 y_pred = pipeline.predict(X_test)
+
+# Evaluate model
 r2 = r2_score(y_test, y_pred)
-rmse = mean_squared_error(y_test, y_pred) ** 0.5
+rmse = np.sqrt(mean_squared_error(y_test, y_pred))  # version-safe RMSE
 mae = mean_absolute_error(y_test, y_pred)
 
-print(f"R²: {r2:.4f}")
+print("Polynomial Regression Evaluation:")
+print(f"R²:   {r2:.4f}")
 print(f"RMSE: {rmse:.2f}")
-print(f"MAE: {mae:.2f}")
+print(f"MAE:  {mae:.2f}")
+
+# Plot: Actual vs Predicted
+plt.figure(figsize=(6, 6))
+plt.scatter(y_test, y_pred, alpha=0.5)
+plt.plot([y.min(), y.max()], [y.min(), y.max()], "r--")
+plt.xlabel("Actual Salary")
+plt.ylabel("Predicted Salary")
+plt.title("Polynomial Regression: Actual vs. Predicted Salary")
+plt.grid(True)
+plt.tight_layout()
+plt.show()
 ```
 
-
-```{python}
-# 提取特征名
-ohe = pipeline.named_steps["preprocess"].named_transformers_["cat"]
-cat_feature_names = ohe.get_feature_names_out(categorical_cols)
-all_feature_names = list(cat_feature_names) + numeric_cols
-
-coef = pipeline.named_steps["model"].coef_
-
-pd.DataFrame({
-    "Feature": all_feature_names,
-    "Coefficient": coef
-}).sort_values(by="Coefficient", key=abs, ascending=False)
-```
+We used polynomial regression to predict salary based on numeric features like experience and salary floor, while also accounting for interactions and non-linear effects using second-degree polynomial terms. The model achieved an R² of 0.8977, slightly outperforming linear regression, with a lower RMSE and MAE. The prediction plot shows a strong alignment between actual and predicted values, especially for mid-range salaries, while still handling higher salaries more flexibly than a standard linear fit. For job seekers, this model highlights how the relationship between experience and salary is not always linear and suggests that salary growth accelerates or flattens depending on experience level.
 
 # Random Forest Regressor
 ```{python}
- from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
+import pandas as pd
 import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_squared_error, r2_score
 
-rf_pipeline = Pipeline(steps=[
-    ("preprocess", preprocessor),
-    ("model", RandomForestRegressor(
-        n_estimators=200,      
-        max_depth=6,          
-        random_state=42
-    ))
+# Load dataset
+df = pd.read_csv("./data/lightcast_job_postings.csv")
+
+# Define relevant columns
+continuous_cols = ["MIN_YEARS_EXPERIENCE", "MAX_YEARS_EXPERIENCE", "SALARY_FROM"]
+categorical_cols = ["EMPLOYMENT_TYPE_NAME", "STATE_NAME"]
+target_col = "SALARY"
+
+# Drop rows with missing values in required columns
+df = df.dropna(subset=continuous_cols + categorical_cols + [target_col])
+
+# Add a quadratic term for better non-linear modeling
+df["MIN_YEARS_EXPERIENCE_SQ"] = df["MIN_YEARS_EXPERIENCE"] ** 2
+
+# Define features (X) and target (y)
+X = df[continuous_cols + ["MIN_YEARS_EXPERIENCE_SQ"] + categorical_cols]
+y = df[target_col]
+
+# Preprocessing pipeline: One-hot encode categoricals, passthrough numerics
+preprocessor = ColumnTransformer(transformers=[
+    ("cat", OneHotEncoder(handle_unknown="ignore"), categorical_cols),
+    ("num", "passthrough", continuous_cols + ["MIN_YEARS_EXPERIENCE_SQ"])
 ])
 
-rf_pipeline.fit(X_train, y_train)
+# Full pipeline: preprocessing + random forest model
+pipeline = Pipeline(steps=[
+    ("preprocess", preprocessor),
+    ("model", RandomForestRegressor(n_estimators=100, random_state=42))
+])
 
-rf_preds = rf_pipeline.predict(X_test)
+# Split dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-r2 = r2_score(y_test, rf_preds)
-rmse = np.sqrt(mean_squared_error(y_test, rf_preds))
-mae = mean_absolute_error(y_test, rf_preds)
+# Train the model
+pipeline.fit(X_train, y_train)
 
-print(f"Random Forest Model - R²: {r2:.4f}")
-print(f"Random Forest Model - RMSE: {rmse:.2f}")
-print(f"Random Forest Model - MAE: {mae:.2f}")
+# Predict on test set
+y_pred = pipeline.predict(X_test)
+
+# Evaluate performance
+rmse = np.sqrt(mean_squared_error(y_test, y_pred))  # compatible RMSE calculation
+r2 = r2_score(y_test, y_pred)
+
+# Output metrics
+print(f"RMSE: {rmse:.2f}")
+print(f"R² Score: {r2:.3f}")
 ```
 
 ```{python}
 import matplotlib.pyplot as plt
 
-feature_names = rf_pipeline.named_steps["preprocess"].get_feature_names_out()
-importances = rf_pipeline.named_steps["model"].feature_importances_
+# Get trained model and feature names
+model = pipeline.named_steps["model"]
+feature_names = pipeline.named_steps["preprocess"].get_feature_names_out()
 
-feat_imp_df = pd.DataFrame({"Feature": feature_names, "Importance": importances})
-feat_imp_df = feat_imp_df.sort_values(by="Importance", ascending=False)
+# Get feature importances
+importances = model.feature_importances_
 
-plt.figure(figsize=(10, 6))
-plt.barh(feat_imp_df["Feature"][:15], feat_imp_df["Importance"][:15])
-plt.gca().invert_yaxis()
+# Get top 10 features
+top_idx = np.argsort(importances)[-10:]
+top_features = np.array(feature_names)[top_idx]
+top_importances = importances[top_idx]
+
+# Plot
+plt.figure(figsize=(8, 5))
+plt.barh(top_features, top_importances)
 plt.xlabel("Feature Importance")
-plt.title("Top 15 Important Features (Random Forest)")
+plt.title("Top 10 Important Features in Salary Prediction")
 plt.tight_layout()
 plt.show()
 ```
+
+We used a Random Forest regression model to predict job salaries based on experience, employment type, and location. This model outperformed both linear and polynomial regression with an R² of 0.942 and an RMSE of 8811.35, showing high accuracy in capturing complex relationships between features and salary. The feature importance plot shows that the starting salary field (SALARY_FROM) is by far the most influential input, followed by years of experience and job location. For job seekers, this model helps identify which factors have the most impact on expected salary and supports more informed decisions when evaluating or negotiating job offers.
+
+
+# Logistic Regression & Random Forest Classifier
+```{python}
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report, accuracy_score
+
+# Load data
+df = pd.read_csv("./data/lightcast_job_postings.csv")
+
+# Set target to NAICS2
+target_col = "NAICS2"
+categorical_cols = ["EMPLOYMENT_TYPE_NAME", "STATE_NAME"]
+numeric_cols = ["MIN_YEARS_EXPERIENCE", "MAX_YEARS_EXPERIENCE", "SALARY_FROM"]
+
+# Drop rows with missing values
+df = df.dropna(subset=numeric_cols + categorical_cols + [target_col])
+
+# Filter to classes with at least 50 samples
+class_counts = df[target_col].value_counts()
+valid_classes = class_counts[class_counts >= 50].index
+
+if len(valid_classes) < 2:
+    raise ValueError("Not enough valid NAICS2 classes for classification.")
+
+df = df[df[target_col].isin(valid_classes)]
+
+# Print classes being used
+print("Classes used:", df[target_col].unique())
+
+# Define features and target
+X = df[numeric_cols + categorical_cols]
+y = df[target_col]
+
+# Preprocessing pipeline
+preprocessor = ColumnTransformer([
+    ("cat", OneHotEncoder(handle_unknown="ignore"), categorical_cols),
+    ("num", StandardScaler(), numeric_cols)
+])
+
+# Train-test split (80/20 stratified)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42, stratify=y
+)
+
+# Logistic Regression pipeline
+logit_pipeline = Pipeline([
+    ("preprocess", preprocessor),
+    ("model", LogisticRegression(max_iter=1000, multi_class="multinomial"))
+])
+
+logit_pipeline.fit(X_train, y_train)
+y_pred_logit = logit_pipeline.predict(X_test)
+
+print("\n=== Logistic Regression ===")
+print(classification_report(y_test, y_pred_logit))
+print(f"Accuracy: {accuracy_score(y_test, y_pred_logit):.4f}")
+
+# Random Forest pipeline
+rf_pipeline = Pipeline([
+    ("preprocess", preprocessor),
+    ("model", RandomForestClassifier(n_estimators=100, random_state=42))
+])
+
+rf_pipeline.fit(X_train, y_train)
+y_pred_rf = rf_pipeline.predict(X_test)
+
+print("\n=== Random Forest Classifier ===")
+print(classification_report(y_test, y_pred_rf))
+print(f"Accuracy: {accuracy_score(y_test, y_pred_rf):.4f}")
+```
+
+We used both Logistic Regression and Random Forest to classify job postings by industry sector (NAICS2) based on experience, salary, employment type, and state. Logistic Regression performed poorly, with an accuracy of 31%, and failed to predict several classes entirely, likely due to its linear nature and the imbalanced class distribution. In contrast, the Random Forest model achieved 53.5% accuracy and showed much stronger balance across categories, particularly for common sectors like 42 (Wholesale Trade), 52 (Finance), and 54 (Professional Services). While neither model is perfect, Random Forest clearly captures more of the underlying complexity in the data, making it more suitable for this type of multi-class classification task.
