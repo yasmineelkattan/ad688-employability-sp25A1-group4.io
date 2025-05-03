@@ -18,6 +18,8 @@ website:
         text: "ML Methods"
       - href: nlp.qmd
         text: "NLP Methods"
+      - href: finalreport.qmd
+        text: "Final Report"
 
   repo-url: "https://github.com/yasmineelkattan/ad688-employability-sp25A1-group4.io"
 

@@ -20,11 +20,8 @@ execute:
 ---
 
 {{<include "index.qmd" >}}
-{{<include "nlp.qmd" >}}
-
-{{< include introduction.qmd >}}
-{{< include data_cleaning.qmd >}}
-[]{.quarto-shortcode__-escaped data-is-shortcode="1" data-value="
+{{< include team_analysis.qmd >}}
+]{.quarto-shortcode__-escaped data-is-shortcode="1" data-value="
 {{{< embed skill_gap_analysis.qmd >}}"}
-{{< embed ml_methods.qmd >}}
-{{< embed final_analytics.qmd >}}
+{{<embed ml_methods.qmd >}}
+{{<embed "nlp.qmd" >}}
