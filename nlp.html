@@ -221,7 +221,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>We further analyze the job descriptions of job postings from the Lightcast dataset using NLP methods. By applying TF-IDF feature extraction, building classifiers models, and visualize key skills as word clouds we can gain insight into the job market.</p>
 <section id="load-the-dataset-into-spark" class="level2">
 <h2 class="anchored" data-anchor-id="load-the-dataset-into-spark">Load the Dataset into Spark</h2>
-<div id="14102c3c-7fea-48f5-8e30-f5d52f510c69" class="cell" data-execution_count="5">
+<div id="14102c3c-7fea-48f5-8e30-f5d52f510c69" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
@@ -246,58 +246,91 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Load Data</span></span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.read.option(<span class="st">"header"</span>, <span class="st">"true"</span>).option(<span class="st">"inferSchema"</span>, <span class="st">"true"</span>).option(<span class="st">"multiLine"</span>,<span class="st">"true"</span>).option(<span class="st">"escape"</span>, <span class="st">"</span><span class="ch">\"</span><span class="st">"</span>).csv(<span class="st">"data/lightcast_job_postings.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stderr">
-<pre><code>25/05/02 21:39:42 WARN Utils: Your hostname, Yasmines-MacBook-Pro.local resolves to a loopback address: 127.0.0.1; using 172.19.1.229 instead (on interface en0)
-25/05/02 21:39:42 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
-Setting default log level to "WARN".
-To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-25/05/02 21:39:42 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</code></pre>
-</div>
 <div class="cell-output cell-output-error">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">AnalysisException</span>                         Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[5], line 21</span>
+<span class="ansi-red-fg">Py4JJavaError</span>                             Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[4], line 21</span>
 <span class="ansi-green-fg ansi-bold">     18</span> spark<span style="color:rgb(98,98,98)">.</span>conf<span style="color:rgb(98,98,98)">.</span>set(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">spark.sql.legacy.timeParserPolicy</span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">LEGACY</span><span style="color:rgb(175,0,0)">"</span>)
 <span class="ansi-green-fg ansi-bold">     20</span> <span style="font-style:italic;color:rgb(95,135,135)"># Load Data</span>
 <span class="ansi-green-fg">---&gt; 21</span> df <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">spark</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">read</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">option</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">header</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">true</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">option</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">inferSchema</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">true</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">option</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">multiLine</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">,</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">true</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">option</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">escape</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="font-weight:bold;color:rgb(175,95,0)" class="ansi-yellow-bg">\"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">csv</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">data/lightcast_job_postings.csv</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span>
 
-File <span class="ansi-green-fg">~/Desktop/ad688-employability-sp25A1-group4.io/.venv/lib/python3.13/site-packages/pyspark/sql/readwriter.py:740</span>, in <span class="ansi-cyan-fg">DataFrameReader.csv</span><span class="ansi-blue-fg">(self, path, schema, sep, encoding, quote, escape, comment, header, inferSchema, ignoreLeadingWhiteSpace, ignoreTrailingWhiteSpace, nullValue, nanValue, positiveInf, negativeInf, dateFormat, timestampFormat, maxColumns, maxCharsPerColumn, maxMalformedLogPerPartition, mode, columnNameOfCorruptRecord, multiLine, charToEscapeQuoteEscaping, samplingRatio, enforceSchema, emptyValue, locale, lineSep, pathGlobFilter, recursiveFileLookup, modifiedBefore, modifiedAfter, unescapedQuoteHandling)</span>
-<span class="ansi-green-fg ansi-bold">    738</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="color:rgb(0,135,0)">type</span>(path) <span style="color:rgb(98,98,98)">==</span> <span style="color:rgb(0,135,0)">list</span>:
-<span class="ansi-green-fg ansi-bold">    739</span>     <span style="font-weight:bold;color:rgb(0,135,0)">assert</span> <span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>_spark<span style="color:rgb(98,98,98)">.</span>_sc<span style="color:rgb(98,98,98)">.</span>_jvm <span style="font-weight:bold;color:rgb(175,0,255)">is</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="font-weight:bold;color:rgb(0,135,0)">None</span>
-<span class="ansi-green-fg">--&gt; 740</span>     <span style="font-weight:bold;color:rgb(0,135,0)">return</span> <span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>_df(<span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_jreader</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">csv</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_spark</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_sc</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_jvm</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">PythonUtils</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">toSeq</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">path</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">)</span>)
-<span class="ansi-green-fg ansi-bold">    741</span> <span style="font-weight:bold;color:rgb(0,135,0)">elif</span> <span style="color:rgb(0,135,0)">isinstance</span>(path, RDD):
-<span class="ansi-green-fg ansi-bold">    743</span>     <span style="font-weight:bold;color:rgb(0,135,0)">def</span><span style="color:rgb(188,188,188)"> </span><span style="color:rgb(0,0,255)">func</span>(iterator):
+File <span class="ansi-green-fg">~/Desktop/ad688-employability-sp25A1-group4.io/.venv/lib/python3.13/site-packages/pyspark/sql/readwriter.py:740</span>, in <span class="ansi-cyan-fg">csv</span><span class="ansi-blue-fg">(self, path, schema, sep, encoding, quote, escape, comment, header, inferSchema, ignoreLeadingWhiteSpace, ignoreTrailingWhiteSpace, nullValue, nanValue, positiveInf, negativeInf, dateFormat, timestampFormat, maxColumns, maxCharsPerColumn, maxMalformedLogPerPartition, mode, columnNameOfCorruptRecord, multiLine, charToEscapeQuoteEscaping, samplingRatio, enforceSchema, emptyValue, locale, lineSep, pathGlobFilter, recursiveFileLookup, modifiedBefore, modifiedAfter, unescapedQuoteHandling)</span>
 
-File <span class="ansi-green-fg">~/Desktop/ad688-employability-sp25A1-group4.io/.venv/lib/python3.13/site-packages/py4j/java_gateway.py:1322</span>, in <span class="ansi-cyan-fg">JavaMember.__call__</span><span class="ansi-blue-fg">(self, *args)</span>
-<span class="ansi-green-fg ansi-bold">   1316</span> command <span style="color:rgb(98,98,98)">=</span> proto<span style="color:rgb(98,98,98)">.</span>CALL_COMMAND_NAME <span style="color:rgb(98,98,98)">+</span>\
-<span class="ansi-green-fg ansi-bold">   1317</span>     <span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>command_header <span style="color:rgb(98,98,98)">+</span>\
-<span class="ansi-green-fg ansi-bold">   1318</span>     args_command <span style="color:rgb(98,98,98)">+</span>\
-<span class="ansi-green-fg ansi-bold">   1319</span>     proto<span style="color:rgb(98,98,98)">.</span>END_COMMAND_PART
-<span class="ansi-green-fg ansi-bold">   1321</span> answer <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>gateway_client<span style="color:rgb(98,98,98)">.</span>send_command(command)
-<span class="ansi-green-fg">-&gt; 1322</span> return_value <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">get_return_value</span><span class="ansi-yellow-bg">(</span>
-<span class="ansi-green-fg ansi-bold">   1323</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">answer</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">gateway_client</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">target_id</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">name</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg ansi-bold">   1325</span> <span style="font-weight:bold;color:rgb(0,135,0)">for</span> temp_arg <span style="font-weight:bold;color:rgb(175,0,255)">in</span> temp_args:
-<span class="ansi-green-fg ansi-bold">   1326</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="color:rgb(0,135,0)">hasattr</span>(temp_arg, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">_detach</span><span style="color:rgb(175,0,0)">"</span>):
+File <span class="ansi-green-fg">~/Desktop/ad688-employability-sp25A1-group4.io/.venv/lib/python3.13/site-packages/py4j/java_gateway.py:1322</span>, in <span class="ansi-cyan-fg">__call__</span><span class="ansi-blue-fg">(self, *args)</span>
 
-File <span class="ansi-green-fg">~/Desktop/ad688-employability-sp25A1-group4.io/.venv/lib/python3.13/site-packages/pyspark/errors/exceptions/captured.py:185</span>, in <span class="ansi-cyan-fg">capture_sql_exception.&lt;locals&gt;.deco</span><span class="ansi-blue-fg">(*a, **kw)</span>
-<span class="ansi-green-fg ansi-bold">    181</span> converted <span style="color:rgb(98,98,98)">=</span> convert_exception(e<span style="color:rgb(98,98,98)">.</span>java_exception)
-<span class="ansi-green-fg ansi-bold">    182</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="color:rgb(0,135,0)">isinstance</span>(converted, UnknownException):
-<span class="ansi-green-fg ansi-bold">    183</span>     <span style="font-style:italic;color:rgb(95,135,135)"># Hide where the exception came from that shows a non-Pythonic</span>
-<span class="ansi-green-fg ansi-bold">    184</span>     <span style="font-style:italic;color:rgb(95,135,135)"># JVM exception message.</span>
-<span class="ansi-green-fg">--&gt; 185</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> converted <span style="font-weight:bold;color:rgb(0,135,0)">from</span><span style="color:rgb(188,188,188)"> </span><span style="font-weight:bold;color:rgb(0,135,0)">None</span>
-<span class="ansi-green-fg ansi-bold">    186</span> <span style="font-weight:bold;color:rgb(0,135,0)">else</span>:
-<span class="ansi-green-fg ansi-bold">    187</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span>
+File <span class="ansi-green-fg">~/Desktop/ad688-employability-sp25A1-group4.io/.venv/lib/python3.13/site-packages/pyspark/errors/exceptions/captured.py:179</span>, in <span class="ansi-cyan-fg">deco</span><span class="ansi-blue-fg">(*a, **kw)</span>
 
-<span class="ansi-red-fg">AnalysisException</span>: [PATH_NOT_FOUND] Path does not exist: file:/Users/yasmineel-kattan/Desktop/ad688-employability-sp25A1-group4.io/data/lightcast_job_postings.csv.</pre>
+File <span class="ansi-green-fg">~/Desktop/ad688-employability-sp25A1-group4.io/.venv/lib/python3.13/site-packages/py4j/protocol.py:326</span>, in <span class="ansi-cyan-fg">get_return_value</span><span class="ansi-blue-fg">(answer, gateway_client, target_id, name)</span>
+
+<span class="ansi-red-fg">Py4JJavaError</span>: An error occurred while calling o45.csv.
+: java.util.ServiceConfigurationError: org.apache.spark.sql.sources.DataSourceRegister: Error accessing configuration file
+    at java.base/java.util.ServiceLoader.fail(ServiceLoader.java:582)
+    at java.base/java.util.ServiceLoader$LazyClassPathLookupIterator.parse(ServiceLoader.java:1173)
+    at java.base/java.util.ServiceLoader$LazyClassPathLookupIterator.nextProviderClass(ServiceLoader.java:1206)
+    at java.base/java.util.ServiceLoader$LazyClassPathLookupIterator.hasNextService(ServiceLoader.java:1221)
+    at java.base/java.util.ServiceLoader$LazyClassPathLookupIterator.hasNext(ServiceLoader.java:1265)
+    at java.base/java.util.ServiceLoader$2.hasNext(ServiceLoader.java:1300)
+    at java.base/java.util.ServiceLoader$3.hasNext(ServiceLoader.java:1385)
+    at scala.collection.convert.Wrappers$JIteratorWrapper.hasNext(Wrappers.scala:45)
+    at scala.collection.Iterator.foreach(Iterator.scala:943)
+    at scala.collection.Iterator.foreach$(Iterator.scala:943)
+    at scala.collection.AbstractIterator.foreach(Iterator.scala:1431)
+    at scala.collection.IterableLike.foreach(IterableLike.scala:74)
+    at scala.collection.IterableLike.foreach$(IterableLike.scala:73)
+    at scala.collection.AbstractIterable.foreach(Iterable.scala:56)
+    at scala.collection.TraversableLike.filterImpl(TraversableLike.scala:303)
+    at scala.collection.TraversableLike.filterImpl$(TraversableLike.scala:297)
+    at scala.collection.AbstractTraversable.filterImpl(Traversable.scala:108)
+    at scala.collection.TraversableLike.filter(TraversableLike.scala:395)
+    at scala.collection.TraversableLike.filter$(TraversableLike.scala:395)
+    at scala.collection.AbstractTraversable.filter(Traversable.scala:108)
+    at org.apache.spark.sql.execution.datasources.DataSource$.lookupDataSource(DataSource.scala:629)
+    at org.apache.spark.sql.execution.datasources.DataSource$.lookupDataSourceV2(DataSource.scala:697)
+    at org.apache.spark.sql.DataFrameReader.load(DataFrameReader.scala:208)
+    at org.apache.spark.sql.DataFrameReader.csv(DataFrameReader.scala:538)
+    at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+    at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+    at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+    at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+    at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)
+    at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:374)
+    at py4j.Gateway.invoke(Gateway.java:282)
+    at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)
+    at py4j.commands.CallCommand.execute(CallCommand.java:79)
+    at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:182)
+    at py4j.ClientServerConnection.run(ClientServerConnection.java:106)
+    at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.nio.file.NoSuchFileException: /Users/yasmineel-kattan/Desktop/ad688-employability-sp25A1-group4.io/.venv/lib/python3.13/site-packages/pyspark/jars/spark-sql_2.12-3.5.5.jar
+    at java.base/sun.nio.fs.UnixException.translateToIOException(UnixException.java:92)
+    at java.base/sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:111)
+    at java.base/sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:116)
+    at java.base/sun.nio.fs.UnixFileAttributeViews$Basic.readAttributes(UnixFileAttributeViews.java:55)
+    at java.base/sun.nio.fs.UnixFileSystemProvider.readAttributes(UnixFileSystemProvider.java:149)
+    at java.base/java.nio.file.Files.readAttributes(Files.java:1764)
+    at java.base/java.util.zip.ZipFile$Source.get(ZipFile.java:1420)
+    at java.base/java.util.zip.ZipFile$CleanableResource.&lt;init&gt;(ZipFile.java:841)
+    at java.base/java.util.zip.ZipFile$CleanableResource$FinalizableResource.&lt;init&gt;(ZipFile.java:867)
+    at java.base/java.util.zip.ZipFile$CleanableResource.get(ZipFile.java:856)
+    at java.base/java.util.zip.ZipFile.&lt;init&gt;(ZipFile.java:258)
+    at java.base/java.util.zip.ZipFile.&lt;init&gt;(ZipFile.java:187)
+    at java.base/java.util.jar.JarFile.&lt;init&gt;(JarFile.java:348)
+    at java.base/sun.net.www.protocol.jar.URLJarFile.&lt;init&gt;(URLJarFile.java:103)
+    at java.base/sun.net.www.protocol.jar.URLJarFile.getJarFile(URLJarFile.java:72)
+    at java.base/sun.net.www.protocol.jar.JarFileFactory.get(JarFileFactory.java:99)
+    at java.base/sun.net.www.protocol.jar.JarURLConnection.connect(JarURLConnection.java:125)
+    at java.base/sun.net.www.protocol.jar.JarURLConnection.getInputStream(JarURLConnection.java:155)
+    at java.base/java.util.ServiceLoader$LazyClassPathLookupIterator.parse(ServiceLoader.java:1165)
+    ... 34 more
+</pre>
 </div>
 </div>
 </div>
 <div id="4a111571-0823-4b84-b50b-e4610974366a" class="cell" data-scrolled="true" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df.dropna(subset<span class="op">=</span>[<span class="st">'BODY'</span>])</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df.printSchema()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df.dropna(subset<span class="op">=</span>[<span class="st">'BODY'</span>])</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df.printSchema()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>root
@@ -441,53 +474,53 @@ File <span class="ansi-green-fg">~/Desktop/ad688-employability-sp25A1-group4.io/
 <div id="f6aba229-07c2-4715-b1c0-97c9104fb1d9" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.ml.feature <span class="im">import</span> Tokenizer, StopWordsRemover, HashingTF, CountVectorizer, IDF</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col, size, trim</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.ml.feature <span class="im">import</span> Tokenizer, StopWordsRemover, HashingTF, CountVectorizer, IDF</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col, size, trim</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div id="73547ca7-97f4-41b3-87e3-82defc2c4b2a" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df0 <span class="op">=</span> df.<span class="bu">filter</span>(col(<span class="st">"BODY"</span>).isNotNull() <span class="op">&amp;</span> (trim(col(<span class="st">"BODY"</span>)) <span class="op">!=</span> <span class="st">""</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df0 <span class="op">=</span> df.<span class="bu">filter</span>(col(<span class="st">"BODY"</span>).isNotNull() <span class="op">&amp;</span> (trim(col(<span class="st">"BODY"</span>)) <span class="op">!=</span> <span class="st">""</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div id="888e54a5-9fd3-4f8b-9964-dbf590c96a6a" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># breakdown the job descriptions into words</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> Tokenizer(inputCol<span class="op">=</span><span class="st">"BODY"</span>, outputCol<span class="op">=</span><span class="st">"jd_words_raw"</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>df1 <span class="op">=</span> tokenizer.transform(df0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># breakdown the job descriptions into words</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> Tokenizer(inputCol<span class="op">=</span><span class="st">"BODY"</span>, outputCol<span class="op">=</span><span class="st">"jd_words_raw"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>df1 <span class="op">=</span> tokenizer.transform(df0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div id="1e737b47-c883-468a-8fc4-d82a1ad4935f" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># remove stop words e.g. the, a, and, I, me</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>remover <span class="op">=</span> StopWordsRemover(inputCol<span class="op">=</span><span class="st">"jd_words_raw"</span>, outputCol<span class="op">=</span><span class="st">"jd_words"</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># english stop words, and other common workds</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>remover.setStopWords(StopWordsRemover.loadDefaultStopWords(<span class="st">"english"</span>) <span class="op">+</span> [</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">' '</span>, <span class="st">'  '</span>, <span class="st">'   '</span>, <span class="st">'    '</span>,</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'work'</span>, <span class="st">'works'</span>,</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'job'</span>, <span class="st">'jobs'</span>,</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'position'</span>, <span class="st">'positions'</span>,</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'skill'</span>, <span class="st">'skills'</span>,</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ability'</span>, <span class="st">'abilities'</span>,</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>])</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> remover.transform(df1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># remove stop words e.g. the, a, and, I, me</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>remover <span class="op">=</span> StopWordsRemover(inputCol<span class="op">=</span><span class="st">"jd_words_raw"</span>, outputCol<span class="op">=</span><span class="st">"jd_words"</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># english stop words, and other common workds</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>remover.setStopWords(StopWordsRemover.loadDefaultStopWords(<span class="st">"english"</span>) <span class="op">+</span> [</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">' '</span>, <span class="st">'  '</span>, <span class="st">'   '</span>, <span class="st">'    '</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'work'</span>, <span class="st">'works'</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'job'</span>, <span class="st">'jobs'</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'position'</span>, <span class="st">'positions'</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'skill'</span>, <span class="st">'skills'</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ability'</span>, <span class="st">'abilities'</span>,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> remover.transform(df1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div id="bb0227a7-08a3-4f00-9bb3-c526ec25d740" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">'''</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># build hash term frequency</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">hashingTF = HashingTF(inputCol="jd_words", outputCol="features_raw", numFeatures=200)</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">df3 = hashingTF.transform(df2)</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">'''</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Word count using CountVectorizer</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>vectorizer <span class="op">=</span> CountVectorizer(inputCol<span class="op">=</span><span class="st">"jd_words"</span>, outputCol<span class="op">=</span><span class="st">"features_raw"</span>, vocabSize<span class="op">=</span><span class="dv">1000</span>, minDF<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>vectorizer_model <span class="op">=</span> vectorizer.fit(df2)</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>df3 <span class="op">=</span> vectorizer_model.transform(df2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">'''</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># build hash term frequency</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">hashingTF = HashingTF(inputCol="jd_words", outputCol="features_raw", numFeatures=200)</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">df3 = hashingTF.transform(df2)</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">'''</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Word count using CountVectorizer</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>vectorizer <span class="op">=</span> CountVectorizer(inputCol<span class="op">=</span><span class="st">"jd_words"</span>, outputCol<span class="op">=</span><span class="st">"features_raw"</span>, vocabSize<span class="op">=</span><span class="dv">1000</span>, minDF<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>vectorizer_model <span class="op">=</span> vectorizer.fit(df2)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>df3 <span class="op">=</span> vectorizer_model.transform(df2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>                                                                                </code></pre>
@@ -496,10 +529,10 @@ File <span class="ansi-green-fg">~/Desktop/ad688-employability-sp25A1-group4.io/
 <div id="6ef22290-9353-43fb-94d1-3ff14c5947c6" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compute IDF</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>idf <span class="op">=</span> IDF(inputCol<span class="op">=</span><span class="st">"features_raw"</span>, outputCol<span class="op">=</span><span class="st">"features"</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>idf_model <span class="op">=</span> idf.fit(df3)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>df4 <span class="op">=</span> idf_model.transform(df3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compute IDF</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>idf <span class="op">=</span> IDF(inputCol<span class="op">=</span><span class="st">"features_raw"</span>, outputCol<span class="op">=</span><span class="st">"features"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>idf_model <span class="op">=</span> idf.fit(df3)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>df4 <span class="op">=</span> idf_model.transform(df3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>                                                                                </code></pre>
@@ -510,39 +543,39 @@ File <span class="ansi-green-fg">~/Desktop/ad688-employability-sp25A1-group4.io/
 <div id="f4824f31-3476-457a-b582-a1df6786f401" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div id="4bd3fa51-aa18-450b-ac1e-bdcb942a2fbc" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>vocabulary <span class="op">=</span> vectorizer_model.vocabulary</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>word_count_rdd <span class="op">=</span> df3.select(<span class="st">"features_raw"</span>).rdd.<span class="bu">map</span>(<span class="kw">lambda</span> row: row[<span class="st">"features_raw"</span>].toArray())</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Flatten the RDD and calculate frequency of each word index</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>flat_rdd <span class="op">=</span> word_count_rdd.flatMap(<span class="kw">lambda</span> counts: <span class="bu">zip</span>(counts, <span class="bu">range</span>(<span class="bu">len</span>(counts))))</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>word_counts <span class="op">=</span> flat_rdd.<span class="bu">filter</span>(<span class="kw">lambda</span> x: x[<span class="dv">0</span>] <span class="op">&gt;</span> <span class="dv">0</span>).<span class="bu">map</span>(<span class="kw">lambda</span> x: (x[<span class="dv">1</span>], x[<span class="dv">0</span>])).reduceByKey(<span class="kw">lambda</span> a, b: a <span class="op">+</span> b)</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to a sorted list of tuples (word_index, count)</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>sorted_word_counts <span class="op">=</span> <span class="bu">sorted</span>(word_counts.collect(), key<span class="op">=</span><span class="kw">lambda</span> x: x[<span class="dv">1</span>], reverse<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the top N frequent words</span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>top_n <span class="op">=</span> <span class="dv">30</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>top_word_counts <span class="op">=</span> sorted_word_counts[:top_n]</span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Unzip the list of tuples to separate word indices and their counts</span></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>indices, counts <span class="op">=</span> <span class="bu">zip</span>(<span class="op">*</span>top_word_counts)</span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Map the indices back to the actual words from the vocabulary</span></span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>top_words <span class="op">=</span> [vocabulary[i] <span class="cf">for</span> i <span class="kw">in</span> indices]</span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 5: Visualize the result as a bar chart</span></span>
-<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>plt.bar(top_words, counts)</span>
-<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Top 10 Frequent Words in Job Descriptions (CountVectorizer)'</span>)</span>
-<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Words'</span>)</span>
-<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Frequency'</span>)</span>
-<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>)  <span class="co"># Rotate the x-axis labels to avoid overlap</span></span>
-<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>vocabulary <span class="op">=</span> vectorizer_model.vocabulary</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>word_count_rdd <span class="op">=</span> df3.select(<span class="st">"features_raw"</span>).rdd.<span class="bu">map</span>(<span class="kw">lambda</span> row: row[<span class="st">"features_raw"</span>].toArray())</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Flatten the RDD and calculate frequency of each word index</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>flat_rdd <span class="op">=</span> word_count_rdd.flatMap(<span class="kw">lambda</span> counts: <span class="bu">zip</span>(counts, <span class="bu">range</span>(<span class="bu">len</span>(counts))))</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>word_counts <span class="op">=</span> flat_rdd.<span class="bu">filter</span>(<span class="kw">lambda</span> x: x[<span class="dv">0</span>] <span class="op">&gt;</span> <span class="dv">0</span>).<span class="bu">map</span>(<span class="kw">lambda</span> x: (x[<span class="dv">1</span>], x[<span class="dv">0</span>])).reduceByKey(<span class="kw">lambda</span> a, b: a <span class="op">+</span> b)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to a sorted list of tuples (word_index, count)</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>sorted_word_counts <span class="op">=</span> <span class="bu">sorted</span>(word_counts.collect(), key<span class="op">=</span><span class="kw">lambda</span> x: x[<span class="dv">1</span>], reverse<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the top N frequent words</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>top_n <span class="op">=</span> <span class="dv">30</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>top_word_counts <span class="op">=</span> sorted_word_counts[:top_n]</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Unzip the list of tuples to separate word indices and their counts</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>indices, counts <span class="op">=</span> <span class="bu">zip</span>(<span class="op">*</span>top_word_counts)</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Map the indices back to the actual words from the vocabulary</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>top_words <span class="op">=</span> [vocabulary[i] <span class="cf">for</span> i <span class="kw">in</span> indices]</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 5: Visualize the result as a bar chart</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>plt.bar(top_words, counts)</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Top 10 Frequent Words in Job Descriptions (CountVectorizer)'</span>)</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Words'</span>)</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Frequency'</span>)</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>)  <span class="co"># Rotate the x-axis labels to avoid overlap</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>                                                                                </code></pre>
@@ -562,14 +595,14 @@ File <span class="ansi-green-fg">~/Desktop/ad688-employability-sp25A1-group4.io/
 <div id="6d392f6c-10ba-4373-817f-c5adf197cf99" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.ml.clustering <span class="im">import</span> KMeans</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">7</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>kmeans <span class="op">=</span> KMeans(k<span class="op">=</span>k, seed<span class="op">=</span><span class="dv">42</span>, featuresCol<span class="op">=</span><span class="st">"features"</span>, predictionCol<span class="op">=</span><span class="st">"topic"</span>)</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>kmeans_model <span class="op">=</span> kmeans.fit(df4)</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>df5 <span class="op">=</span> kmeans_model.transform(df4)</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>df5.select(<span class="st">"BODY"</span>, <span class="st">"topic"</span>).show(<span class="dv">5</span>, truncate<span class="op">=</span><span class="va">False</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.ml.clustering <span class="im">import</span> KMeans</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">7</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>kmeans <span class="op">=</span> KMeans(k<span class="op">=</span>k, seed<span class="op">=</span><span class="dv">42</span>, featuresCol<span class="op">=</span><span class="st">"features"</span>, predictionCol<span class="op">=</span><span class="st">"topic"</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>kmeans_model <span class="op">=</span> kmeans.fit(df4)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>df5 <span class="op">=</span> kmeans_model.transform(df4)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>df5.select(<span class="st">"BODY"</span>, <span class="st">"topic"</span>).show(<span class="dv">5</span>, truncate<span class="op">=</span><span class="va">False</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>25/05/01 05:21:28 WARN InstanceBuilder: Failed to load implementation from:dev.ludovic.netlib.blas.JNIBLAS
@@ -594,25 +627,25 @@ only showing top 5 rows
 <div id="845692ed-0c34-45cf-be63-8fed670a08c3" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> wordcloud <span class="im">import</span> WordCloud</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>centroids <span class="op">=</span> kmeans_model.clusterCenters()</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>vocabulary <span class="op">=</span> vectorizer_model.vocabulary</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>top_n <span class="op">=</span> <span class="dv">20</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">14</span>))</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, centroid <span class="kw">in</span> <span class="bu">enumerate</span>(centroids):</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    plt.subplot(k, <span class="dv">1</span>, i <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    top_words_indices <span class="op">=</span> centroid.argsort()[<span class="op">-</span>top_n:][::<span class="op">-</span><span class="dv">1</span>]  <span class="co"># Get indices of the top N words</span></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    top_words <span class="op">=</span> [vocabulary[index] <span class="cf">for</span> index <span class="kw">in</span> top_words_indices]</span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    wordcloud <span class="op">=</span> WordCloud(width<span class="op">=</span><span class="dv">1400</span>, height<span class="op">=</span><span class="dv">600</span>, background_color<span class="op">=</span><span class="st">"white"</span>).generate(<span class="st">" "</span>.join(top_words))</span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    plt.imshow(wordcloud, interpolation<span class="op">=</span><span class="st">"bilinear"</span>)</span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="ss">f"Word Cloud for topic </span><span class="sc">{</span>i <span class="op">+</span> <span class="dv">1</span><span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    plt.axis(<span class="st">"off"</span>)</span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> wordcloud <span class="im">import</span> WordCloud</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>centroids <span class="op">=</span> kmeans_model.clusterCenters()</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>vocabulary <span class="op">=</span> vectorizer_model.vocabulary</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>top_n <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">14</span>))</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, centroid <span class="kw">in</span> <span class="bu">enumerate</span>(centroids):</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    plt.subplot(k, <span class="dv">1</span>, i <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    top_words_indices <span class="op">=</span> centroid.argsort()[<span class="op">-</span>top_n:][::<span class="op">-</span><span class="dv">1</span>]  <span class="co"># Get indices of the top N words</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    top_words <span class="op">=</span> [vocabulary[index] <span class="cf">for</span> index <span class="kw">in</span> top_words_indices]</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    wordcloud <span class="op">=</span> WordCloud(width<span class="op">=</span><span class="dv">1400</span>, height<span class="op">=</span><span class="dv">600</span>, background_color<span class="op">=</span><span class="st">"white"</span>).generate(<span class="st">" "</span>.join(top_words))</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    plt.imshow(wordcloud, interpolation<span class="op">=</span><span class="st">"bilinear"</span>)</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="ss">f"Word Cloud for topic </span><span class="sc">{</span>i <span class="op">+</span> <span class="dv">1</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
