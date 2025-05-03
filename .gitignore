@@ -3,3 +3,4 @@ data/lightcast_job_postings.csv
 data/cleaned_data.csv
 _site
 _site/*.*"lightcast_job_postings.csv" 
+lightcast_job_postings.csv
