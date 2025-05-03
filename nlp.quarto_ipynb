@@ -1,0 +1,311 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: Extracting insights from job descriptions -- NLP Methods\n",
+        "author: Team 4\n",
+        "date: today\n",
+        "format:\n",
+        "  html:\n",
+        "    csl: csl/econometrica.csl\n",
+        "    toc: true\n",
+        "    css: styles.css\n",
+        "    html-math-method: katex\n",
+        "    embed-resources: false\n",
+        "    code-fold: true\n",
+        "jupyter: python3\n",
+        "execute:\n",
+        "  eval: true\n",
+        "  echo: true\n",
+        "---\n",
+        "\n",
+        "\n",
+        "\n",
+        "\n",
+        "\n",
+        "# Finding insights from jobs descriptions using NLP methods\n",
+        "\n",
+        "We further analyze the job descriptions of job postings from the Lightcast dataset using NLP methods.\n",
+        "By applying TF-IDF feature extraction, building classifiers models, and visualize key skills as word clouds we can gain insight into the job market.\n",
+        "\n",
+        "## Load the Dataset into Spark\n"
+      ],
+      "id": "de25faf7"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "from pyspark.sql import SparkSession\n",
+        "from pyspark.sql.functions import col, when, udf, max\n",
+        "from pyspark.sql.types import BooleanType, StringType\n",
+        "from ast import literal_eval\n",
+        "\n",
+        "import pandas as pd\n",
+        "import numpy as np\n",
+        "\n",
+        "import plotly.express as px\n",
+        "import plotly.io as pio\n",
+        "pio.renderers.default = \"notebook\"\n",
+        "\n",
+        "\n",
+        "# Initialize Spark Session\n",
+        "spark = SparkSession.builder.appName(\"LightcastData\").getOrCreate()\n",
+        "spark.conf.set(\"spark.sql.repl.eagerEval.enabled\", True)\n",
+        "spark.conf.set(\"spark.sql.repl.eagerEval.maxNumRows\", 20)\n",
+        "spark.conf.set(\"spark.sql.legacy.timeParserPolicy\", \"LEGACY\")\n",
+        "\n",
+        "# Load Data\n",
+        "df = spark.read.option(\"header\", \"true\").option(\"inferSchema\", \"true\").option(\"multiLine\",\"true\").option(\"escape\", \"\\\"\").csv(\"data/lightcast_job_postings.csv\")"
+      ],
+      "id": "2530326f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "scrolled": true
+      },
+      "source": [
+        "df.dropna(subset=['BODY'])\n",
+        "df.printSchema()"
+      ],
+      "id": "4862263f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## TF-IDF feature engineering\n"
+      ],
+      "id": "d0c75203"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "from pyspark.ml.feature import Tokenizer, StopWordsRemover, HashingTF, CountVectorizer, IDF\n",
+        "from pyspark.sql.functions import col, size, trim"
+      ],
+      "id": "9c7d2716",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df0 = df.filter(col(\"BODY\").isNotNull() & (trim(col(\"BODY\")) != \"\"))"
+      ],
+      "id": "9a6401df",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# breakdown the job descriptions into words\n",
+        "tokenizer = Tokenizer(inputCol=\"BODY\", outputCol=\"jd_words_raw\")\n",
+        "df1 = tokenizer.transform(df0)"
+      ],
+      "id": "62c622f7",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# remove stop words e.g. the, a, and, I, me\n",
+        "remover = StopWordsRemover(inputCol=\"jd_words_raw\", outputCol=\"jd_words\")\n",
+        "# english stop words, and other common workds\n",
+        "remover.setStopWords(StopWordsRemover.loadDefaultStopWords(\"english\") + [\n",
+        "    ' ', '  ', '   ', '    ',\n",
+        "    'work', 'works',\n",
+        "    'job', 'jobs',\n",
+        "    'position', 'positions',\n",
+        "    'skill', 'skills',\n",
+        "    'ability', 'abilities',\n",
+        "])\n",
+        "df2 = remover.transform(df1)"
+      ],
+      "id": "3ec3a704",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "'''\n",
+        "# build hash term frequency\n",
+        "hashingTF = HashingTF(inputCol=\"jd_words\", outputCol=\"features_raw\", numFeatures=200)\n",
+        "df3 = hashingTF.transform(df2)\n",
+        "'''\n",
+        "# Word count using CountVectorizer\n",
+        "vectorizer = CountVectorizer(inputCol=\"jd_words\", outputCol=\"features_raw\", vocabSize=1000, minDF=2)\n",
+        "vectorizer_model = vectorizer.fit(df2)\n",
+        "df3 = vectorizer_model.transform(df2)"
+      ],
+      "id": "979cd3f8",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# compute IDF\n",
+        "idf = IDF(inputCol=\"features_raw\", outputCol=\"features\")\n",
+        "idf_model = idf.fit(df3)\n",
+        "df4 = idf_model.transform(df3)"
+      ],
+      "id": "eb06e599",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Top 30 most frequent words in job descriptions\n"
+      ],
+      "id": "75ac8e16"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "from matplotlib import pyplot as plt"
+      ],
+      "id": "4c892077",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "vocabulary = vectorizer_model.vocabulary\n",
+        "word_count_rdd = df3.select(\"features_raw\").rdd.map(lambda row: row[\"features_raw\"].toArray())\n",
+        "\n",
+        "# Flatten the RDD and calculate frequency of each word index\n",
+        "flat_rdd = word_count_rdd.flatMap(lambda counts: zip(counts, range(len(counts))))\n",
+        "word_counts = flat_rdd.filter(lambda x: x[0] > 0).map(lambda x: (x[1], x[0])).reduceByKey(lambda a, b: a + b)\n",
+        "\n",
+        "# Convert to a sorted list of tuples (word_index, count)\n",
+        "sorted_word_counts = sorted(word_counts.collect(), key=lambda x: x[1], reverse=True)\n",
+        "\n",
+        "# Get the top N frequent words\n",
+        "top_n = 30\n",
+        "top_word_counts = sorted_word_counts[:top_n]\n",
+        "\n",
+        "# Unzip the list of tuples to separate word indices and their counts\n",
+        "indices, counts = zip(*top_word_counts)\n",
+        "\n",
+        "# Map the indices back to the actual words from the vocabulary\n",
+        "top_words = [vocabulary[i] for i in indices]\n",
+        "\n",
+        "# Step 5: Visualize the result as a bar chart\n",
+        "plt.bar(top_words, counts)\n",
+        "plt.title('Top 10 Frequent Words in Job Descriptions (CountVectorizer)')\n",
+        "plt.xlabel('Words')\n",
+        "plt.ylabel('Frequency')\n",
+        "plt.xticks(rotation=45)  # Rotate the x-axis labels to avoid overlap\n",
+        "plt.show()"
+      ],
+      "id": "e871733d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## K-Means clustering based on job descrptions\n"
+      ],
+      "id": "e8136569"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "from pyspark.ml.clustering import KMeans\n",
+        "\n",
+        "k = 7\n",
+        "kmeans = KMeans(k=k, seed=42, featuresCol=\"features\", predictionCol=\"topic\")\n",
+        "kmeans_model = kmeans.fit(df4)\n",
+        "df5 = kmeans_model.transform(df4)\n",
+        "\n",
+        "df5.select(\"BODY\", \"topic\").show(5, truncate=False);"
+      ],
+      "id": "249e1d8b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Word Cloud Visualization\n"
+      ],
+      "id": "4d84b94f"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "from wordcloud import WordCloud\n",
+        "\n",
+        "centroids = kmeans_model.clusterCenters()\n",
+        "vocabulary = vectorizer_model.vocabulary\n",
+        "\n",
+        "top_n = 20\n",
+        "plt.figure(figsize=(20, 14))\n",
+        "for i, centroid in enumerate(centroids):\n",
+        "    plt.subplot(k, 1, i + 1)\n",
+        "    top_words_indices = centroid.argsort()[-top_n:][::-1]  # Get indices of the top N words\n",
+        "    top_words = [vocabulary[index] for index in top_words_indices]\n",
+        "    \n",
+        "    wordcloud = WordCloud(width=1400, height=600, background_color=\"white\").generate(\" \".join(top_words))\n",
+        "    plt.imshow(wordcloud, interpolation=\"bilinear\")\n",
+        "    plt.title(f\"Word Cloud for topic {i + 1}\")\n",
+        "    plt.axis(\"off\")\n",
+        "\n",
+        "plt.tight_layout()\n",
+        "plt.show()"
+      ],
+      "id": "3d746e9a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Insights from the job description word clouds\n",
+        "\n",
+        "1. Data science is skills is crucial. \"Data\" is frequent in every job posting cluster.\n",
+        "2. To excel on the job market, domain-specific knowledge are necessary besides general data science skills.\n"
+      ],
+      "id": "1bc027fc"
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "python3",
+      "language": "python",
+      "display_name": "Python 3 (ipykernel)",
+      "path": "/Users/yasmineel-kattan/Desktop/ad688-employability-sp25A1-group4.io/.venv/share/jupyter/kernels/python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}
