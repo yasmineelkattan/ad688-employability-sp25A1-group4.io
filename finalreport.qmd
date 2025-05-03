@@ -1,11 +1,27 @@
 ---
-title: "Final Report"
-author: "Team 4"
+title: "Evaluating Personal Job Market Prospects in 2024"
+    subtitle: "Final Report"
+author:
+    - name: Team 4
+affiliations:
+     - ref: bu
+affiliations:
+     - id: bu
+         name: Boston University
+         city: Boston
+         state: MA
 date: today
-format: docx
+date-modified: today
+date-format: long
+format: 
+    docx: default
 execute:
     echo: false
 ---
 
-
-{{<include "1.Introduction-to-Ensemble-Learning.qmd" >}}
+{{<include "index.qmd" >}}
+{{<include "index.qmd" >}}
+{{<include "index.qmd" >}}
+{{<include "index.qmd" >}}
+{{<include "index.qmd" >}}
+{{<include "nlp.qmd" >}}
