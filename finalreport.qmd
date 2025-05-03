@@ -20,8 +20,4 @@ execute:
 ---
 
 {{<include "index.qmd" >}}
-{{<include "index.qmd" >}}
-{{<include "index.qmd" >}}
-{{<include "index.qmd" >}}
-{{<include "index.qmd" >}}
 {{<include "nlp.qmd" >}}
