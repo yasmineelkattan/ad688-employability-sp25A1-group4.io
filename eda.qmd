@@ -313,10 +313,15 @@ px.bar(
 
 ## Enhacned Exploratory Data Analysis & Visualization
 
-In this part, we focus on exploring and visualizing trends and patterns in 
+In this part, we focus on exploring and visualizing trends and patterns in
+
 - job postings
 - salary trends
 - geographic variations
+
+### State Name Abbreviations
+
+To enable geographical distribution visualization, we first define the state name abbreviations.
 
 ```{python}
 state_name_dict = {
@@ -335,6 +340,10 @@ state_name_dict = {
     'Wisconsin': 'WI', 'Wyoming': 'WY'
 }
 ```
+
+### Geographical distribution of job postings
+
+We use a spark SQL query to identify the states of most job postings in each month.
 
 ```{python}
 jobs_states_df = spark.sql('''
@@ -359,6 +368,8 @@ ORDER BY month, rank
 ''').toPandas()
 ```
 
+The result is visualized in a bar chart.
+
 ```{python}
 fig = px.bar(
     jobs_states_df,
@@ -380,6 +391,72 @@ fig.show()
 
 As we can see, Texas and California are consistently the states where most jobs are posted.  
 To have better employment opportunity, we recommend job seekers to move to these states.
+
+```{python}
+job_postings_trends = spark.sql('''
+SELECT 
+  DATE_FORMAT(TO_DATE(POSTED, 'MM/dd/yyyy'), 'yyyy-MM') AS month,
+  l.STATE_NAME,
+  COUNT(*) AS job_posting_count
+FROM job_postings j
+JOIN locations l ON j.LOCATION_ID = l.LOCATION_ID
+GROUP BY DATE_FORMAT(TO_DATE(POSTED, 'MM/dd/yyyy'), 'yyyy-MM'), l.STATE_NAME
+ORDER BY month, l.STATE_NAME;
+''').toPandas()
+```
+
+```{python}
+fig = px.line(
+    job_postings_trends,
+    x='month',
+    y='job_posting_count',
+    color='STATE_NAME',
+    title='Monthly Job Posting Trends by State',
+    labels={'job_posting_count': 'Job Postings', 'month': 'Month', 'STATE_NAME': 'State'}
+)
+
+fig.update_layout(
+    xaxis_title='Month',
+    yaxis_title='Number of Job Postings',
+    legend_title='State',
+    xaxis_tickangle=-45
+)
+fig.show()
+```
+
+We create a US map to visualize the job posting distributions.
+
+```{python}
+job_postings_distribution = spark.sql('''
+SELECT 
+  l.STATE_NAME,
+  COUNT(*) AS job_posting_count
+FROM job_postings j
+JOIN locations l ON j.LOCATION_ID = l.LOCATION_ID
+GROUP BY l.STATE_NAME
+ORDER BY job_posting_count DESC;
+''').toPandas()
+job_postings_distribution['STATE_NAME'] = job_postings_distribution['STATE_NAME'].map(state_name_dict)
+```
+
+```{python}
+fig = px.choropleth(
+    job_postings_distribution,
+    locations='STATE_NAME',
+    locationmode='USA-states',
+    color='job_posting_count',
+    scope='usa',
+    color_continuous_scale='Blues',
+    title='Job Postings by State'
+)
+fig.show()
+```
+
+We can see that job postings are concentrated in the east coast, the west coast, and the great lakes area.
+
+### Geographical distribution of salaries
+
+We use a spark SQL query to identify the states of highest average salary level in each month.
 
 ```{python}
 salaries_states_df = spark.sql('''
@@ -406,7 +483,6 @@ ORDER BY month, rank;
 ```
 
 ```{python}
-# Assumes your DataFrame has: 'month', 'STATE_NAME', 'avg_salary'
 fig = px.bar(
     salaries_states_df,
     x='month',
@@ -427,39 +503,6 @@ fig.show()
 
 Although Texas, California, Illinois, and New York have the highest number of job postings, they do not generally offers the highest salaries.  
 Louisiana, Nebraska, Vermont, Montana, and Wyoming are the states where works are paied with the highest salary on average.
-
-```{python}
-job_postings_trends = spark.sql('''
-SELECT 
-  DATE_FORMAT(TO_DATE(POSTED, 'MM/dd/yyyy'), 'yyyy-MM') AS month,
-  l.STATE_NAME,
-  COUNT(*) AS job_posting_count
-FROM job_postings j
-JOIN locations l ON j.LOCATION_ID = l.LOCATION_ID
-GROUP BY DATE_FORMAT(TO_DATE(POSTED, 'MM/dd/yyyy'), 'yyyy-MM'), l.STATE_NAME
-ORDER BY month, l.STATE_NAME;
-''').toPandas()
-
-```
-
-```{python}
-fig = px.line(
-    job_postings_trends,
-    x='month',
-    y='job_posting_count',
-    color='STATE_NAME',
-    title='Monthly Job Posting Trends by State',
-    labels={'job_posting_count': 'Job Postings', 'month': 'Month', 'STATE_NAME': 'State'}
-)
-
-fig.update_layout(
-    xaxis_title='Month',
-    yaxis_title='Number of Job Postings',
-    legend_title='State',
-    xaxis_tickangle=-45
-)
-fig.show()
-```
 
 ```{python}
 salary_distribution_df = spark.sql('''
@@ -487,6 +530,7 @@ fig = px.choropleth(
 fig.show()
 ```
 
+We create a US map to visualize the average salary distributions.
 
 ```{python}
 salary_trends_df = spark.sql('''
@@ -521,30 +565,3 @@ fig.update_layout(
 
 fig.show()
 ```
-
-```{python}
-job_postings_distribution = spark.sql('''
-SELECT 
-  l.STATE_NAME,
-  COUNT(*) AS job_posting_count
-FROM job_postings j
-JOIN locations l ON j.LOCATION_ID = l.LOCATION_ID
-GROUP BY l.STATE_NAME
-ORDER BY job_posting_count DESC;
-''').toPandas()
-job_postings_distribution['STATE_NAME'] = job_postings_distribution['STATE_NAME'].map(state_name_dict)
-```
-
-```{python}
-fig = px.choropleth(
-    job_postings_distribution,
-    locations='STATE_NAME',
-    locationmode='USA-states',
-    color='job_posting_count',
-    scope='usa',
-    color_continuous_scale='Blues',
-    title='Job Postings by State'
-)
-fig.show()
-```
-
