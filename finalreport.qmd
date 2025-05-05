@@ -1,15 +1,16 @@
 ---
 title: "Evaluating Personal Job Market Prospects in 2024"
-    subtitle: "Final Report"
+subtitle: "Final Report"
 author:
-    - name: Team 4
-affiliations:
-     - ref: bu
-affiliations:
-     - id: bu
-         name: Boston University
-         city: Boston
-         state: MA
+  - name: Norah Jones
+    affiliations:
+      - id: BU
+        name: Boston University
+        city: Boston
+        state: MA
+  - name: John Hamm
+    affiliations:
+      - ref: bu
 date: today
 date-modified: today
 date-format: long
@@ -19,9 +20,12 @@ execute:
     echo: false
 ---
 
-{{<include "index.qmd" >}}
-{{<include team_analysis.qmd >}}
-]{.quarto-shortcode__-escaped data-is-shortcode="1" data-value="
-{{{< embed skill_gap_analysis.qmd >}}"}
-{{<embed ml_methods.qmd >}}
-{{<embed "nlp.qmd" >}}
+{{< include index.qmd >}}
+
+{{< include team_analysis.qmd >}}
+
+{{< include skill_gap_analysis.qmd >}}
+
+{{< include ml_methods.qmd >}}
+
+{{< include nlp.qmd >}}

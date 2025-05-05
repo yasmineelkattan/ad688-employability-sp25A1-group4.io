@@ -1,8 +1,0 @@
----
-title: "Final Report"
-author: "Team 4"
-date: today
-format: revealjs
-execute:
-    echo: false
----

@@ -24,6 +24,7 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 import pandas as pd
 import missingno as msno
+df = pd.read_csv('./data/lightcast_job_postings.csv')
 ```
 
 ### Data Collection & Cleaning
@@ -67,7 +68,6 @@ By removing these columns, we streamlined the dataset for accurate insights whil
 - **Missing Data**  
 This step helps in identifying and removing highly incomplete features to improve data quality and analysis reliability. We visualize it using heat map.
 ```{python}
-df = pd.read_csv('./data/lightcast_job_postings.csv')
 msno.heatmap(df)
 plt.title("Missing Values Heatmap")
 
