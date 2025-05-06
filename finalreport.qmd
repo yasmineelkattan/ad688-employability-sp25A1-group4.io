@@ -2,13 +2,19 @@
 title: "Evaluating Personal Job Market Prospects in 2024"
 subtitle: "Final Report"
 author:
-  - name: Norah Jones
+  - name: Jinyi Cui
     affiliations:
       - id: BU
         name: Boston University
         city: Boston
         state: MA
-  - name: John Hamm
+  - name: Yasmine El-Kattan
+    affiliations:
+      - ref: bu
+  - name: Yanyang He
+    affiliations:
+      - ref: bu
+  - name: Wenjie Wang
     affiliations:
       - ref: bu
 date: today
