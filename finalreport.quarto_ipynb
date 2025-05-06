@@ -28,7 +28,11 @@
         "\n",
         "---"
       ],
+<<<<<<< HEAD
       "id": "64d878d3"
+=======
+      "id": "ee0d5944"
+>>>>>>> baa94c9e (idk what's going wrong)
     },
     {
       "cell_type": "markdown",
@@ -54,6 +58,10 @@
         "\n",
         "\n",
         "\n",
+<<<<<<< HEAD
+=======
+        "\n",
+>>>>>>> baa94c9e (idk what's going wrong)
         "## Introduction\n",
         "\n",
         "Artificial Intelligence (Al) is rapidly transforming industries, reshaping job roles, and redefining employment patterns. While AI-driven automation raises concerns about job displacement, it also fosters job creation in emerging fields, As AI continues to integrate into various sectors in 2024 and future, understanding its impact on job security is essential. This study examines whether AI is primarily displacing jobs or generating new opportunities, highlighting industries experiencing AI-driven growth versus those facing employment risks.\n",
@@ -77,7 +85,11 @@
         "\n",
         "## References\n"
       ],
+<<<<<<< HEAD
       "id": "148e52ab"
+=======
+      "id": "a5233ef2"
+>>>>>>> baa94c9e (idk what's going wrong)
     },
     {
       "cell_type": "markdown",
@@ -103,9 +115,16 @@
         "\n",
         "\n",
         "\n",
+<<<<<<< HEAD
         "## Trends and Insights From The Lightcast Dataset\n"
       ],
       "id": "a8ee0265"
+=======
+        "\n",
+        "## Trends and Insights From The Lightcast Dataset\n"
+      ],
+      "id": "defd9475"
+>>>>>>> baa94c9e (idk what's going wrong)
     },
     {
       "cell_type": "code",
@@ -118,7 +137,11 @@
         "import missingno as msno\n",
         "df = pd.read_csv('./data/lightcast_job_postings.csv')"
       ],
+<<<<<<< HEAD
       "id": "4b17b1fe",
+=======
+      "id": "347b1e05",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -140,7 +163,11 @@
         "  - `NAICS_2022_6` (for industry classification)  \n",
         "  - `SOC_2021_4` (for occupation classification)  \n"
       ],
+<<<<<<< HEAD
       "id": "5e9d8c49"
+=======
+      "id": "2b2d8b80"
+>>>>>>> baa94c9e (idk what's going wrong)
     },
     {
       "cell_type": "code",
@@ -161,7 +188,11 @@
         "print(\" Remaining NAICS columns:\", naics_columns_remaining)\n",
         "print(\"Remaining SOC columns:\", soc_columns_remaining)"
       ],
+<<<<<<< HEAD
       "id": "a59cffd8",
+=======
+      "id": "2c27e42b",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -179,7 +210,11 @@
         "- **Missing Data**  \n",
         "This step helps in identifying and removing highly incomplete features to improve data quality and analysis reliability. We visualize it using heat map.\n"
       ],
+<<<<<<< HEAD
       "id": "7629553e"
+=======
+      "id": "db66f9f6"
+>>>>>>> baa94c9e (idk what's going wrong)
     },
     {
       "cell_type": "code",
@@ -194,7 +229,11 @@
         "plt.savefig(\"figures/heatmap.png\")\n",
         "plt.show()"
       ],
+<<<<<<< HEAD
       "id": "922316fb",
+=======
+      "id": "e0b56562",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -207,7 +246,11 @@
         "\n",
         "Using cleaned datas to conduct analysis.\n"
       ],
+<<<<<<< HEAD
       "id": "6569921e"
+=======
+      "id": "94f02420"
+>>>>>>> baa94c9e (idk what's going wrong)
     },
     {
       "cell_type": "code",
@@ -216,7 +259,11 @@
         "df = pd.read_csv(\"data/cleaned_data.csv\")\n",
         "df.head()"
       ],
+<<<<<<< HEAD
       "id": "655fb9a5",
+=======
+      "id": "53325ec2",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -230,7 +277,11 @@
         "\n",
         "We identify AI/non-AI jobs by keyword searching.\n"
       ],
+<<<<<<< HEAD
       "id": "84e2e9f9"
+=======
+      "id": "df772119"
+>>>>>>> baa94c9e (idk what's going wrong)
     },
     {
       "cell_type": "code",
@@ -248,7 +299,11 @@
         "             | match('SPECIALIZED_SKILLS_NAME') \\\n",
         "             | match('LIGHTCAST_SECTORS_NAME')"
       ],
+<<<<<<< HEAD
       "id": "08b3aaaf",
+=======
+      "id": "bfe7212a",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -260,7 +315,11 @@
         "\n",
         "We first compare the number of AI and Non-AI jobs across all industries.\n"
       ],
+<<<<<<< HEAD
       "id": "a15a822a"
+=======
+      "id": "5dd12cd0"
+>>>>>>> baa94c9e (idk what's going wrong)
     },
     {
       "cell_type": "code",
@@ -273,7 +332,11 @@
         "       labels={'NAICS2_NAME': 'Industry', 'Job_Count': 'Number of Jobs'},\n",
         "       barmode='group')"
       ],
+<<<<<<< HEAD
       "id": "102d701f",
+=======
+      "id": "a6b06a09",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -287,13 +350,21 @@
         "```\n",
         "\n",
         "\n",
+<<<<<<< HEAD
+=======
+        "\n",
+>>>>>>> baa94c9e (idk what's going wrong)
         "As we can see, there are almost always more AI jobs than non-AI jobs.\n",
         "\n",
         "### Trend 2: AI-driven Job Growth vs. Job Displacement\n",
         "\n",
         "Now we turn out eyes to job growth and job displacement.\n"
       ],
+<<<<<<< HEAD
       "id": "c714fd49"
+=======
+      "id": "14021ac8"
+>>>>>>> baa94c9e (idk what's going wrong)
     },
     {
       "cell_type": "code",
@@ -306,7 +377,11 @@
         "              markers=True)\n",
         "fig.write_html(\"figures/2_chart.html\")"
       ],
+<<<<<<< HEAD
       "id": "1627789b",
+=======
+      "id": "e00af6fa",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -320,9 +395,16 @@
         "```\n",
         "\n",
         "\n",
+<<<<<<< HEAD
         "Overall, there are more newly posted AI jobs than non-AI jobs.\n"
       ],
       "id": "f71baf70"
+=======
+        "\n",
+        "Overall, there are more newly posted AI jobs than non-AI jobs.\n"
+      ],
+      "id": "09006ba3"
+>>>>>>> baa94c9e (idk what's going wrong)
     },
     {
       "cell_type": "code",
@@ -336,7 +418,11 @@
         "            barmode='group')\n",
         "fig.write_html(\"figures/3_chart.html\")"
       ],
+<<<<<<< HEAD
       "id": "eb445327",
+=======
+      "id": "5ad6a4bb",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -349,7 +435,11 @@
         "\n",
         "```"
       ],
+<<<<<<< HEAD
       "id": "9380597a"
+=======
+      "id": "263899c5"
+>>>>>>> baa94c9e (idk what's going wrong)
     },
     {
       "cell_type": "code",
@@ -363,7 +453,11 @@
         "             color='AI_JOB')\n",
         "fig.write_html(\"figures/4_chart.html\")"
       ],
+<<<<<<< HEAD
       "id": "8efec308",
+=======
+      "id": "cab69c56",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -378,6 +472,10 @@
         "\n",
         "\n",
         "\n",
+<<<<<<< HEAD
+=======
+        "\n",
+>>>>>>> baa94c9e (idk what's going wrong)
         "Further investigate into the required YoE of the posted jobs,\n",
         "one can see that AI jobs generally require less experience than traditional non-AI ones.\n",
         "In other words, AI related industry demands more junior roles and less senior roles compared to the traditional industry\n",
@@ -387,7 +485,11 @@
         "As we have seen, nearly every industry now requires a significant number of AI roles.\n",
         "One might interest in what are the valuable skills workers should develop to land in an AI job?\n"
       ],
+<<<<<<< HEAD
       "id": "4b921f46"
+=======
+      "id": "17768fbf"
+>>>>>>> baa94c9e (idk what's going wrong)
     },
     {
       "cell_type": "code",
@@ -405,7 +507,11 @@
         "             color='Skill')\n",
         "fig.write_html(\"figures/5_chart.html\")"
       ],
+<<<<<<< HEAD
       "id": "1b15bdca",
+=======
+      "id": "c9365275",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -418,7 +524,11 @@
         "\n",
         "```"
       ],
+<<<<<<< HEAD
       "id": "07b27b16"
+=======
+      "id": "39580bd4"
+>>>>>>> baa94c9e (idk what's going wrong)
     },
     {
       "cell_type": "code",
@@ -434,7 +544,11 @@
         "             color='Skill')\n",
         "fig.write_html(\"figures/6_chart.html\")"
       ],
+<<<<<<< HEAD
       "id": "ebe1d12e",
+=======
+      "id": "5cc41d53",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -447,6 +561,10 @@
         "```\n",
         "\n",
         "\n",
+<<<<<<< HEAD
+=======
+        "\n",
+>>>>>>> baa94c9e (idk what's going wrong)
         "As we can see, data sciene skills e.g. (SQL, data analysis, and programming) are favorable in AI related jobs.\n",
         "In the contrary, traditional jobs value candidates with strong communication and management skills.\n",
         "\n",
@@ -457,7 +575,11 @@
         "\n",
         "We note that **Data Analyst** is the fastest growing AI job.\n"
       ],
+<<<<<<< HEAD
       "id": "41ff0eca"
+=======
+      "id": "e90c07be"
+>>>>>>> baa94c9e (idk what's going wrong)
     },
     {
       "cell_type": "code",
@@ -472,7 +594,11 @@
         "       color='Job_Title')\n",
         "fig.write_html(\"figures/7_chart.html\")"
       ],
+<<<<<<< HEAD
       "id": "a8b670c6",
+=======
+      "id": "8012dd2e",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -501,7 +627,11 @@
         "    echo: false\n",
         "---"
       ],
+<<<<<<< HEAD
       "id": "e96b17ab"
+=======
+      "id": "7a68cab3"
+>>>>>>> baa94c9e (idk what's going wrong)
     },
     {
       "cell_type": "code",
@@ -524,7 +654,11 @@
         "df_skills.set_index(\"Name\", inplace=True)\n",
         "df_skills"
       ],
+<<<<<<< HEAD
       "id": "c3bbdc9d",
+=======
+      "id": "930285fe",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -554,7 +688,11 @@
         "plt.savefig(\"figures/skillheatmap.png\")\n",
         "plt.show()"
       ],
+<<<<<<< HEAD
       "id": "2d34c0cf",
+=======
+      "id": "e0e64528",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -567,6 +705,10 @@
         "\n",
         "\n",
         "\n",
+<<<<<<< HEAD
+=======
+        "\n",
+>>>>>>> baa94c9e (idk what's going wrong)
         "---\n",
         "title: \"Extracting insights from job descriptions -- ML Methods\"\n",
         "author: \"Team 4\"\n",
@@ -585,7 +727,11 @@
         "   echo: true\n",
         "---"
       ],
+<<<<<<< HEAD
       "id": "b17219e5"
+=======
+      "id": "25318c45"
+>>>>>>> baa94c9e (idk what's going wrong)
     },
     {
       "cell_type": "code",
@@ -631,7 +777,11 @@
         "print(\"Train shape:\", X_train.shape)\n",
         "print(\"Test shape:\", X_test.shape)"
       ],
+<<<<<<< HEAD
       "id": "6499d5ba",
+=======
+      "id": "151feff6",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -641,7 +791,11 @@
       "source": [
         "# K-means ONET\n"
       ],
+<<<<<<< HEAD
       "id": "7e2c866c"
+=======
+      "id": "1212c919"
+>>>>>>> baa94c9e (idk what's going wrong)
     },
     {
       "cell_type": "code",
@@ -682,7 +836,11 @@
         "else:\n",
         "    print(f\"⚠️ Column '{reference_col}' not found in the dataset.\")"
       ],
+<<<<<<< HEAD
       "id": "a54604eb",
+=======
+      "id": "c8215bae",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -705,7 +863,11 @@
         "plt.ylabel(\"Salary From\")\n",
         "plt.show()"
       ],
+<<<<<<< HEAD
       "id": "a255c93e",
+=======
+      "id": "6ab0eb75",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -717,7 +879,11 @@
         "\n",
         "# linear regression\n"
       ],
+<<<<<<< HEAD
       "id": "67273a92"
+=======
+      "id": "9449ffe0"
+>>>>>>> baa94c9e (idk what's going wrong)
     },
     {
       "cell_type": "code",
@@ -806,7 +972,11 @@
         "plt.tight_layout()\n",
         "plt.show()"
       ],
+<<<<<<< HEAD
       "id": "0d934cd2",
+=======
+      "id": "5ae98ac4",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -818,7 +988,11 @@
         "\n",
         "# Polynomial Regression\n"
       ],
+<<<<<<< HEAD
       "id": "65889160"
+=======
+      "id": "0d974c96"
+>>>>>>> baa94c9e (idk what's going wrong)
     },
     {
       "cell_type": "code",
@@ -894,7 +1068,11 @@
         "plt.tight_layout()\n",
         "plt.show()"
       ],
+<<<<<<< HEAD
       "id": "acd4673c",
+=======
+      "id": "fae273fb",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -906,7 +1084,11 @@
         "\n",
         "# Random Forest Regressor\n"
       ],
+<<<<<<< HEAD
       "id": "f5883b67"
+=======
+      "id": "a81773d4"
+>>>>>>> baa94c9e (idk what's going wrong)
     },
     {
       "cell_type": "code",
@@ -968,7 +1150,11 @@
         "print(f\"RMSE: {rmse:.2f}\")\n",
         "print(f\"R² Score: {r2:.3f}\")"
       ],
+<<<<<<< HEAD
       "id": "7c9cf414",
+=======
+      "id": "8f663b27",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -998,7 +1184,11 @@
         "plt.tight_layout()\n",
         "plt.show()"
       ],
+<<<<<<< HEAD
       "id": "07635bf3",
+=======
+      "id": "6ad34939",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -1011,7 +1201,11 @@
         "\n",
         "# Logistic Regression & Random Forest Classifier\n"
       ],
+<<<<<<< HEAD
       "id": "5dbba4de"
+=======
+      "id": "9c48a299"
+>>>>>>> baa94c9e (idk what's going wrong)
     },
     {
       "cell_type": "code",
@@ -1090,7 +1284,11 @@
         "print(classification_report(y_test, y_pred_rf))\n",
         "print(f\"Accuracy: {accuracy_score(y_test, y_pred_rf):.4f}\")"
       ],
+<<<<<<< HEAD
       "id": "f941c795",
+=======
+      "id": "54d5879b",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -1115,7 +1313,11 @@
         "plt.tight_layout()\n",
         "plt.show()"
       ],
+<<<<<<< HEAD
       "id": "72a8462c",
+=======
+      "id": "c095536c",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -1140,7 +1342,11 @@
         "plt.tight_layout()\n",
         "plt.show()"
       ],
+<<<<<<< HEAD
       "id": "9b340a6f",
+=======
+      "id": "9d42bb55",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -1154,6 +1360,10 @@
         "\n",
         "\n",
         "\n",
+<<<<<<< HEAD
+=======
+        "\n",
+>>>>>>> baa94c9e (idk what's going wrong)
         "---\n",
         "title: Extracting insights from job descriptions -- NLP Methods\n",
         "author: Team 4\n",
@@ -1174,6 +1384,10 @@
         "\n",
         "\n",
         "\n",
+<<<<<<< HEAD
+=======
+        "\n",
+>>>>>>> baa94c9e (idk what's going wrong)
         "# Finding insights from jobs descriptions using NLP methods\n",
         "\n",
         "We further analyze the job descriptions of job postings from the Lightcast dataset using NLP methods.\n",
@@ -1181,7 +1395,11 @@
         "\n",
         "## Load the Dataset into Spark\n"
       ],
+<<<<<<< HEAD
       "id": "5a0a1c5e"
+=======
+      "id": "670048db"
+>>>>>>> baa94c9e (idk what's going wrong)
     },
     {
       "cell_type": "code",
@@ -1209,7 +1427,11 @@
         "# Load Data\n",
         "df = spark.read.option(\"header\", \"true\").option(\"inferSchema\", \"true\").option(\"multiLine\",\"true\").option(\"escape\", \"\\\"\").csv(\"data/lightcast_job_postings.csv\")"
       ],
+<<<<<<< HEAD
       "id": "7b33ccbf",
+=======
+      "id": "cb8a2828",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -1222,7 +1444,11 @@
         "df.dropna(subset=['BODY'])\n",
         "df.printSchema()"
       ],
+<<<<<<< HEAD
       "id": "6a76ae66",
+=======
+      "id": "b131b8b0",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -1234,7 +1460,11 @@
         "\n",
         "We first apply the TF-IDF feature extraction to convert job description body text to a vector.\n"
       ],
+<<<<<<< HEAD
       "id": "511497f2"
+=======
+      "id": "027ec01c"
+>>>>>>> baa94c9e (idk what's going wrong)
     },
     {
       "cell_type": "code",
@@ -1243,7 +1473,11 @@
         "from pyspark.ml.feature import Tokenizer, StopWordsRemover, HashingTF, CountVectorizer, IDF\n",
         "from pyspark.sql.functions import col, size, trim"
       ],
+<<<<<<< HEAD
       "id": "6307d410",
+=======
+      "id": "650a9f48",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -1253,7 +1487,11 @@
       "source": [
         "Filter out job postings with empty descriptions.\n"
       ],
+<<<<<<< HEAD
       "id": "957ea9f5"
+=======
+      "id": "9684c3ce"
+>>>>>>> baa94c9e (idk what's going wrong)
     },
     {
       "cell_type": "code",
@@ -1261,7 +1499,11 @@
       "source": [
         "df0 = df.filter(col(\"BODY\").isNotNull() & (trim(col(\"BODY\")) != \"\"))"
       ],
+<<<<<<< HEAD
       "id": "dca5b400",
+=======
+      "id": "d8a6bd5a",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -1271,7 +1513,11 @@
       "source": [
         "Break down the job description body text into a list of words.\n"
       ],
+<<<<<<< HEAD
       "id": "2d896abf"
+=======
+      "id": "4848659e"
+>>>>>>> baa94c9e (idk what's going wrong)
     },
     {
       "cell_type": "code",
@@ -1281,7 +1527,11 @@
         "tokenizer = Tokenizer(inputCol=\"BODY\", outputCol=\"jd_words_raw\")\n",
         "df1 = tokenizer.transform(df0)"
       ],
+<<<<<<< HEAD
       "id": "e4b12653",
+=======
+      "id": "a8f90fe6",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -1291,7 +1541,11 @@
       "source": [
         "Remove meaningless words e.g. pronouns and prepositions.\n"
       ],
+<<<<<<< HEAD
       "id": "39cbfb0e"
+=======
+      "id": "f43d95d2"
+>>>>>>> baa94c9e (idk what's going wrong)
     },
     {
       "cell_type": "code",
@@ -1310,7 +1564,11 @@
         "])\n",
         "df2 = remover.transform(df1)"
       ],
+<<<<<<< HEAD
       "id": "682e398d",
+=======
+      "id": "addf2eae",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -1320,7 +1578,11 @@
       "source": [
         "Compute TF and IDF to assemble feature vectors.\n"
       ],
+<<<<<<< HEAD
       "id": "b3ea15a0"
+=======
+      "id": "7344111a"
+>>>>>>> baa94c9e (idk what's going wrong)
     },
     {
       "cell_type": "code",
@@ -1336,7 +1598,11 @@
         "vectorizer_model = vectorizer.fit(df2)\n",
         "df3 = vectorizer_model.transform(df2)"
       ],
+<<<<<<< HEAD
       "id": "6255b887",
+=======
+      "id": "15d8d80d",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -1349,7 +1615,11 @@
         "idf_model = idf.fit(df3)\n",
         "df4 = idf_model.transform(df3)"
       ],
+<<<<<<< HEAD
       "id": "1e5aa051",
+=======
+      "id": "40aae3ac",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -1361,7 +1631,11 @@
         "\n",
         "To understand the skill requirements, we pick out the top 30 most frequent words in job descriptions.\n"
       ],
+<<<<<<< HEAD
       "id": "11c4ca6e"
+=======
+      "id": "a887b9e1"
+>>>>>>> baa94c9e (idk what's going wrong)
     },
     {
       "cell_type": "code",
@@ -1369,7 +1643,11 @@
       "source": [
         "from matplotlib import pyplot as plt"
       ],
+<<<<<<< HEAD
       "id": "12322ea7",
+=======
+      "id": "d9135a2f",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -1405,7 +1683,11 @@
         "plt.xticks(rotation=45)\n",
         "plt.show()"
       ],
+<<<<<<< HEAD
       "id": "c4afe777",
+=======
+      "id": "427a77b1",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -1417,7 +1699,11 @@
         "\n",
         "We cluster the job postings into 7 groups using the K-Means algorithms.\n"
       ],
+<<<<<<< HEAD
       "id": "e27c3cba"
+=======
+      "id": "00b2f335"
+>>>>>>> baa94c9e (idk what's going wrong)
     },
     {
       "cell_type": "code",
@@ -1430,7 +1716,11 @@
         "kmeans_model = kmeans.fit(df4)\n",
         "df5 = kmeans_model.transform(df4)"
       ],
+<<<<<<< HEAD
       "id": "d475b638",
+=======
+      "id": "0b2dc55c",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -1442,7 +1732,11 @@
         "\n",
         "For each job postings cluster, we visualize the most frequent key words using a word cloud.\n"
       ],
+<<<<<<< HEAD
       "id": "0a7694c8"
+=======
+      "id": "e9b00c1d"
+>>>>>>> baa94c9e (idk what's going wrong)
     },
     {
       "cell_type": "code",
@@ -1468,7 +1762,11 @@
         "plt.tight_layout()\n",
         "plt.show()"
       ],
+<<<<<<< HEAD
       "id": "0a0fcf11",
+=======
+      "id": "ac2e8d56",
+>>>>>>> baa94c9e (idk what's going wrong)
       "execution_count": null,
       "outputs": []
     },
@@ -1481,7 +1779,11 @@
         "1. Data science is skills is crucial. \"Data\" is frequent in every job posting cluster.\n",
         "2. To excel on the job market, domain-specific knowledge are necessary besides general data science skills.\n"
       ],
+<<<<<<< HEAD
       "id": "b3ac1b0b"
+=======
+      "id": "d2967869"
+>>>>>>> baa94c9e (idk what's going wrong)
     }
   ],
   "metadata": {

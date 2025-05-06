@@ -7,7 +7,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Team 4">
+<<<<<<< HEAD
 <meta name="dcterms.date" content="2025-05-05">
+=======
+<meta name="dcterms.date" content="2025-05-06">
+>>>>>>> baa94c9e (idk what's going wrong)
 
 <title>Job Market after AI – Group 4: AI vs.&nbsp;Non-AI Jobs</title>
 <style>
@@ -202,7 +206,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
+<<<<<<< HEAD
       <p class="date">May 5, 2025</p>
+=======
+      <p class="date">May 6, 2025</p>
+>>>>>>> baa94c9e (idk what's going wrong)
     </div>
   </div>
   
@@ -216,7 +224,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="trends-and-insights-from-the-lightcast-dataset" class="level2">
 <h2 class="anchored" data-anchor-id="trends-and-insights-from-the-lightcast-dataset">Trends and Insights From The Lightcast Dataset</h2>
+<<<<<<< HEAD
 <div id="537b467b" class="cell" data-execution_count="1">
+=======
+<div id="b66fea4e" class="cell" data-execution_count="1">
+>>>>>>> baa94c9e (idk what's going wrong)
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ast</span>
@@ -242,7 +254,11 @@ We kept only the most recent version:</p>
 <li><code>SOC_2021_4</code> (for occupation classification)</li>
 </ul></li>
 </ul>
+<<<<<<< HEAD
 <div id="7f1fc70b" class="cell" data-execution_count="2">
+=======
+<div id="1793c5ea" class="cell" data-execution_count="2">
+>>>>>>> baa94c9e (idk what's going wrong)
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Keeping only the latest NAICS_2022_6 and SOC_2021_4 columns</span></span>
@@ -274,7 +290,11 @@ We kept only the most recent version:</p>
 <li><strong>Missing Data</strong><br>
 This step helps in identifying and removing highly incomplete features to improve data quality and analysis reliability. We visualize it using heat map.</li>
 </ul>
+<<<<<<< HEAD
 <div id="8fcf0d90" class="cell" data-execution_count="3">
+=======
+<div id="aacd5300" class="cell" data-execution_count="3">
+>>>>>>> baa94c9e (idk what's going wrong)
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>msno.heatmap(df)</span>
@@ -289,7 +309,11 @@ This step helps in identifying and removing highly incomplete features to improv
 </div>
 <p><img src="./figures/heatmap.png" class="img-fluid" alt="Missing Value Heatmap">{width=“80%”, fig-align=“center”}</p>
 <p>Using cleaned datas to conduct analysis.</p>
+<<<<<<< HEAD
 <div id="03c55aa6" class="cell" data-execution_count="4">
+=======
+<div id="7bb059d8" class="cell" data-execution_count="4">
+>>>>>>> baa94c9e (idk what's going wrong)
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"data/cleaned_data.csv"</span>)</span>
@@ -301,7 +325,11 @@ This step helps in identifying and removing highly incomplete features to improv
 <section id="identifying-ai-and-non-ai-jobs" class="level3">
 <h3 class="anchored" data-anchor-id="identifying-ai-and-non-ai-jobs">Identifying AI and Non-AI Jobs</h3>
 <p>We identify AI/non-AI jobs by keyword searching.</p>
+<<<<<<< HEAD
 <div id="dbeb6ff7" class="cell" data-execution_count="5">
+=======
+<div id="56d1f3dc" class="cell" data-execution_count="5">
+>>>>>>> baa94c9e (idk what's going wrong)
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>keywords <span class="op">=</span> [<span class="st">'AI'</span>, <span class="st">'Artificial Intelligence'</span>, <span class="st">'Machine Learning'</span>, <span class="st">'Deep Learning'</span>,</span>
@@ -321,7 +349,11 @@ This step helps in identifying and removing highly incomplete features to improv
 <section id="trend-1-ai-vs.-non-ai-job-across-industries" class="level3">
 <h3 class="anchored" data-anchor-id="trend-1-ai-vs.-non-ai-job-across-industries">Trend 1: AI vs.&nbsp;Non-AI Job Across Industries</h3>
 <p>We first compare the number of AI and Non-AI jobs across all industries.</p>
+<<<<<<< HEAD
 <div id="a7bf0275" class="cell" data-execution_count="6">
+=======
+<div id="91867154" class="cell" data-execution_count="6">
+>>>>>>> baa94c9e (idk what's going wrong)
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df_grouped <span class="op">=</span> df.groupby([<span class="st">'AI_JOB'</span>, <span class="st">'NAICS2_NAME'</span>]).size().reset_index(name<span class="op">=</span><span class="st">'Job_Count'</span>)</span>
@@ -339,7 +371,11 @@ This step helps in identifying and removing highly incomplete features to improv
 <section id="trend-2-ai-driven-job-growth-vs.-job-displacement" class="level3">
 <h3 class="anchored" data-anchor-id="trend-2-ai-driven-job-growth-vs.-job-displacement">Trend 2: AI-driven Job Growth vs.&nbsp;Job Displacement</h3>
 <p>Now we turn out eyes to job growth and job displacement.</p>
+<<<<<<< HEAD
 <div id="bcb23599" class="cell" data-execution_count="7">
+=======
+<div id="5288bd42" class="cell" data-execution_count="7">
+>>>>>>> baa94c9e (idk what's going wrong)
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df_grouped <span class="op">=</span> df.groupby([<span class="st">'POSTED'</span>, <span class="st">'AI_JOB'</span>]).size().reset_index(name<span class="op">=</span><span class="st">'Job_Count'</span>)</span>
@@ -353,7 +389,11 @@ This step helps in identifying and removing highly incomplete features to improv
 <iframe src="figures/2_chart.html" width="750" height="600"></iframe>
 
 <p>Overall, there are more newly posted AI jobs than non-AI jobs.</p>
+<<<<<<< HEAD
 <div id="e9b7d023" class="cell" data-execution_count="8">
+=======
+<div id="440e57db" class="cell" data-execution_count="8">
+>>>>>>> baa94c9e (idk what's going wrong)
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df_grouped <span class="op">=</span> df.groupby([<span class="st">'AI_JOB'</span>, <span class="st">'MIN_YEARS_EXPERIENCE'</span>]).size().reset_index(name<span class="op">=</span><span class="st">'Job_Count'</span>)</span>
@@ -367,7 +407,11 @@ This step helps in identifying and removing highly incomplete features to improv
 </div>
 <iframe src="figures/3_chart.html" width="750" height="600"></iframe>
 
+<<<<<<< HEAD
 <div id="37fd1f93" class="cell" data-execution_count="9">
+=======
+<div id="cf9d85c8" class="cell" data-execution_count="9">
+>>>>>>> baa94c9e (idk what's going wrong)
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df_grouped <span class="op">=</span> df[df[<span class="st">'SALARY'</span>].notna()].groupby([<span class="st">'AI_JOB'</span>, <span class="st">'MIN_YEARS_EXPERIENCE'</span>])[<span class="st">'SALARY'</span>].mean().reset_index()</span>
@@ -386,7 +430,11 @@ This step helps in identifying and removing highly incomplete features to improv
 <section id="trend-3-skill-in-ai-roles-vs.-traditional-roles" class="level3">
 <h3 class="anchored" data-anchor-id="trend-3-skill-in-ai-roles-vs.-traditional-roles">Trend 3: Skill in AI Roles vs.&nbsp;Traditional Roles</h3>
 <p>As we have seen, nearly every industry now requires a significant number of AI roles. One might interest in what are the valuable skills workers should develop to land in an AI job?</p>
+<<<<<<< HEAD
 <div id="0a243590" class="cell" data-execution_count="10">
+=======
+<div id="aafd144e" class="cell" data-execution_count="10">
+>>>>>>> baa94c9e (idk what's going wrong)
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ast</span>
@@ -404,7 +452,11 @@ This step helps in identifying and removing highly incomplete features to improv
 </div>
 <iframe src="figures/5_chart.html" width="750" height="600"></iframe>
 
+<<<<<<< HEAD
 <div id="18d6cd19" class="cell" data-execution_count="11">
+=======
+<div id="c6cb6e1d" class="cell" data-execution_count="11">
+>>>>>>> baa94c9e (idk what's going wrong)
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>traditional_skills <span class="op">=</span> df[<span class="op">~</span>df[<span class="st">'AI_JOB'</span>]][<span class="st">'SKILLS'</span>].explode().value_counts().head(<span class="dv">20</span>).reset_index()</span>
@@ -425,7 +477,11 @@ This step helps in identifying and removing highly incomplete features to improv
 <h3 class="anchored" data-anchor-id="trend-4-emerging-ai-job">Trend 4: Emerging AI Job</h3>
 <p>While many traditional jobs are in the process of adopting AI-related technologies. There are many AI jobs emerging.</p>
 <p>We note that <strong>Data Analyst</strong> is the fastest growing AI job.</p>
+<<<<<<< HEAD
 <div id="781b27fe" class="cell" data-execution_count="12">
+=======
+<div id="37b183a6" class="cell" data-execution_count="12">
+>>>>>>> baa94c9e (idk what's going wrong)
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>job_titles <span class="op">=</span> df[df[<span class="st">'AI_JOB'</span>]][<span class="st">'TITLE_NAME'</span>].value_counts().head(<span class="dv">20</span>).reset_index()</span>
